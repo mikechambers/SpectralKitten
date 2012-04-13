@@ -41,27 +41,27 @@
 		-maybe make API just for reading / writing text files?
 		
 		-rename to FileManager?
-        -create namespace for classes?
+		-create namespace for classes?
 */
 
 ; (function (exports) {
 	"use strict";
 	
-        /**
-        * The FileSystemManager class provides a simplified interface to the FileSystem API
-        * @class FileSystemManager
-        * @extends Object
-        * @constructor
-        * @param {String} storageType Type of storage to use. Can be "PERSISTENT" or "TEMPORARY". The constants can be
-        * access via window.PERSISTENT and window.TEMPORARY respectively. The default value is "PERSISTENT"
-        * @param {Number} The storage size in bytes to request for storage. If the amout of storage is
-        * greater than the amount that has been previously approved by the user, the user will be prompted to approve
-        * the request for additional storage. The request may be delay until the file system is accessed. Ignored if storageType 
-        * is set to TEMPORARY.  
-        **/
+		/**
+		* The FileSystemManager class provides a simplified interface to the FileSystem API
+		* @class FileSystemManager
+		* @extends Object
+		* @constructor
+		* @param {String} storageType Type of storage to use. Can be "PERSISTENT" or "TEMPORARY". The constants can be
+		* access via window.PERSISTENT and window.TEMPORARY respectively. The default value is "PERSISTENT"
+		* @param {Number} The storage size in bytes to request for storage. If the amout of storage is
+		* greater than the amount that has been previously approved by the user, the user will be prompted to approve
+		* the request for additional storage. The request may be delay until the file system is accessed. Ignored if storageType 
+		* is set to TEMPORARY.  
+		**/
 		function FileSystemManager (storageType, storageSize) {
 			
-            if (storageType) {
+			if (storageType) {
 				this.storageType = storageType;
 			}
 			
@@ -69,387 +69,387 @@
 				this.storageSize = storageSize;
 			}
 		}
-        
-    
-        //todo: make this read only
-        /**
-         * Type of storage to use. Can be "PERSISTENT" or "TEMPORARY". The constants can be
-         * accessed via window.PERSISTENT and window.TEMPORARY respectively.
-         * @readonly
-         * @property storageType
-         * @type String
-         * @default "PERSISTENT" (window.PERSISTENT)
-         **/
-		FileSystemManager.prototype.storageType = window.PERSISTENT;
-    
-        /**
-         * Constant value that represents 1 MegaByte (1,048,576 Bytes)
-         * @readonly
-         * @property MB
-         * @type Number
-         * @static
-         * @const
-         **/
-		FileSystemManager.MB = 1024 * 1024;//1 meg
-    
-        /**
-         * The storage size in bytes to request for storage.
-         * @readonly
-         * @property storageSize
-         * @type String
-         * @default 1 MegaByte (1,048,576 Bytes)
-         **/
-		FileSystemManager.prototype.storageSize = 1 * FileSystemManager.MB;
-    
-        /**
-         * Contains reference to function for window.requestFileSystem
-         * @readonly
-         * @property requestFileSystem
-         * @type Function
-         * @static
-         * @const
-         **/
-        FileSystemManager.requestFileSystem = (window.requestFileSystem || window.webkitRequestFileSystem);
-    
-        /**
-         * Contains reference to Function for window.BlobBuilder constructor
-         * @readonly
-         * @property blobBuilderClass
-         * @type Function
-         * @static
-         * @const
-         **/
-        FileSystemManager.blobBuilderConstructor = (window.BlobBuilder || window.WebKitBlobBuilder);
 		
-        //todo: make this read only
-        /**
-         * Reference to FileSystem instance used for file system operations.
-         * @readonly
-         * @property fileSystem
-         * @type FileSystem
-         **/
+	
+		//todo: make this read only
+		/**
+		 * Type of storage to use. Can be "PERSISTENT" or "TEMPORARY". The constants can be
+		 * accessed via window.PERSISTENT and window.TEMPORARY respectively.
+		 * @readonly
+		 * @property storageType
+		 * @type String
+		 * @default "PERSISTENT" (window.PERSISTENT)
+		 **/
+		FileSystemManager.prototype.storageType = window.PERSISTENT;
+	
+		/**
+		 * Constant value that represents 1 MegaByte (1,048,576 Bytes)
+		 * @readonly
+		 * @property MB
+		 * @type Number
+		 * @static
+		 * @const
+		 **/
+		FileSystemManager.MB = 1024 * 1024;//1 meg
+	
+		/**
+		 * The storage size in bytes to request for storage.
+		 * @readonly
+		 * @property storageSize
+		 * @type String
+		 * @default 1 MegaByte (1,048,576 Bytes)
+		 **/
+		FileSystemManager.prototype.storageSize = 1 * FileSystemManager.MB;
+	
+		/**
+		 * Contains reference to function for window.requestFileSystem
+		 * @readonly
+		 * @property requestFileSystem
+		 * @type Function
+		 * @static
+		 * @const
+		 **/
+		FileSystemManager.requestFileSystem = (window.requestFileSystem || window.webkitRequestFileSystem);
+	
+		/**
+		 * Contains reference to Function for window.BlobBuilder constructor
+		 * @readonly
+		 * @property blobBuilderClass
+		 * @type Function
+		 * @static
+		 * @const
+		 **/
+		FileSystemManager.blobBuilderConstructor = (window.BlobBuilder || window.WebKitBlobBuilder);
+		
+		//todo: make this read only
+		/**
+		 * Reference to FileSystem instance used for file system operations.
+		 * @readonly
+		 * @property fileSystem
+		 * @type FileSystem
+		 **/
 		FileSystemManager.prototype.fileSystem = null;
 
-        /**
-         * 
-         * @method getStorageQuota
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         * @param {String} storageType Type of storage to query. Possible values include "PERSISTENT" or "TEMPORARY".
-         * The constants can be accessed via window.PERSISTENT and window.TEMPORARY respectively.
-         **/
-        FileSystemManager.getStorageQuota = function (successCallback, errorCallback, storageType) {
-            
-            if (!storageType) {
-                storageType = this.storageType;
-            }
-            
-            webkitStorageInfo.queryUsageAndQuota(
-                storageType,
-                successCallback,
-                errorCallback
-           );
-        }
-    
-        /**
-         * 
-         * @method initFileSystem
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         **/
+		/**
+		 * 
+		 * @method getStorageQuota
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 * @param {String} storageType Type of storage to query. Possible values include "PERSISTENT" or "TEMPORARY".
+		 * The constants can be accessed via window.PERSISTENT and window.TEMPORARY respectively.
+		 **/
+		FileSystemManager.getStorageQuota = function (successCallback, errorCallback, storageType) {
+			
+			if (!storageType) {
+				storageType = this.storageType;
+			}
+			
+			webkitStorageInfo.queryUsageAndQuota(
+				storageType,
+				successCallback,
+				errorCallback
+		   );
+		}
+	
+		/**
+		 * 
+		 * @method initFileSystem
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 **/
 		FileSystemManager.prototype.initFileSystem = function (successCallback, errorCallback) {
 
-            if (this.fileSystem) {
+			if (this.fileSystem) {
 
-                if (successCallback) {
-                        successCallback();
-                }
-                return;
-            }
-            
-            var scope = this;
+				if (successCallback) {
+						successCallback();
+				}
+				return;
+			}
+			
+			var scope = this;
 
-            var a = FileSystemManager.requestFileSystem;
-        
-            /*
-                todo:
-                    if I call FileSystemManager.requestFileSystem()
-                    directly, I get an illegal innvocation. not sure why.
-                    if i store in another var first, it works fine
-            */
-            a(
+			var a = FileSystemManager.requestFileSystem;
+		
+			/*
+				todo:
+					if I call FileSystemManager.requestFileSystem()
+					directly, I get an illegal innvocation. not sure why.
+					if i store in another var first, it works fine
+			*/
+			a(
 				this.storageType, 
 				this.storageSize,
 				function (fs) {
 					scope.fileSystem = fs;
-                    if (successCallback) {
-                            successCallback();
-                    }
+					if (successCallback) {
+							successCallback();
+					}
 				},
 				function (error) {
-                    if (errorCallback) {
-                        errorCallback(error);
-                    }
+					if (errorCallback) {
+						errorCallback(error);
+					}
 				}
 			);	
 		}
-            
-        /**
-         * 
-         * @method writeString
-         * @param {String} fileName
-         * @param {String} data
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         * @param {Boolean} create
-         * @param {String} mimeType
-         **/
+			
+		/**
+		 * 
+		 * @method writeString
+		 * @param {String} fileName
+		 * @param {String} data
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 * @param {Boolean} create
+		 * @param {String} mimeType
+		 **/
 		FileSystemManager.prototype.writeString = function (fileName, data, successCallback, errorCallback, create, mimeType) {
 			
-            if(create === undefined){
-                create = true;
-            }
+			if(create === undefined){
+				create = true;
+			}
 			
 			if (!mimeType) {
 				mimeType = "text/plain'";
 			}
-            
-            var scope = this;
-            
-            this.initFileSystem(
-                function () {
-                    var errorWritingData = false;
-                    scope.fileSystem.root.getFile(
-                        fileName, {
-                            create: create
-                        },
-                        function (fileEntry) {
-                            fileEntry.createWriter(
-                                function (fileWriter) {
-                                    fileWriter.onwriteend = function (e) {
-                                        if (!errorWritingData) {									
-                                            if (successCallback) {
-                                                successCallback();
-                                            }
-                                        }
-                                    };
-        
-                                    fileWriter.onerror = function (e) {
-                                        errorWritingData = true;
-                                        //console.log("Error 1111 writing file.");
-                                        
-                                        if (errorCallback) {
-                                            errorCallback(e);
-                                        }
-                                    };
-        
-                                    var bb = new (FileSystemManager.blobBuilderConstructor)(); 
-                                    bb.append(data);
-                                    fileWriter.write(bb.getBlob(mimeType));
-                                },
-                                function (e)
-                                {
-                                    //console.log("Error 1112 writing file.");
-                                    if (errorCallback) {
-                                        errorCallback(e);
-                                    }
-                                }
-                            );
-                        },
-                        function (e) {
-                            //console.log("Error 1113 writing file.");
-                            if (errorCallback) {
-                                errorCallback(e);
-                            }
-                        }
-                    );
-                },
-                function (error) {
-                    if (errorCallback) {
-                        return errorCallback(error);
-                    }
-                }
-           );
+			
+			var scope = this;
+			
+			this.initFileSystem(
+				function () {
+					var errorWritingData = false;
+					scope.fileSystem.root.getFile(
+						fileName, {
+							create: create
+						},
+						function (fileEntry) {
+							fileEntry.createWriter(
+								function (fileWriter) {
+									fileWriter.onwriteend = function (e) {
+										if (!errorWritingData) 
+											if (successCallback) {
+												successCallback();
+											}
+										}
+									};
+		
+									fileWriter.onerror = function (e) {
+										errorWritingData = true;
+										//console.log("Error 1111 writing file.");
+										
+										if (errorCallback) {
+											errorCallback(e);
+										}
+									};
+		
+									var bb = new (FileSystemManager.blobBuilderConstructor)(); 
+									bb.append(data);
+									fileWriter.write(bb.getBlob(mimeType));
+								},
+								function (e)
+								{
+									//console.log("Error 1112 writing file.");
+									if (errorCallback) {
+										errorCallback(e);
+									}
+								}
+							);
+						},
+						function (e) {
+							//console.log("Error 1113 writing file.");
+							if (errorCallback) {
+								errorCallback(e);
+							}
+						}
+					);
+				},
+				function (error) {
+					if (errorCallback) {
+						return errorCallback(error);
+					}
+				}
+		   );
 			
 		}
-        
+		
 		//todo: currently only reads as text file
-        /**
-         * 
-         * @method readString
-         * @fileName {String} fileName
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         **/
+		/**
+		 * 
+		 * @method readString
+		 * @fileName {String} fileName
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 **/
 		FileSystemManager.prototype.readString = function (fileName, successCallback, errorCallback) {
   
-            var scope = this;
-            
-            this.initFileSystem(
-                function () {
-                    scope.fileSystem.root.getFile(
-                        fileName,   {
-                        },
-                        function (fileEntry) {
-                            // Get a File object representing the file,
-                            // then use FileReader to read its contents.
-                            fileEntry.file(
-                                function (file) {
-                                    var reader = new FileReader();
-        
-                                    reader.onloadend = function (e) {
-                                        if (successCallback) {
-                                            successCallback(this.result);
-                                        }
-                                    };
-                                    reader.readAsText(file);
-                                }, 
-                                function (e) {	
-                                    if (errorCallback) {
-                                        errorCallback(e);
-                                    }
-                                }
-                            );
-                        }, 
-                        function (e) {
-                            if (errorCallback) {
-                                errorCallback(e);
-                            }
-                        }
-                    );
-                },
-                function (error) {
-                    if (errorCallback) {
-                        return errorCallback(error);
-                    }
-                }
-           );
+			var scope = this;
+			
+			this.initFileSystem(
+				function () {
+					scope.fileSystem.root.getFile(
+						fileName,   {
+						},
+						function (fileEntry) {
+							// Get a File object representing the file,
+							// then use FileReader to read its contents.
+							fileEntry.file(
+								function (file) {
+									var reader = new FileReader();
+		
+									reader.onloadend = function (e) {
+										if (successCallback) {
+											successCallback(this.result);
+										}
+									};
+									reader.readAsText(file);
+								}, 
+								function (e) {	
+									if (errorCallback) {
+										errorCallback(e);
+									}
+								}
+							);
+						}, 
+						function (e) {
+							if (errorCallback) {
+								errorCallback(e);
+							}
+						}
+					);
+				},
+				function (error) {
+					if (errorCallback) {
+						return errorCallback(error);
+					}
+				}
+		   );
 		}
 		
-        /**
-         * 
-         * @method writeObject
-         * @param {String} fileName
-         * @param {Object} data
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         * @param {Boolean} create
-         **/
+		/**
+		 * 
+		 * @method writeObject
+		 * @param {String} fileName
+		 * @param {Object} data
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 * @param {Boolean} create
+		 **/
 		FileSystemManager.prototype.writeObject = function (fileName, data, successCallback, errorCallback, create) {
-            
-            this.writeString(fileName, JSON.stringify(data), successCallback, errorCallback, create);
+			
+			this.writeString(fileName, JSON.stringify(data), successCallback, errorCallback, create);
 		}
-         
-        /**
-         * 
-         * @method readObject
-         * @param {String} fileName
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         * @return {TYPE} TYPE DESCRIPTION
-         **/
+		 
+		/**
+		 * 
+		 * @method readObject
+		 * @param {String} fileName
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 * @return {TYPE} TYPE DESCRIPTION
+		 **/
 		FileSystemManager.prototype.readObject = function (fileName, successCallback, errorCallback) { 
-            
-            this.readString(
-                fileName,
-                function (data) {
+			
+			this.readString(
+				fileName,
+				function (data) {
 
-                    var d;
-                    var success = false;
-                    try {
+					var d;
+					var success = false;
+					try {
 
-                        d = JSON.parse(data);
-                        success = true;
-                    }
-                    catch(e) {
-                        console.log("Error 3001 Cannot deserialize data.");
-                        console.log(e);
-                        if (errorCallback) {
-                            errorCallback(e);
-                        }
-                    }
-                    
-                    if(success) {
-                        if (successCallback) {
-                            successCallback(d);
-                        }
-                    }
-                            
-                },
-                function (error) {
-                    if(errorCallback) {
-                        errorCallback(error);
-                    }
-                }
-           );
+						d = JSON.parse(data);
+						success = true;
+					}
+					catch(e) {
+						console.log("Error 3001 Cannot deserialize data.");
+						console.log(e);
+						if (errorCallback) {
+							errorCallback(e);
+						}
+					}
+					
+					if(success) {
+						if (successCallback) {
+							successCallback(d);
+						}
+					}
+							
+				},
+				function (error) {
+					if(errorCallback) {
+						errorCallback(error);
+					}
+				}
+		   );
 		}
-            
-        /**
-         * 
-         * @method deleteFile
-         * @param {String} fileName
-         * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-         * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-         * @return {TYPE} TYPE DESCRIPTION
-         **/
-        FileSystemManager.prototype.deleteFile = function(fileName, successCallback, errorCallback){
-            
-            var scope = this;
+			
+		/**
+		 * 
+		 * @method deleteFile
+		 * @param {String} fileName
+		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		 * @return {TYPE} TYPE DESCRIPTION
+		 **/
+		FileSystemManager.prototype.deleteFile = function(fileName, successCallback, errorCallback){
+			
+			var scope = this;
 
-            this.initFileSystem(
-                function (fs) {
-                    fs.getRoot.getFile(
-                        fileName,
-                        {create:false},
-                        function(fileEntry) {
-                            fileEntry.remove(
-                                function (){
-                                    if(successCallback){
-                                        successCallback();
-                                    }
-                                },
-                                function (error) {
-                                    if(errorCallback){
-                                        errorCallback(error);
-                                    }
-                                }
-                            );
-                        },
-                        function (error) {
-                            //check if error code is file not found, if so
-                            //callback success, otherwise, error
-                            
-                            if(error.code === FileError.NOT_FOUND_ERR) {
-                                if(successCallback){
-                                    successCallback();
-                                }
-                                
-                                return;
-                            }
-                            
-                            if(errorCallback){
-                                errorCallback(error);
-                            }
-                        }
-                    );
-                },
-                function (error) {
-                    if (errorCallback) {
-                        return errorCallback(error);
-                    }
-                }
-           );          
-            
-        }
-            
-        /**
-         * 
-         * @method getErrorMessage
-         * @static 
-         * @param {FileError} fileError
-         * @return {String} String that describes the error code for the specified FileError instance.
-         **/
-        FileSystemManager.getErrorMessage = function (fileError) {
+			this.initFileSystem(
+				function (fs) {
+					fs.getRoot.getFile(
+						fileName,
+						{create:false},
+						function(fileEntry) {
+							fileEntry.remove(
+								function (){
+									if(successCallback){
+										successCallback();
+									}
+								},
+								function (error) {
+									if(errorCallback){
+										errorCallback(error);
+									}
+								}
+							);
+						},
+						function (error) {
+							//check if error code is file not found, if so
+							//callback success, otherwise, error
+							
+							if(error.code === FileError.NOT_FOUND_ERR) {
+								if(successCallback){
+									successCallback();
+								}
+								
+								return;
+							}
+							
+							if(errorCallback){
+								errorCallback(error);
+							}
+						}
+					);
+				},
+				function (error) {
+					if (errorCallback) {
+						return errorCallback(error);
+					}
+				}
+		   );		  
+			
+		}
+			
+		/**
+		 * 
+		 * @method getErrorMessage
+		 * @static 
+		 * @param {FileError} fileError
+		 * @return {String} String that describes the error code for the specified FileError instance.
+		 **/
+		FileSystemManager.getErrorMessage = function (fileError) {
 			var msg = '';
 
 			switch (e.code) {
@@ -474,7 +474,7 @@
 			}
 
 			return msg;
-        }
+		}
 	
 		exports.FileSystemManager = FileSystemManager;
 }(this));
