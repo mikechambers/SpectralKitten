@@ -81,7 +81,7 @@
 							SpectralKitten.settings = new Settings();
 						}
 						
-						SpectralKitten.settings.imageBaseURL = data.imageBaseURL;
+						SpectralKitten.settings.imageBaseURL = data.configuration.imageBaseURL;
 						
 						scope.saveSettings();
 						
