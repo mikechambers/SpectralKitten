@@ -166,8 +166,8 @@
 					
 					//if an error occurs trying to load settings, then we create
 					//default settings
-					if(sucessCallback) {
-						sucessCallback(SpectralKitten.settings);
+					if(successCallback) {
+						successCallback(SpectralKitten.settings);
 					}
 									 
 					/*
@@ -180,7 +180,7 @@
 			);
 		};
 			
-		this.saveSettings = function(sucessCallback, errorCallback) {
+		this.saveSettings = function(successCallback, errorCallback) {
 
 			console.log("saveSettings");
 			
@@ -189,8 +189,8 @@
 				SpectralKitten.settings,
 				function(){
 					console.log("settings saved");
-					if(sucessCallback){
-							sucessCallback();
+					if(successCallback){
+							successCallback();
 					}
 				},
 				function(error){
