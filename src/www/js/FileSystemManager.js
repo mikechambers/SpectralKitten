@@ -227,7 +227,7 @@
 							fileEntry.createWriter(
 								function (fileWriter) {
 									fileWriter.onwriteend = function (e) {
-										if (!errorWritingData) 
+										if (!errorWritingData) {									
 											if (successCallback) {
 												successCallback();
 											}
