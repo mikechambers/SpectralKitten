@@ -73,71 +73,71 @@
 
 		//todo: make this read only
 		/**
-		 * Type of storage to use. Can be "PERSISTENT" or "TEMPORARY". The constants can be
-		 * accessed via window.PERSISTENT and window.TEMPORARY respectively.
-		 * @readonly
-		 * @property storageType
-		 * @type {String}
-		 * @default "PERSISTENT" (window.PERSISTENT)
-		 **/
+		* Type of storage to use. Can be "PERSISTENT" or "TEMPORARY". The constants can be
+		* accessed via window.PERSISTENT and window.TEMPORARY respectively.
+		* @readonly
+		* @property storageType
+		* @type {String}
+		* @default "PERSISTENT" (window.PERSISTENT)
+		**/
 		FileSystemManager.prototype.storageType = window.PERSISTENT;
 
 		/**
-		 * Constant value that represents 1 MegaByte (1,048,576 Bytes)
-		 * @readonly
-		 * @property MB
-		 * @type {Number}
-		 * @static
-		 * @const
-		 **/
-		FileSystemManager.MB = 1024 * 1024;//1 meg
+		* Constant value that represents 1 MegaByte (1,048,576 Bytes)
+		* @readonly
+		* @property MB
+		* @type {Number}
+		* @static
+		* @const
+		**/
+		FileSystemManager.MB = 1024* 1024;//1 meg
 
 		/**
-		 * The storage size in bytes to request for storage.
-		 * @readonly
-		 * @property storageSize
-		 * @type {String}
-		 * @default 1 MegaByte (1,048,576 Bytes)
-		 **/
-		FileSystemManager.prototype.storageSize = 1 * FileSystemManager.MB;
+		* The storage size in bytes to request for storage.
+		* @readonly
+		* @property storageSize
+		* @type {String}
+		* @default 1 MegaByte (1,048,576 Bytes)
+		**/
+		FileSystemManager.prototype.storageSize = 1* FileSystemManager.MB;
 
 		/**
-		 * Contains reference to function for window.requestFileSystem
-		 * @readonly
-		 * @property requestFileSystem
-		 * @type {Function}
-		 * @static
-		 * @const
-		 **/
+		* Contains reference to function for window.requestFileSystem
+		* @readonly
+		* @property requestFileSystem
+		* @type {Function}
+		* @static
+		* @const
+		**/
 		FileSystemManager.requestFileSystem = (window.requestFileSystem || window.webkitRequestFileSystem);
 
 		/**
-		 * Contains reference to Function for window.BlobBuilder constructor
-		 * @readonly
-		 * @property blobBuilderClass
-		 * @type {Function}
-		 * @static
-		 * @const
-		 **/
+		* Contains reference to Function for window.BlobBuilder constructor
+		* @readonly
+		* @property blobBuilderClass
+		* @type {Function}
+		* @static
+		* @const
+		**/
 		FileSystemManager.blobBuilderConstructor = (window.BlobBuilder || window.WebKitBlobBuilder);
 
 		//todo: make this read only
 		/**
-		 * Reference to FileSystem instance used for file system operations.
-		 * @readonly
-		 * @property fileSystem
-		 * @type {FileSystem}
-		 **/
+		* Reference to FileSystem instance used for file system operations.
+		* @readonly
+		* @property fileSystem
+		* @type {FileSystem}
+		**/
 		FileSystemManager.prototype.fileSystem = null;
 
 		/**
-		 *
-		 * @method getStorageQuota
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 * @param {String} storageType Type of storage to query. Possible values include "PERSISTENT" or "TEMPORARY".
-		 * The constants can be accessed via window.PERSISTENT and window.TEMPORARY respectively.
-		 **/
+		*
+		* @method getStorageQuota
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		* @param {String} storageType Type of storage to query. Possible values include "PERSISTENT" or "TEMPORARY".
+		* The constants can be accessed via window.PERSISTENT and window.TEMPORARY respectively.
+		**/
 		FileSystemManager.getStorageQuota = function(successCallback, errorCallback, storageType) {
 
 			if (!storageType) {
@@ -148,15 +148,15 @@
 				storageType,
 				successCallback,
 				errorCallback
-		   );
-		}
+			);
+		};
 
 		/**
-		 *
-		 * @method initFileSystem
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 **/
+		*
+		* @method initFileSystem
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		**/
 		FileSystemManager.prototype.initFileSystem = function(successCallback, errorCallback) {
 
 			if (this.fileSystem) {
@@ -194,15 +194,15 @@
 		}
 
 		/**
-		 *
-		 * @method writeString
-		 * @param {String} fileName
-		 * @param {String} data
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 * @param {Boolean} create
-		 * @param {String} mimeType
-		 **/
+		*
+		* @method writeString
+		* @param {String} fileName
+		* @param {String} data
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		* @param {Boolean} create
+		* @param {String} mimeType
+		**/
 		FileSystemManager.prototype.writeString = function(fileName, data, successCallback, errorCallback, create, mimeType) {
 
 			if (create === undefined) {
@@ -268,18 +268,18 @@
 						return errorCallback(error);
 					}
 				}
-		   );
+			);
 
 		}
 
 		//todo: currently only reads as text file
 		/**
-		 *
-		 * @method readString
-		 * @fileName {String} fileName
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 **/
+		*
+		* @method readString
+		* @fileName {String} fileName
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		**/
 		FileSystemManager.prototype.readString = function(fileName, successCallback, errorCallback) {
 
 			var scope = this;
@@ -322,31 +322,31 @@
 						return errorCallback(error);
 					}
 				}
-		   );
+			);
 		}
 
 		/**
-		 *
-		 * @method writeObject
-		 * @param {String} fileName
-		 * @param {Object} data
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 * @param {Boolean} create
-		 **/
+		*
+		* @method writeObject
+		* @param {String} fileName
+		* @param {Object} data
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		* @param {Boolean} create
+		**/
 		FileSystemManager.prototype.writeObject = function(fileName, data, successCallback, errorCallback, create) {
 
 			this.writeString(fileName, JSON.stringify(data), successCallback, errorCallback, create);
 		}
 
 		/**
-		 *
-		 * @method readObject
-		 * @param {String} fileName
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 * @return {TYPE} TYPE DESCRIPTION.
-		 **/
+		*
+		* @method readObject
+		* @param {String} fileName
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		* @return {TYPE} TYPE DESCRIPTION.
+		**/
 		FileSystemManager.prototype.readObject = function(fileName, successCallback, errorCallback) {
 
 			var scope = this;
@@ -390,17 +390,17 @@
 						errorCallback(error);
 					}
 				}
-		   );
+			);
 		}
 
 		/**
-		 *
-		 * @method deleteFile
-		 * @param {String} fileName
-		 * @param {Function} successCallback Function that will be called on sucessful completion of operation.
-		 * @param {Function} errorCallback Function that will be called if an error occurs during operation.
-		 * @return {TYPE} TYPE DESCRIPTION.
-		 **/
+		*
+		* @method deleteFile
+		* @param {String} fileName
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		* @return {TYPE} TYPE DESCRIPTION.
+		**/
 		FileSystemManager.prototype.deleteFile = function(fileName, successCallback, errorCallback) {
 
 			var scope = this;
@@ -446,21 +446,20 @@
 						return errorCallback(error);
 					}
 				}
-		   );
-
+			);
 		}
 
 		/**
-		 *
-		 * @method getErrorMessage
-		 * @static
-		 * @param {FileError} fileError
-		 * @return {String} String that describes the error code for the specified FileError instance.
-		 **/
+		*
+		* @method getErrorMessage
+		* @static
+		* @param {FileError} fileError
+		* @return {String} String that describes the error code for the specified FileError instance.
+		**/
 		FileSystemManager.getErrorMessage = function(fileError) {
 			var msg = '';
 
-			switch (e.code) {
+			switch (fileError.code) {
 				case FileError.QUOTA_EXCEEDED_ERR:
 					msg = 'QUOTA_EXCEEDED_ERR';
 					break;

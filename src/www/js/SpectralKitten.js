@@ -52,8 +52,7 @@
 					}
 				}
 			);
-
-		}
+		};
 
 		//private
 		var loadCards = function(successCallback, errorCallback, forceUpdate) {
@@ -207,8 +206,8 @@
 					}
 				}
 			);
-		}
-	}
+		};
+	};
 
 	SpectralKitten.CARD_FILE_NAME = 'cards.json';
 	SpectralKitten.SETTINGS_FILE_NAME = 'settings.json';

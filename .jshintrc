@@ -1,0 +1,19 @@
+{
+	"curly": true,
+	"asi":true,
+	"latedef":true,
+	"newcap":true,
+	"noempty":true,
+	"undef":true,
+	"strict":true,
+	"trailing":true,
+	"browser":true,
+	"devel":true,
+	"jquery":true,
+	"predef":[
+			"Settings", 
+			"FileSystemManager", 
+			"webkitStorageInfo", 
+			"FileError"
+			]
+}
