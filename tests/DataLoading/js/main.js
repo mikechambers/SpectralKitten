@@ -6,18 +6,17 @@ var s = new SpectralKitten();
 
 s.initializeData(
 	function() {
-		console.log("Cards Loaded : " + s.cards.length);
-		console.log(SpectralKitten.settings.imageBaseURL);
-		
-		var source = $("#card-list-template").html();
+		console.log('Cards Loaded : ' + s.cards.length);
+
+		var source = $('#card-list-template').html();
 		var template = Handlebars.compile(source);
-		
-		var context = {cards:s.cards};
+
+		var context = {cards: s.cards};
 		var html = template(context);
-		$("#card-list").html(html);
+		$('#card-list').html(html);
 	},
-	function (error) {
-		console.log("could not initialize data");
+	function(error) {
+		console.log('could not initialize data');
 	},
 	false
 );
@@ -25,11 +24,11 @@ s.initializeData(
 function checkQuota()
 {
 	FileSystemManager.getStorageQuota(
-		function(a,b){
-			console.log(a + " out of " + b)
+		function(a,b) {
+			console.log(a + ' out of ' + b);
 		},
-		function(e){
-			console.log(e)
+		function(e) {
+			console.log(e);
 		}
 	);
 }

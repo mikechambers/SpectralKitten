@@ -72,9 +72,20 @@
 					url: 'all_cards.json',
 					dataType: 'json',
 					success: function(data, code, jqXHR ) {
-						_cards = data.cards;
 
-						//todo : this will fail if we havent loaded settings yet
+						//check to make sure that we support / understand the current API
+						//version
+						if (data.configuration.apiVersion !== SpectralKitten.API_VERSION) {
+							if (errorCallback) {
+								var e = '';
+									e.msg = 'Invalid API Version.';
+								errorCallback(e);
+							}
+
+							return;
+						}
+
+						_cards = data.cards;
 
 						if (!SpectralKitten.settings)
 						{
@@ -112,6 +123,7 @@
 
 
 			if (forceUpdate) {
+				console.log('force update');
 				loadRemoteData();
 			}
 			else {
@@ -158,7 +170,6 @@
 					}
 				},
 				function(error) {
-
 					console.log('Could not load settings. Using default settings.');
 					SpectralKitten.settings = new Settings();
 					scope.saveSettings();
@@ -181,9 +192,6 @@
 		};
 
 		this.saveSettings = function(successCallback, errorCallback) {
-
-			console.log('saveSettings');
-
 			this.fileSystemManager.writeObject(
 				SpectralKitten.SETTINGS_FILE_NAME,
 				SpectralKitten.settings,
@@ -194,7 +202,6 @@
 					}
 				},
 				function(error) {
-					console.log(error);
 					if (errorCallback) {
 						errorCallback(error);
 					}
@@ -207,9 +214,9 @@
 	SpectralKitten.SETTINGS_FILE_NAME = 'settings.json';
 	SpectralKitten.prototype.fileSystemManager = null;
 
-
 	/* Settings */
 	SpectralKitten.settings = null;
+	SpectralKitten.API_VERSION = 1;
 
 	exports.SpectralKitten = SpectralKitten;
 }(this));

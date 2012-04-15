@@ -160,9 +160,8 @@
 		FileSystemManager.prototype.initFileSystem = function(successCallback, errorCallback) {
 
 			if (this.fileSystem) {
-
 				if (successCallback) {
-						successCallback();
+						successCallback(this.fileSystem);
 				}
 				return;
 			}
@@ -183,7 +182,7 @@
 				function(fs) {
 					scope.fileSystem = fs;
 					if (successCallback) {
-							successCallback();
+							successCallback(fs);
 					}
 				},
 				function(error) {
@@ -350,6 +349,7 @@
 		 **/
 		FileSystemManager.prototype.readObject = function(fileName, successCallback, errorCallback) {
 
+			var scope = this;
 			this.readString(
 				fileName,
 				function(data) {
@@ -357,16 +357,25 @@
 					var d;
 					var success = false;
 					try {
-
 						d = JSON.parse(data);
 						success = true;
 					}
 					catch (e) {
 						console.log('Error 3001 Cannot deserialize data.');
-						console.log(e);
-						if (errorCallback) {
-							errorCallback(e);
-						}
+
+						//data is corrupted. delete it
+						scope.deleteFile(
+							fileName,
+							function() {
+								if (errorCallback) {
+									errorCallback(e);
+								}
+							},
+							function(error) {
+								if (errorCallback) {
+									errorCallback(e);
+								}
+							});
 					}
 
 					if (success) {
@@ -395,10 +404,9 @@
 		FileSystemManager.prototype.deleteFile = function(fileName, successCallback, errorCallback) {
 
 			var scope = this;
-
 			this.initFileSystem(
 				function(fs) {
-					fs.getRoot.getFile(
+					fs.root.getFile(
 						fileName,
 						{create: false},
 						function(fileEntry) {
