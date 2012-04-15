@@ -70,7 +70,7 @@
 				$.ajax({
 					url: 'all_cards.json',
 					dataType: 'json',
-					success: function(data, code, jqXHR ) {
+					success: function(data, code, jqXHR) {
 
 						//check to make sure that we support / understand the current API
 						//version
@@ -92,6 +92,7 @@
 						}
 
 						SpectralKitten.settings.imageBaseURL = data.configuration.imageBaseURL;
+						SpectralKitten.settings.dataVersion = data.configuration.dataVersion;
 
 						scope.saveSettings();
 
@@ -123,9 +124,7 @@
 
 					},
 					error: function(jqXHR, msg, e) {
-						console.log('c');
-
-						errorCallback(msg, e);
+						errorCallback(e, msg);
 					}
 				});
 			};
@@ -157,6 +156,80 @@
 					}
 				);
 			}
+		};
+
+		this.checkForUpdates = function(successCallback, errorCallback, update) {
+			
+			console.log("checking for updated data");
+
+			//settings havent been loaded so we cant check whether data is new
+			if(!SpectralKitten.settings || !SpectralKitten.settings.dataVersion){
+				//we only check for updates if we are able to save settings.
+				//otherwise, we could get in an infinite loop of updating every
+				//time
+				return;
+			}
+			
+			var scope = this;
+			
+			$.ajax({
+				url: 'version.json',
+				dataType: 'json',
+				success: function(data, code, jqXHR){
+					
+					console.log("version data received : " + data.dataVersion);
+					//make sure we have loaded the data first
+					if(
+						//make sure that the app understands the API Version / format
+						data.apiVersion === SpectralKitten.API_VERSION &&
+						
+						//check and see if there is a newer version of data on the server
+						data.dataVersion > SpectralKitten.settings.dataVersion)
+					{
+						console.log("Updated data found.");
+						
+						//The data on the server has been updated.
+						
+						//check if we should auto update
+						if(update)
+						{
+							//load new card data. force the remote load
+							loadCards(
+								function(data){
+									if(successCallback)
+									{
+										successCallback(true, data);
+									}
+								},
+								errorCallback,
+								true
+							);
+						}
+						else
+						{
+							//dont load new card data. callback with true to indicate
+							//new data is available
+							if(successCallback)
+							{
+								successCallback(true);
+							}
+						}
+						
+					}
+					else
+					{
+						//no new data. callback indicating no new data
+						if(successCallback)
+						{
+							successCallback(false);
+						}
+					}
+				},
+				error: function(jqXHR, msg, e){
+					//something went wrong loading the remote data. throw and error
+					console.log(e);
+				}
+			});
 		};
 
 		this.requestQuota = function(successCallback, errorCallback) {
@@ -225,8 +298,7 @@
 							}
 						}
 					);
-				},
-				errorCallback
+				}
 			);
 		};
 	};

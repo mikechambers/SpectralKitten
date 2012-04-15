@@ -14,6 +14,16 @@ s.initializeData(
 		var context = {cards: s.cards};
 		var html = template(context);
 		$('#card-list').html(html);
+		
+		s.checkForUpdates(
+			function(newDataFound, data){
+				console.log("New data found? : " + newDataFound);
+			},
+			function (error){
+				console.log("error checking for data update");
+			},
+			true
+		);
 	},
 	function(error) {
 		console.log('could not initialize data');
