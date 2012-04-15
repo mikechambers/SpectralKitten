@@ -77,8 +77,8 @@
 		* accessed via window.PERSISTENT and window.TEMPORARY respectively.
 		* @readonly
 		* @property storageType
-		* @type {String}
-		* @default "PERSISTENT" (window.PERSISTENT)
+		* @type {Number}
+		* @default window.PERSISTENT
 		**/
 		FileSystemManager.prototype.storageType = window.PERSISTENT;
 
@@ -121,6 +121,8 @@
 		**/
 		FileSystemManager.blobBuilderConstructor = (window.BlobBuilder || window.WebKitBlobBuilder);
 
+		FileSystemManager.storageInfo = (window.storageInfo || window.webkitStorageInfo);
+
 		//todo: make this read only
 		/**
 		* Reference to FileSystem instance used for file system operations.
@@ -140,11 +142,11 @@
 		**/
 		FileSystemManager.getStorageQuota = function(successCallback, errorCallback, storageType) {
 
-			if (!storageType) {
+			if (storageType === undefined) {
 				storageType = this.storageType;
 			}
 
-			webkitStorageInfo.queryUsageAndQuota(
+			FileSystemManager.storageInfo.queryUsageAndQuota(
 				storageType,
 				successCallback,
 				errorCallback
@@ -173,7 +175,7 @@
 			/*
 				todo:
 					if I call FileSystemManager.requestFileSystem()
-					directly, I get an illegal innvocation. not sure why.
+					directly, we get an illegal innvocation. not sure why.
 					if i store in another var first, it works fine
 			*/
 			a(
@@ -187,6 +189,47 @@
 				},
 				function(error) {
 					if (errorCallback) {
+						errorCallback(error);
+					}
+				}
+			);
+		}
+
+		/**
+		*
+		* @method requestQuota
+		* @param {Number} storageInfo
+		* @param {Function} successCallback Function that will be called on sucessful completion of operation.
+		* @param {Function} errorCallback Function that will be called if an error occurs during operation.
+		**/
+		FileSystemManager.prototype.requestQuota = function(storageSize, successCallback, errorCallback){
+
+			FileSystemManager.storageInfo.requestQuota(
+				window.PERSISTENT,
+				storageSize,
+				function(grantedBytes){
+
+					//sometimes success callback will be called, but grantedBytes will be
+					//0 (which is the same as denied). Need to check for it here.
+					//may have a timeout for the user to approve the UI prompt.
+					//this seems to occur if the user doesnt respond to the storage prompt
+					//in some amount of time
+					if(grantedBytes === 0)
+					{
+						if(errorCallback){
+							errorCallback({msg:"Request Quota denied : returned 0"});
+						}
+						return;
+					}
+
+					if(successCallback){
+						successCallback(grantedBytes);
+					}
+				},
+				function(error){
+					console.log("denied");
+					console.log(error);
+					if(errorCallback){
 						errorCallback(error);
 					}
 				}

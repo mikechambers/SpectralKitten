@@ -12,7 +12,7 @@
 
 		//check for new card data in the background
 		//if new data, load and cache
-		this.fileSystemManager = new FileSystemManager(window.PERSISTENT, FileSystemManager.MB * 15);
+		this.fileSystemManager = new FileSystemManager(window.PERSISTENT, SpectralKitten.STORAGE_SIZE);
 	}
 
 	SpectralKitten.prototype.init = function() {
@@ -95,17 +95,27 @@
 
 						scope.saveSettings();
 
-						scope.fileSystemManager.writeObject(
-							SpectralKitten.CARD_FILE_NAME,
-							_cards,
-							function() {
-								console.log('Card data saved.');
+						scope.requestQuota(
+							function(){
+								console.log("about to write file");
+								scope.fileSystemManager.writeObject(
+									SpectralKitten.CARD_FILE_NAME,
+									_cards,
+									function() {
+										console.log('Card data saved.');
+									},
+									function(error) {
+										console.log(error);
+										console.log('Error : Could not save card data.');
+									},
+									true
+								);
 							},
-							function() {
-								console.log('Error : Could not save card data.');
-							},
-							true
-						);
+							function(error){
+								console.log('Error : Could not save card data. Not enough storage');
+							}
+
+						)
 
 						if (successCallback) {
 							successCallback(_cards);
@@ -122,7 +132,6 @@
 
 
 			if (forceUpdate) {
-				console.log('force update');
 				loadRemoteData();
 			}
 			else {
@@ -144,13 +153,19 @@
 						//corrupt
 
 						//so, we should delete the file and then load the remote data
-
-						console.log('error loading remote data');
 						loadRemoteData();
 					}
 				);
 			}
 		};
+
+		this.requestQuota = function(successCallback, errorCallback) {
+			this.fileSystemManager.requestQuota(
+				SpectralKitten.STORAGE_SIZE,
+				successCallback,
+				errorCallback
+			);
+		}
 
 		this.getCardImage = function(imageName, imageReadyCallback, errorCallback) {
 			//check if image is already local, if so, return that path, otherwise
@@ -191,20 +206,27 @@
 		};
 
 		this.saveSettings = function(successCallback, errorCallback) {
-			this.fileSystemManager.writeObject(
-				SpectralKitten.SETTINGS_FILE_NAME,
-				SpectralKitten.settings,
-				function() {
-					console.log('settings saved');
-					if (successCallback) {
-							successCallback();
-					}
+
+			var scope = this;
+			this.requestQuota(
+				function(){
+					scope.fileSystemManager.writeObject(
+						SpectralKitten.SETTINGS_FILE_NAME,
+						SpectralKitten.settings,
+						function() {
+							console.log('settings saved');
+							if (successCallback) {
+									successCallback();
+							}
+						},
+						function(error) {
+							if (errorCallback) {
+								errorCallback(error);
+							}
+						}
+					);
 				},
-				function(error) {
-					if (errorCallback) {
-						errorCallback(error);
-					}
-				}
+				errorCallback
 			);
 		};
 	};
@@ -212,6 +234,8 @@
 	SpectralKitten.CARD_FILE_NAME = 'cards.json';
 	SpectralKitten.SETTINGS_FILE_NAME = 'settings.json';
 	SpectralKitten.prototype.fileSystemManager = null;
+
+	SpectralKitten.STORAGE_SIZE = 15 * FileSystemManager.MB;
 
 	/* Settings */
 	SpectralKitten.settings = null;

@@ -29,6 +29,9 @@ function checkQuota()
 		},
 		function(e) {
 			console.log(e);
-		}
+		},
+		window.PERSISTENT
 	);
 }
+
+checkQuota();
