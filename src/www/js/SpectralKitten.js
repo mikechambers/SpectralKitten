@@ -7,7 +7,12 @@
 ;(function(exports) {
 	'use strict';
 
-	function SpectralKitten() {
+	function SpectralKitten(apiBaseURL) {
+
+		if(apiBaseURL){
+			this.apiBaseURL = apiBaseURL;
+		}
+
 		this.init();
 
 		//check for new card data in the background
@@ -54,9 +59,73 @@
 			);
 		};
 
+		var loadRemoteData = function(successCallback, errorCallback) {
+
+			$.ajax({
+				url: scope.apiBaseURL + scope.apiCardsName,
+				dataType: 'json',
+				success: function(data, code, jqXHR) {
+
+					//check to make sure that we support / understand the current API
+					//version
+					if (data.configuration.apiVersion !== SpectralKitten.API_VERSION) {
+						if (errorCallback) {
+							var e = '';
+								e.msg = 'Invalid API Version.';
+							errorCallback(e);
+						}
+
+						return;
+					}
+
+					_cards = data.cards;
+
+					if (!SpectralKitten.settings)
+					{
+						SpectralKitten.settings = new Settings();
+					}
+
+					SpectralKitten.settings.imageBaseURL = data.configuration.imageBaseURL;
+					SpectralKitten.settings.dataVersion = data.configuration.dataVersion;
+
+					scope.saveSettings();
+
+					scope.requestQuota(
+						function(){
+							console.log("about to write file");
+							scope.fileSystemManager.writeObject(
+								SpectralKitten.CARD_FILE_NAME,
+								_cards,
+								function() {
+									console.log('Card data saved.');
+								},
+								function(error) {
+									console.log(error);
+									console.log('Error : Could not save card data.');
+								},
+								true
+							);
+						},
+						function(error){
+							console.log('Error : Could not save card data. Not enough storage');
+						}
+
+					)
+
+					if (successCallback) {
+						successCallback(_cards);
+					}
+
+				},
+				error: function(jqXHR, msg, e) {
+					errorCallback(e, msg);
+				}
+			});
+		};
+
+
 		//private
 		var loadCards = function(successCallback, errorCallback, forceUpdate) {
-			//option to override cache / force update
 
 			//check if card data has been cached
 
@@ -65,73 +134,8 @@
 			//might need to write a plugin to cache binary files
 			//maybe from base64 string, or from a URL
 
-			var loadRemoteData = function() {
-
-				$.ajax({
-					url: 'all_cards.json',
-					dataType: 'json',
-					success: function(data, code, jqXHR) {
-
-						//check to make sure that we support / understand the current API
-						//version
-						if (data.configuration.apiVersion !== SpectralKitten.API_VERSION) {
-							if (errorCallback) {
-								var e = '';
-									e.msg = 'Invalid API Version.';
-								errorCallback(e);
-							}
-
-							return;
-						}
-
-						_cards = data.cards;
-
-						if (!SpectralKitten.settings)
-						{
-							SpectralKitten.settings = new Settings();
-						}
-
-						SpectralKitten.settings.imageBaseURL = data.configuration.imageBaseURL;
-						SpectralKitten.settings.dataVersion = data.configuration.dataVersion;
-
-						scope.saveSettings();
-
-						scope.requestQuota(
-							function(){
-								console.log("about to write file");
-								scope.fileSystemManager.writeObject(
-									SpectralKitten.CARD_FILE_NAME,
-									_cards,
-									function() {
-										console.log('Card data saved.');
-									},
-									function(error) {
-										console.log(error);
-										console.log('Error : Could not save card data.');
-									},
-									true
-								);
-							},
-							function(error){
-								console.log('Error : Could not save card data. Not enough storage');
-							}
-
-						)
-
-						if (successCallback) {
-							successCallback(_cards);
-						}
-
-					},
-					error: function(jqXHR, msg, e) {
-						errorCallback(e, msg);
-					}
-				});
-			};
-
-
 			if (forceUpdate) {
-				loadRemoteData();
+				loadRemoteData(successCallback, errorCallback);
 			}
 			else {
 				scope.fileSystemManager.readObject(
@@ -152,7 +156,7 @@
 						//corrupt
 
 						//so, we should delete the file and then load the remote data
-						loadRemoteData();
+						loadRemoteData(successCallback, errorCallback);
 					}
 				);
 			}
@@ -170,10 +174,10 @@
 				return;
 			}
 			
-			var scope = this;
+			//var scope = this;
 			
 			$.ajax({
-				url: 'version.json',
+				url: scope.apiBaseURL + scope.apiVersionName,
 				dataType: 'json',
 				success: function(data, code, jqXHR){
 					
@@ -280,7 +284,7 @@
 
 		this.saveSettings = function(successCallback, errorCallback) {
 
-			var scope = this;
+			//var scope = this;
 			this.requestQuota(
 				function(){
 					scope.fileSystemManager.writeObject(
@@ -312,6 +316,13 @@
 	/* Settings */
 	SpectralKitten.settings = null;
 	SpectralKitten.API_VERSION = 1;
+
+	SpectralKitten.API_CARDS_NAME = "cards/";
+	SpectralKitten.API_VERSION_NAME = "version/";
+
+	SpectralKitten.prototype.apiBaseURL = "/api/";
+	SpectralKitten.prototype.apiVersionName = SpectralKitten.API_CARDS_NAME;
+	SpectralKitten.prototype.apiCardsName = SpectralKitten.API_VERSION_NAME;
 
 	exports.SpectralKitten = SpectralKitten;
 }(this));

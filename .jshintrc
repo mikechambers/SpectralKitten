@@ -14,6 +14,8 @@
 			"Settings", 
 			"FileSystemManager", 
 			"webkitStorageInfo", 
-			"FileError"
+			"FileError",
+			"SpectralKitten",
+			"Handlebars"
 			]
 }
