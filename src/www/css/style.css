@@ -1,7 +1,37 @@
-#viewport {
+html {
+	height:100%;
+}
+
+body {
+	height:100%;
+}
+
+.height_inherit{ height: inherit; }
+
+#rowContainter{
+	position:absolute;
+	top:40px;
+}
+
+#set_list {
+	height: 200px;
+}
+
+#set_list {
+	height:100%;
+}
+
+#view2{
+	display:none;
+}
+
+#view3{
+	display:none;
+}
+
+#window {
     border: 1px solid #f00;
     width: 250px;
-    height: 250px;
     overflow: hidden;
 	position: relative;
 }
@@ -9,13 +39,11 @@
 #slidecontainer {
     border: 1px solid #000;
     width: 1000px;
-    height: 250px;
 }
 
 .viewcontainer {
 	position: absolute;
     width: 250px;
-    height: 250px;
     background-color: #ff0;
     float: left;
 	left: 0px;
