@@ -25,16 +25,19 @@ body {
 	height:100%;
 }
 
+#view1{
+	background-color: #F2DC99;
+}
+
 #view2{
-	/*display:none;*/
+	background-color: #F29057;
 }
 
 #view3{
-	/*display:none;*/
+	background-color: #BF1F1F;
 }
 
 #viewport {
-    border: 1px solid #f00;
     width: 100%;
     overflow: hidden;
 	position: relative;
@@ -44,12 +47,11 @@ body {
 	position: relative;
     border: 1px solid #000;
 	left: 0px;
-	-webkit-transition: left 0.5s linear;
+	-webkit-transition: left 0.3s linear;
 }
 
 .viewcontainer {
 	position: relative;
-    background-color: #ff0;
     float: left;
 }
 
