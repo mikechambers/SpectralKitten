@@ -1,38 +1,45 @@
 var views;
-var elementWidth = 250;
-var numOfElements;
+var viewportWidth;
+var numberOfViews;
 
 
 $(document).ready(function() {
-  $("#set_list").list();
+	$("#set_list").list();
+	$(".nav").click(function(event) {
+		slideViewport($(event.target).data().view);
+	});
+	onBodyLoad();
 });
 
+
 function onBodyLoad() {
-    $("#viewport").click(onViewPortClick);
+    viewportWidth = $("#viewport").width();
+	
+	$("#viewport").click(onViewPortClick);
+	
     
     var counter = 0;
-    $("#slidecontainer").children().each(function() {
-        $(this).css("left", counter * $(this).width());
-        counter++;
-    });
-    numOfElements = counter;
+	numberOfViews = $("#slidecontainer").children().length;
+	$("#slidecontainer").width(numberOfViews * viewportWidth);
+	$("#slidecontainer").children().each(function() {
+		$(this).width(viewportWidth);
+	});
+}
+
+function slideViewport(index) {
+	var pixelsToMove = ((index-1) * viewportWidth)*-1;
+	
+    $("#slidecontainer").css("left", pixelsToMove);
+	
 }
 
 function onViewPortClick(event) {
-    var endReached = false;
-    $("#slidecontainer").children().each(function(e) {
-        var leftvalue = parseInt($(this).css("left"),10);
-		console.log(leftvalue);
-        if(e == numOfElements-1 && leftvalue == 0) {
-            endReached = true;
-        }
-        // Adding the animation class here because if I add it onBodyLoad 
-        // it plays when it resizes the container. But this seems kind of
-        // innefficient. 
-        if(!endReached) {
-            $(this).addClass("viewcontaineranimation");
-            $(this).css("left", leftvalue - elementWidth);
-        }
-    });
+	
+	var currentLeftValue =  parseInt($("#slidecontainer").css("left"));
+	
+    $("#slidecontainer").css("left", currentLeftValue-viewportWidth);
 }
 
+function onSelectView(event) {
+
+}
