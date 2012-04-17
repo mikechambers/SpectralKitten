@@ -49,5 +49,11 @@
 	}
 
 	checkQuota();
+	
+	s.getCardImagePath(
+		"foo.jsp",
+		function(path){
+			console.log(path);
+		})
 
 }());
