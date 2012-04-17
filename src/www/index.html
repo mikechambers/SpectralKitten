@@ -8,34 +8,57 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="css/style.css">
+	
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-
+	<link rel="stylesheet" href="css/bootstrap-list.css">
+	<link rel="stylesheet" href="css/style.css">
     
 </head>
 <body>
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-	<div class="container">
-	  <a class="brand" href="#">SpectralKitten</a>
-	  <div class="nav-collapse">
-		<ul class="nav">
-		  <li class="active"><a href="#">View 1</a></li>
-		  <li><a href="#">View 2</a></li>
-		  <li><a href="#">View 3</a></li>
-		</ul>
-	  </div>
-	</div>
-  </div>
-</div>
 	
-<div class="row">
-	<div class="span12">
-	  <div id="window">
-		<div id="slidecontainer">
-			<div id="view1" class="viewcontainer">View 1</div>
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container">			
+			<a class="brand" href="#">SpectralKitten</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="active"><a href="#">View 1</a></li>
+					<li><a href="#">View 2</a></li>
+					<li><a href="#">View 3</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="rowContainter" class="row height_inherit">
+	<div class="span12 height_inherit">
+	  <div id="window" class="height_inherit">
+		<div id="slidecontainer" class="height_inherit">
+			<!-- View 1 -->
+			<div id="view1" class="viewcontainer height_inherit">
+				<div class="list" id="set_list" >
+					<ul>
+						<li>Item 1</li>
+						<li>Item 2</li>
+						<li>Item 2</li>
+						<li>Item 2</li>
+						<li>Item 2</li>
+						<li>Item 2</li>
+						<li>Item 2</li>
+						<li>Item 2</li>
+					</ul>
+				</div>
+			</div>
+			<!-- End View 1 -->
+			
+			<!-- View 2 -->
 			<div id="view2" class="viewcontainer">View 2</div>
+			<!-- End View 2 -->
+			<!-- View 3 -->
 			<div id="view3" class="viewcontainer">View 3</div>
+			<!-- End View 3 -->
 		</div>
 	  </div>
 	</div>
@@ -46,9 +69,12 @@
 </footer>
 
 <script src="js/libs/jquery.min.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
+<script src="js/libs/bootstrap-list.js"></script>
 <script src="js/libs/handlebars.js"></script>
 <script src="js/FileSystemManager.js"></script>
 <script src="js/Settings.js"></script>
 <script src="js/SpectralKitten.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
