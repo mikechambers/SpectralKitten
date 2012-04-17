@@ -244,9 +244,17 @@
 			);
 		}
 
-		this.getCardImage = function(imageName, imageReadyCallback, errorCallback) {
-			//check if image is already local, if so, return that path, otherwise
-			//retrieve image, cache it and then return
+		this.getCardImagePath = function(imageName, imageReadyCallback, errorCallback) {
+
+			var out = "/assets/cards/" + imageName;
+			
+			if(imageReadyCallback){
+				imageReadyCallback(out);
+			}
+			
+			//todo: impliment errorCallback
+			//todo: impliment caching and cache checks
+			
 		};
 
 		this.loadSettings = function(successCallback) {
