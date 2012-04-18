@@ -36,10 +36,21 @@
 <div id="slidecontainer" class="height_inherit">
 	<!-- View 1 -->
 	<div id="view1" class="viewcontainer height_inherit viewhidden">
-        <div id="listplacer" class="listholder">Hidden</div>
+<<<<<<< HEAD
+        <div class="hiddenlist" id="listholder">Hidden</div>
+		<div class="list" id="set_list_container" >
+			<ul id="set_list">
+				<script id="card-list-template" type="text/x-handlebars-template">
+					{{#each cards}}
+					<li data-card_num="{{this.id}}">{{this.name}}</li>
+					{{/each}}
+				</script>
+			</ul>
+=======
 		<div id="list_container" class="height_inherit">
-            
-        </div>
+			
+>>>>>>> a1ff7e2c797fc0fa96544792b2d495d3129e2280
+		</div>
 		<div>Details</div>
 	</div>
 	<!-- End View 1 -->
@@ -69,7 +80,7 @@
 	<div class="template list height_inherit" id="series_list_container">
 		<ul id="series_list">
 			{{#each series}}
-			<li data-series_id="{{this.id}}">{{this.name}}</li>
+			<li data-card_num="{{this.id}}">{{this.name}}</li>
 			{{/each}}
 		</ul>
 	</div>

@@ -17,25 +17,31 @@ body {
 	top:40px;
 }
 
-/* Lists */
+<<<<<<< HEAD
+/* List */
+#set_list_container {
+	width: 200px; /* If this changes, be sure to change the #listholder */
+=======
 #list_container {
 	width: 200px
 }
 
 #set_list_container {
 	width: 100%;
+>>>>>>> a1ff7e2c797fc0fa96544792b2d495d3129e2280
 	height:100%;
 }
 
+.hiddenlist {
+    display:none;
+}
 
-.listholder {
-    left: -300px; /* If this changes, be sure to change the #set_list_container */
-    width: 200px;
-    height: 100%;
+
+#listholder {
+    left: -200px; /* If this changes, be sure to change the #set_list_container */
     -webkit-transition: left 0.3s linear;
     position:absolute;
     z-index:10;
-    background-color: #fff;
 }
 
 /* Views */

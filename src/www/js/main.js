@@ -4,6 +4,11 @@ var spectralKitten;
 
 $(document).ready(function() {
 	$("#set_list").list();
+    $("#list_container").bind('change',function(e) {
+        $(".listholder").html("Shown");
+        $(".listholder").css("display","block");
+        $(".listholder").css("left",0);
+    });
 	$(".nav").click(function(event) {
 		$(".active").removeClass("active");
 		$(event.target).parent().addClass("active");
