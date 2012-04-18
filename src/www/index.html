@@ -35,14 +35,17 @@
 <div id="viewport" class="height_inherit">
 <div id="slidecontainer" class="height_inherit">
 	<!-- View 1 -->
-	<div id="view1" class="viewcontainer height_inherit">
-		<div class="list" id="set_list_container" >
-			<ul id="set_list">
-				<script id="card-list-template" type="text/x-handlebars-template">
-					{{#each cards}}
-					<li data-card_num="{{this.id}}">{{this.name}}</li>
-					{{/each}}
-				</script>
+	<div id="view1" class="viewcontainer height_inherit viewhidden">
+		<div class="list" id="set_list" >
+			<ul>
+				<li>Item 1</li>
+				<li>Item 2</li>
+				<li>Item 2</li>
+				<li>Item 2</li>
+				<li>Item 2</li>
+				<li>Item 2</li>
+				<li>Item 2</li>
+				<li>Item 2</li>
 			</ul>
 		</div>
 		<div>Details</div>
@@ -50,10 +53,10 @@
 	<!-- End View 1 -->
 	
 	<!-- View 2 -->
-	<div id="view2" class="viewcontainer height_inherit">View 2</div>
+	<div id="view2" class="viewcontainer height_inherit viewhidden">View 2</div>
 	<!-- End View 2 -->
 	<!-- View 3 -->
-	<div id="view3" class="viewcontainer height_inherit">View 3</div>
+	<div id="view3" class="viewcontainer height_inherit viewhidden">View 3</div>
 	<!-- End View 3 -->
 </div>
 </div>

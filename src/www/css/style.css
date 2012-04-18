@@ -52,3 +52,7 @@ body {
     float: left;
 }
 
+.viewhidden {
+    visibility: hidden;
+}
+
