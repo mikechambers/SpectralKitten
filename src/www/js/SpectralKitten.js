@@ -71,6 +71,31 @@
 				}
 			);
 		};
+		
+		this.getCardsBySet = function(id){
+			var out = [];
+			
+			if(!_cards){
+				return out;
+			}
+			
+			//todo: should we cache results internally? for faster future lookup?
+			//would be super fast second time, but at expense of memory (maybe a lot)
+			
+			var len = _cards.length;
+			
+			var c;
+			for(var i = 0; i < len; i++){
+				c = _cards[i];
+				
+				if(c.series.id === id){
+					//todo: possible area for optimization out[counter] = c;
+					out.push(c);
+				}
+			}
+			
+			return out;
+		}
 
 		var loadRemoteData = function(successCallback, errorCallback) {
 

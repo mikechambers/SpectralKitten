@@ -252,7 +252,10 @@
 					//this is particularly an issue on mobile devices
 					var self = this;
 					setTimeout( function() {
-							var e = jQuery.Event("change", { selectedIndex: index });
+							var data = { selectedIndex: index, 
+										 srcElement: event.srcElement, 
+										 item: self.dataProvider[index]  }
+							var e = jQuery.Event("change", data);
 							self.$el.trigger( e );
 						}, 150 );
 						

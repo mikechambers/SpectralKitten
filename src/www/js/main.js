@@ -28,24 +28,7 @@ $(document).ready(function() {
 	
 	spectralKitten.initializeData(
 		function() {
-			var source = $('#series-list-template').html();
-			var template = Handlebars.compile(source);
-
-			var context = {"series": spectralKitten.series};
-			var html = template(context);
-			
-			$('#list_container').html(html);
-			
-			$('#series_list_container').list();
-			
-			/*
-			$('#myList').bind(
-				"change",
-				function( event ){
-					console.log(event);
-				}
-			);
-			*/
+			renderSeriesList(spectralKitten.series);
 			
 			/*
 			s.checkForUpdates(
@@ -66,6 +49,30 @@ $(document).ready(function() {
 	);
 	
 });
+
+function renderCardList(cards){
+}
+
+function renderSeriesList(series){
+	var source = $('#series-list-template').html();
+	var template = Handlebars.compile(source);
+	
+	var context = {"series": spectralKitten.series};
+	var html = template(context);
+	
+	$('#list_container').html(html);
+	
+	$('#series_list_container').list();
+	
+	$('#series_list_container').bind(
+		"change",
+		function( event ){
+			var series_id = $(event.srcElement).data("series_id");
+			var t = new Date().getTime();
+			var series = spectralKitten.getCardsBySet(series_id);
+		}
+	);
+}
 
 
 function slideViewport(index) {
