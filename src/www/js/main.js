@@ -10,9 +10,9 @@ $(document).ready(function() {
 		slideViewport($(event.target).data().view);
 	});
 	
+    $(".viewcontainer").removeClass("viewhidden");
+    
     viewportWidth = $("#viewport").width();
-	
-	$("#viewport").click(onViewPortClick);
 
 	var numberOfViews = $("#slidecontainer").children().length;
 	$("#slidecontainer").width(numberOfViews * viewportWidth);
@@ -27,13 +27,6 @@ function slideViewport(index) {
 	
     $("#slidecontainer").css("left", pixelsToMove);
 	
-}
-
-function onViewPortClick(event) {
-	
-	var currentLeftValue =  parseInt($("#slidecontainer").css("left"));
-	
-    $("#slidecontainer").css("left", currentLeftValue-viewportWidth);
 }
 
 function onSelectView(event) {
