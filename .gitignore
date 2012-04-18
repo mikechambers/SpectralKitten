@@ -1,5 +1,7 @@
 #### `.gitignore`
 
+src/www/assets/
+
 # SVN directories
 .svn
 

@@ -17,9 +17,12 @@ body {
 	top:40px;
 }
 
-/* List */
+#list_container {
+	width: 200px
+}
+
 #set_list_container {
-	width: 200px; /* If this changes, be sure to change the #listholder */
+	width: 100%;
 	height:100%;
 }
 

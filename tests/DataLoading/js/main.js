@@ -9,7 +9,8 @@
 	//s.initializeData
 
 	s.initializeData(
-		function() {
+		function(appData) {
+			console.log(appData.cards.length);
 			console.log('Cards Loaded : ' + s.cards.length);
 
 			var source = $('#card-list-template').html();

@@ -1,0 +1,82 @@
+html {
+	height:100%;
+	overflow:hidden;
+}
+
+body {
+	height:100%;
+}
+
+.height_inherit{ height: inherit; }
+
+#rowContainter{
+	position:absolute;
+}
+
+#viewport{
+	top:40px;
+}
+
+<<<<<<< HEAD
+/* List */
+#set_list_container {
+	width: 200px; /* If this changes, be sure to change the #listholder */
+=======
+#list_container {
+	width: 200px
+}
+
+#set_list_container {
+	width: 100%;
+>>>>>>> a1ff7e2c797fc0fa96544792b2d495d3129e2280
+	height:100%;
+}
+
+.hiddenlist {
+    display:none;
+}
+
+
+#listholder {
+    left: -200px; /* If this changes, be sure to change the #set_list_container */
+    -webkit-transition: left 0.3s linear;
+    position:absolute;
+    z-index:10;
+}
+
+/* Views */
+
+#view1{
+	background-color: #F2DC99;
+}
+
+#view2{
+	background-color: #F29057;
+}
+
+#view3{
+	background-color: #BF1F1F;
+}
+
+#viewport {
+    width: 100%;
+    overflow: hidden;
+	position: relative;
+}
+
+#slidecontainer {
+	position: relative;
+    border: 1px solid #000;
+	left: 0px;
+	-webkit-transition: left 0.3s linear;
+}
+
+.viewcontainer {
+	position: relative;
+    float: left;
+}
+
+.viewhidden {
+    visibility: hidden;
+}
+
