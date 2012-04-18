@@ -23,6 +23,10 @@
 	SpectralKitten.prototype.init = function() {
 		//private
 		var _cards;
+		
+		//private
+		var _series;
+		
 		var scope = this;
 
 		Object.defineProperty(
@@ -33,14 +37,23 @@
 				}
 			}
 		);
+		
+		Object.defineProperty(
+			this,
+			'series', {
+				get: function() {
+					return _series;
+				}
+			}
+		);
 
 		this.initializeData = function(successCallback, errorCallback, forceUpdate) {
 			this.loadSettings(
 				function() {
 					loadCards(
-						function() {
+						function(appData) {
 							if (successCallback) {
-								successCallback();
+								successCallback(appData);
 							}
 						},
 						function(error) {
@@ -79,6 +92,7 @@
 					}
 
 					_cards = data.cards;
+					_series = data.series;
 
 					if (!SpectralKitten.settings)
 					{
@@ -90,12 +104,13 @@
 
 					scope.saveSettings();
 
+					var appData = {"cards":_cards, "series":_series};
+					
 					scope.requestQuota(
 						function(){
-							console.log("about to write file");
 							scope.fileSystemManager.writeObject(
-								SpectralKitten.CARD_FILE_NAME,
-								_cards,
+								SpectralKitten.APP_DATA_FILE_NAME,
+								appData,//todo: make this into a class?
 								function() {
 									console.log('Card data saved.');
 								},
@@ -113,7 +128,7 @@
 					)
 
 					if (successCallback) {
-						successCallback(_cards);
+						successCallback(appData);
 					}
 
 				},
@@ -139,12 +154,13 @@
 			}
 			else {
 				scope.fileSystemManager.readObject(
-					SpectralKitten.CARD_FILE_NAME,
+					SpectralKitten.APP_DATA_FILE_NAME,
 					function(data) {
 						//todo: check if data includes anything, if not, loadRemote
 						//data
-
-						_cards = data;
+						
+						_cards = data.cards;
+						_series = data.series;
 
 						if (successCallback) {
 							successCallback(data);
@@ -163,8 +179,6 @@
 		};
 
 		this.checkForUpdates = function(successCallback, errorCallback, update) {
-			
-			console.log("checking for updated data");
 
 			//settings havent been loaded so we cant check whether data is new
 			if(!SpectralKitten.settings || !SpectralKitten.settings.dataVersion){
@@ -181,7 +195,6 @@
 				dataType: 'json',
 				success: function(data, code, jqXHR){
 					
-					console.log("version data received : " + data.dataVersion);
 					//make sure we have loaded the data first
 					if(
 						//make sure that the app understands the API Version / format
@@ -190,8 +203,6 @@
 						//check and see if there is a newer version of data on the server
 						data.dataVersion > SpectralKitten.settings.dataVersion)
 					{
-						console.log("Updated data found.");
-						
 						//The data on the server has been updated.
 						
 						//check if we should auto update
@@ -232,6 +243,10 @@
 				error: function(jqXHR, msg, e){
 					//something went wrong loading the remote data. throw and error
 					console.log(e);
+					if(errorCallback)
+					{
+						errorCallback(e);
+					}
 				}
 			});
 		};
@@ -315,7 +330,7 @@
 		};
 	};
 
-	SpectralKitten.CARD_FILE_NAME = 'cards.json';
+	SpectralKitten.APP_DATA_FILE_NAME = 'cards.json';
 	SpectralKitten.SETTINGS_FILE_NAME = 'settings.json';
 	SpectralKitten.prototype.fileSystemManager = null;
 
@@ -334,6 +349,5 @@
 
 	exports.SpectralKitten = SpectralKitten;
 }(this));
-
 
 
