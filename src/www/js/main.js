@@ -55,14 +55,26 @@ $(document).ready(function() {
 	
 });
 
+/*series is a single series item*/
+function renderSeriesDetail(series){
+
+	var source = $('#series-detail-template').html();
+	var template = Handlebars.compile(source);
+	var context = {"series": series};
+	var html = template(context);
+	
+	//todo: put html on stack and animate in
+}
+
 function renderCardList(cards){
 }
 
+/* series is an array of series */
 function renderSeriesList(series){
 	var source = $('#series-list-template').html();
 	var template = Handlebars.compile(source);
 	
-	var context = {"series": spectralKitten.series};
+	var context = {"series": series};
 	var html = template(context);
 	
 	$('#list_container').html(html);
@@ -75,6 +87,10 @@ function renderSeriesList(series){
 			var series_id = $(event.srcElement).data("series_id");
 			var t = new Date().getTime();
 			var series = spectralKitten.getCardsBySet(series_id);
+			
+			var s = spectralKitten.getSeries(series_id);
+			
+			renderSeriesDetail(s);
 		}
 	);
 }

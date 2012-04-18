@@ -72,6 +72,28 @@
 			);
 		};
 		
+		this.getSeries = function(series_id){
+			
+			if(!_series){
+				return;
+			}
+			
+			//todo: should we cache results internally? for faster future lookup?
+			//would be super fast second time, but at expense of memory (maybe a lot)
+			
+			var len = _series.length;
+			
+			var s;
+			for(var i = 0; i < len; i++){
+				s = _series[i];
+				if(s.id === series_id){
+					return s;
+				}
+			}
+			
+			return;
+		}
+			
 		this.getCardsBySet = function(id){
 			var out = [];
 			
