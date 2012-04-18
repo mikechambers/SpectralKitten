@@ -6,6 +6,8 @@ var numberOfViews;
 $(document).ready(function() {
 	$("#set_list").list();
 	$(".nav").click(function(event) {
+		$(".active").removeClass("active");
+		$(event.target).parent().addClass("active");
 		slideViewport($(event.target).data().view);
 	});
 	onBodyLoad();
@@ -24,10 +26,12 @@ function onBodyLoad() {
 	$("#slidecontainer").children().each(function() {
 		$(this).width(viewportWidth);
 	});
+	
+	//$(".viewcontainer").css("display","block");
 }
 
 function slideViewport(index) {
-	var pixelsToMove = ((index-1) * viewportWidth)*-1;
+	var pixelsToMove = (((index-1) * viewportWidth)*-1)-1;
 	
     $("#slidecontainer").css("left", pixelsToMove);
 	
