@@ -17,10 +17,25 @@ body {
 	top:40px;
 }
 
+/* List */
 #set_list_container {
-	width: 200px;
+	width: 200px; /* If this changes, be sure to change the #listholder */
 	height:100%;
 }
+
+.hiddenlist {
+    display:none;
+}
+
+
+#listholder {
+    left: -200px; /* If this changes, be sure to change the #set_list_container */
+    -webkit-transition: left 0.3s linear;
+    position:absolute;
+    z-index:10;
+}
+
+/* Views */
 
 #view1{
 	background-color: #F2DC99;
