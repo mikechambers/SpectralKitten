@@ -20,7 +20,7 @@ $(document).ready(function() {
 		$(this).width(viewportWidth);
 	});
 	
-	spectralKitten = new SpectralKitten();
+	spectralKitten = new SpectralKitten("/api/");
 	
 	spectralKitten = new SpectralKitten();
 	spectralKitten.apiVersionName = "version.json";
@@ -28,20 +28,20 @@ $(document).ready(function() {
 	
 	spectralKitten.initializeData(
 		function() {
-			var source = $('#card-list-template').html();
+			var source = $('#series-list-template').html();
 			var template = Handlebars.compile(source);
 
-			var context = {cards: spectralKitten.cards};
+			var context = {"series": spectralKitten.series};
 			var html = template(context);
 			
-			$('#set_list').html(html);
+			$('#list_container').html(html);
 			
-			$('#set_list_container').list();
+			$('#series_list_container').list();
 			
 			/*
 			$('#myList').bind(
-				"change", 
-				function( event ){ 
+				"change",
+				function( event ){
 					console.log(event);
 				}
 			);
@@ -62,7 +62,7 @@ $(document).ready(function() {
 		function(error) {
 			console.log('could not initialize data');
 		},
-		false /* force loading of data from server*/
+		true /* force loading of data from server*/
 	);
 	
 });
