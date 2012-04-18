@@ -1,6 +1,5 @@
 var views;
 var viewportWidth;
-var numberOfViews;
 
 
 $(document).ready(function() {
@@ -10,25 +9,18 @@ $(document).ready(function() {
 		$(event.target).parent().addClass("active");
 		slideViewport($(event.target).data().view);
 	});
-	onBodyLoad();
-});
-
-
-function onBodyLoad() {
+	
     viewportWidth = $("#viewport").width();
 	
 	$("#viewport").click(onViewPortClick);
-	
-    
-    var counter = 0;
-	numberOfViews = $("#slidecontainer").children().length;
+
+	var numberOfViews = $("#slidecontainer").children().length;
 	$("#slidecontainer").width(numberOfViews * viewportWidth);
 	$("#slidecontainer").children().each(function() {
 		$(this).width(viewportWidth);
 	});
-	
-	//$(".viewcontainer").css("display","block");
-}
+});
+
 
 function slideViewport(index) {
 	var pixelsToMove = (((index-1) * viewportWidth)*-1)-1;
