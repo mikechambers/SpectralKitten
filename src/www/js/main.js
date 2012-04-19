@@ -120,5 +120,18 @@ function slideViewport(index) {
 }
 
 function onSelectView(event) {
+	
+}
 
+function renderCardData(cardData){
+	var cardDisplaySource = $("#cardDisplay_template").html();
+	var cardDisplayTemplate = Handlebars.compile(cardDisplaySource);
+	cardDisplaySource = cardDisplayTemplate(cardData);
+	$("#cardInfo").html(cardDisplaySource);
+	
+	$('#cube').hover(function(){
+		$(this).addClass('rotate');
+	},function(){
+		$(this).removeClass('rotate');
+	});
 }

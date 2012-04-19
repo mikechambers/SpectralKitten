@@ -106,7 +106,46 @@
 		</hgroup>
 	</div>
 </script>
-	
+
+<!-- HandleBars Card Detail Template //-->
+<script id="cardDisplay_template" type="text/x-handlebars-template">
+	<div class="row">
+	  <div class="span4">
+	  	<ul>
+			<li>Name: {{name}}</li>
+			<li>Faction: {{faction.name}}</li>
+			<li>Race: {{race.name}}</li>
+			<li>Card: {{card_class.name}}</li>
+			
+			<li>Attack: {{attack}}</li>
+			<li>Defense: {{defense}}</li>
+			<li>Health: {{health}}</li>
+			<li>Rules: {{rules}}</li>
+			
+			<ul>
+			{{#each professions}}
+				<li>{{name}}</li>
+			{{/each}}
+			</ul>
+			
+			<ul>
+			{{#each talents}}
+				<li>{{name}}</li>
+			{{/each}}
+			</ul>
+			
+		</ul>
+	  </div>
+	  <div class="span8">
+	  	<div id="cards">
+			<div id="cube" href="#">
+				<img id="cardFront" src="{{card_image}}" />
+				<img id="cardBack" src="{{card_reverse_image}}" />
+			</div>
+	  	</div>
+	  </div>
+	</div>
+</script>	
 	
 <footer>
 
