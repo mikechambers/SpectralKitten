@@ -61,16 +61,17 @@ function renderSeriesDetail(series){
 	var context = {"series": series};
 	var html = template(context);
 
-	var detail = $("#view_1_content").append(html);
-	
+	var detail = $(html);
 	var h = $(window).height();
 	detail.css("top", h);
 	
-	setTimeout(
+	$("#view_1_content").append(detail);
+
+	window.webkitRequestAnimationFrame(
 		function(){
 			detail.css("top", 0);
-		},
-		500);
+		}
+	);
 }
 
 function renderCardList(cards,series_id){

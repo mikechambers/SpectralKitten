@@ -13,9 +13,12 @@ body {
 	position:absolute;
 }
 
+.template{
+}
+
 .series_detail{
-	-transition: top 0.5s linear;
-	-webkit-transition: top 0.5s linear;
+	position:absolute;
+	-webkit-transition: all 0.3s linear;
 }
 
 #viewport{
