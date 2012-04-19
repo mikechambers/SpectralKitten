@@ -38,6 +38,11 @@ body {
     background-color: #fff;
 }
 
+#list_holder {
+    width: 200px;
+    left: 0px;
+}
+
 /* Views */
 
 #view1{
