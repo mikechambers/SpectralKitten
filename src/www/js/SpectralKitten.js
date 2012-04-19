@@ -118,6 +118,28 @@
 			
 			return out;
 		}
+            
+        this.getCard = function(id) {
+            var out = null;
+            
+            if(!_cards) {
+                return out;
+            }
+            
+            var len = _cards.length;
+            
+            var c;
+            for(var i = 0; i < len; i++) {
+                c = _cards[i];
+                
+                
+                if(c.id === id){
+                    console.log(c);
+                    return c;
+                }
+            }
+            
+        }
 
 		var loadRemoteData = function(successCallback, errorCallback) {
 

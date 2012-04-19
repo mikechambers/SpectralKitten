@@ -58,7 +58,7 @@
 	<div class="template list height_inherit listholder" id="{{div_id}}">
 		<ul id="card_list">
 			{{#each cards}}
-			<li data-card_num="{{this.id}}">{{this.name}}</li>
+			<li data-card_id="{{this.id}}">{{this.name}}</li>
 			{{/each}}
 		</ul>
 	</div>
@@ -107,6 +107,45 @@
 	</div>
 </script>
 	
+<script id="cardDisplay_template" type="text/x-handlebars-template">
+	<div class="row">
+	  <div class="span4">
+	  	<ul>
+			<li>Name: {{name}}</li>
+			<li>Faction: {{faction.name}}</li>
+			<li>Race: {{race.name}}</li>
+			<li>Card: {{card_class.name}}</li>
+
+			<li>Attack: {{attack}}</li>
+			<li>Defense: {{defense}}</li>
+			<li>Health: {{health}}</li>
+			<li>Rules: {{rules}}</li>
+
+			<ul>
+			{{#each professions}}
+				<li>{{name}}</li>
+			{{/each}}
+			</ul>
+
+			<ul>
+			{{#each talents}}
+				<li>{{name}}</li>
+			{{/each}}
+			</ul>
+
+		</ul>
+	  </div>
+	  <div class="span8">
+	  	<div id="logos">
+			<a id="cube" href="#">
+				<img id="cardFront" src="{{card_image}}" />
+				<img id="cardBack" src="{{card_reverse_image}}" />
+			</a>
+	  	</div>
+	  </div>
+	</div>
+</script>    
+    
 	
 <footer>
 

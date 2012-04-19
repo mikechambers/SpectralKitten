@@ -86,6 +86,15 @@ function renderCardList(cards,series_id){
     var cardlist = template(context);
  
     var list = $(cardlist).appendTo("#list_holder");
+    list.bind('change', function(event) {
+        var card_id = $(event.srcElement).data("card_id");
+        spectralKitten.getCard(card_id);
+        
+        //var cardDisplaySource = $("#cardDisplay_template").html();
+        //var cardDisplayTemplate = Handlebars.compile(cardDisplaySource);
+        //cardDisplaySource = cardDisplayTemplate(cardData.cards[0]);
+        //$("#cardInfo").html(cardDisplaySource);
+    });
 	list.list();
     list.css("left",0);
 }
