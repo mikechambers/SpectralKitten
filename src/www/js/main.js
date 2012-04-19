@@ -71,6 +71,12 @@ function renderDetailTemplate(template, context){
 			detail.css("top", 0);
 		}
 	);
+	
+	$('#cube').hover(function(){
+		$(this).addClass('rotate');
+	},function(){
+		$(this).removeClass('rotate');
+	});
 }
 	
 function renderCardDetail(card){
@@ -142,7 +148,8 @@ function slideViewport(index) {
 }
 
 function onSelectView(event) {
-
+	
 }
 
 }(this));
+
