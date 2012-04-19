@@ -18,7 +18,8 @@ body {
 
 .series_detail{
 	position:absolute;
-	-webkit-transition: all 0.3s linear;
+	-webkit-transition: top 0.3s linear;
+	transition: top 0.3s linear;
 }
 
 #viewport{
@@ -49,6 +50,7 @@ body {
     width: 200px;
     height: 100%;
     -webkit-transition: left 0.3s linear;
+    transition: left 0.3s linear;
     position:absolute;
     z-index:10;
     background-color: #fff;
@@ -84,6 +86,7 @@ body {
     border: 1px solid #000;
 	left: 0px;
 	-webkit-transition: left 0.3s linear;
+	transition: left 0.3s linear;
 }
 
 .viewcontainer {
