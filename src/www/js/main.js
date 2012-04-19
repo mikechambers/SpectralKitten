@@ -1,12 +1,20 @@
+
+;(function(exports) {
+	'use strict';
+
 var views;
 var viewportWidth;
 var spectralKitten;
 
 $(document).ready(function() {
 	$("#set_list").list();
+	
+	/*
     $("#list_container").bind('change',function(e) {
-        // don't think I need this anymore. 
+        // don't think I need this anymore.
     });
+	*/
+
 	$(".nav").click(function(event) {
 		$(".active").removeClass("active");
 		$(event.target).parent().addClass("active");
@@ -130,3 +138,5 @@ function slideViewport(index) {
 function onSelectView(event) {
 
 }
+
+}(this));
