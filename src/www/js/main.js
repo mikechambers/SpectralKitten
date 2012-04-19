@@ -60,8 +60,17 @@ function renderSeriesDetail(series){
 	var template = Handlebars.compile(source);
 	var context = {"series": series};
 	var html = template(context);
+
+	var detail = $("#view_1_content").append(html);
 	
-	//todo: put html on stack and animate in
+	var h = $(window).height();
+	detail.css("top", h);
+	
+	setTimeout(
+		function(){
+			detail.css("top", 0);
+		},
+		500);
 }
 
 function renderCardList(cards,series_id){
@@ -75,9 +84,9 @@ function renderCardList(cards,series_id){
     var cardlist = template(context);
  
     
-    $(cardlist).appendTo("#list_holder");
-    $("#list_holder").children().last().list();
-    $("#list_holder").children().last().css("left",0);
+    var list = $(cardlist).appendTo("#list_holder");
+	list.list();
+    list.css("left",0);
 }
 
 /* series is an array of series */
@@ -98,8 +107,6 @@ function renderSeriesList(series){
 			var series_id = $(event.srcElement).data("series_id");
 			var t = new Date().getTime();
 			var series = spectralKitten.getCardsBySet(series_id);
-			
-            console.log(spectralKitten);
             
 			var s = spectralKitten.getSeries(series_id);
 

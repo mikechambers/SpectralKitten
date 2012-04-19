@@ -13,8 +13,21 @@ body {
 	position:absolute;
 }
 
+.series_detail{
+	-transition: top 0.5s linear;
+	-webkit-transition: top 0.5s linear;
+}
+
 #viewport{
 	top:40px;
+}
+
+#view_1_content{
+	position:absolute;
+	width:100%;
+	left:200px;
+	margin:1px;
+	padding:1px;
 }
 
 /* Lists */
