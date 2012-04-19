@@ -108,3 +108,7 @@ body {
     
 }
 
+.card_detail {
+    overflow:scroll;
+}
+
