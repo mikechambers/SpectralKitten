@@ -37,10 +37,10 @@
 	<!-- View 1 -->
 	<div id="view1" class="viewcontainer height_inherit viewhidden">
 		<div id="list_container" class="height_inherit listholder">
-            
         </div>
-        <div id="list_holder" class="height_inherit"></div>
-		<div>Details</div>
+        
+		<div id="view_1_content" class="height_inherit"></div>
+		<div id="list_holder" class="height_inherit"></div>
 	</div>
 	<!-- End View 1 -->
 	
@@ -58,7 +58,7 @@
 	<div class="template list height_inherit listholder" id="{{div_id}}">
 		<ul id="card_list">
 			{{#each cards}}
-			<li data-card_num="{{this.id}}">{{this.name}}</li>
+			<li data-card_id="{{this.id}}">{{this.name}}</li>
 			{{/each}}
 		</ul>
 	</div>
@@ -106,6 +106,7 @@
 		</hgroup>
 	</div>
 </script>
+<<<<<<< HEAD
 
 <!-- HandleBars Card Detail Template //-->
 <script id="cardDisplay_template" type="text/x-handlebars-template">
@@ -146,6 +147,48 @@
 	  </div>
 	</div>
 </script>	
+=======
+	
+<script id="card-detail-template" type="text/x-handlebars-template">
+	<div class="row template card_detail">
+	  <div class="span4">
+	  	<ul>
+			<li>Name: {{card.name}}</li>
+			<li>Faction: {{card.faction.name}}</li>
+			<li>Race: {{card.race.name}}</li>
+			<li>Card: {{card.card_class.name}}</li>
+
+			<li>Attack: {{card.attack}}</li>
+			<li>Defense: {{card.defense}}</li>
+			<li>Health: {{card.health}}</li>
+			<li>Rules: {{card.rules}}</li>
+
+			<ul>
+			{{#each professions}}
+				<li>{{this.name}}</li>
+			{{/each}}
+			</ul>
+
+			<ul>
+			{{#each talents}}
+				<li>{{this.name}}</li>
+			{{/each}}
+			</ul>
+
+		</ul>
+	  </div>
+	  <div class="span8">
+	  	<div id="logos">
+			<a id="cube" href="#">
+				<img id="cardFront" src="{{card_image}}" />
+				<img id="cardBack" src="{{card_reverse_image}}" />
+			</a>
+	  	</div>
+	  </div>
+	</div>
+</script>    
+    
+>>>>>>> 546d93aca1f3db0e3e01ae2081dce7d616085ecc
 	
 <footer>
 

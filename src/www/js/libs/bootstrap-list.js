@@ -253,7 +253,7 @@
 					var self = this;
 					setTimeout( function() {
 							var data = { selectedIndex: index, 
-										 srcElement: event.srcElement, 
+										 srcElement: $(event.srcElement), 
 										 item: self.dataProvider[index]  }
 							var e = jQuery.Event("change", data);
 							self.$el.trigger( e );
@@ -317,7 +317,7 @@
 				$(this).css("display", "none");
 			})
 			
-			while (((i)*this.itemHeight) <= (height+this.itemHeight)) {
+			while (((i)*this.itemHeight) < (height+this.itemHeight)) {
 			
 				var index = Math.max(  startPosition+i, 0 )
 				index = Math.min( index, this.dataProvider.length );
@@ -349,9 +349,21 @@
     	var targetHeight = Math.min(maxScrollbarHeight / maxItemsHeight, 1) * maxScrollbarHeight;
     	var actualHeight = Math.max(targetHeight, this.SCROLLBAR_MIN_SIZE);
     	this.$scrollbar.height( actualHeight );
-    	
-    	var scrollPosition = this.SCROLLBAR_BORDER+((this.yPosition/(maxItemsHeight-height)) * (maxScrollbarHeight-actualHeight));
-    	this.$scrollbar.css( "top", scrollPosition );
+    	var parent = this.$scrollbar.parent()
+        
+        if ((this.dataProvider.length * this.itemHeight) <= this.$el.height() ) {
+        	if ( parent.length > 0 ) {
+        		this.$scrollbar.remove();
+        	}
+        }
+        else {
+        	if ( parent.length <= 0 ) {
+        		this.$el.append( this.$scrollbar );
+        	}
+			var scrollPosition = this.SCROLLBAR_BORDER+((this.yPosition/(maxItemsHeight-height)) * (maxScrollbarHeight-actualHeight));
+			this.$scrollbar.css( "top", scrollPosition );
+        }
+        
     },
     
     updateVelocity: function( yDelta ) {
@@ -372,7 +384,7 @@
     	//detect bounds and "snap back" if needed
     	var startPosition = Math.ceil(this.yPosition/this.itemHeight);
 	
-		if ( startPosition < 0 && this.yPosition <= 0 ) {
+		if ( startPosition < 0 && this.yPosition <= 0 || (this.dataProvider.length * this.itemHeight) < this.$el.height() ) {
 			 this.snapToTop();
 			 return;
 		}
@@ -406,15 +418,20 @@
     	var self = this;
     	var snapRatio = 1.5;
     	this.stopAnimation();
+    	var targetPosition = 0;
     	
-    	if ( this.yPosition < -1 ) {
-    		this.yPosition = this.yPosition/snapRatio;
+    	if ( this.yPosition != 0 ) {
+    		this.yPosition += (targetPosition-this.yPosition)/snapRatio;
+    		this.yPosition = Math.round(this.yPosition)
+    		//console.log( this.yPosition );
     		this.updateLayout();
 			this.animationTimeout = setTimeout( function() { self.snapToTop() }, animationInterval );	
     	}
 	    else {
+    		this.updateLayout();
 	    	this.cleanupListItems();
 	    }
+    		console.log( this.yPosition );
     },
     
     snapToBottom: function() {
@@ -425,9 +442,10 @@
     	
     	var maxPosition = (this.dataProvider.length*this.itemHeight) - (this.$el.height()+this.itemHeight)
 		if ( this.yPosition > maxPosition ) {
-			var diff = maxPosition - this.yPosition;
-			diff = diff/snapRatio;
-			this.yPosition += diff;
+			
+			
+			this.yPosition += (maxPosition - this.yPosition)/snapRatio;
+			
     		this.updateLayout();
 			this.animationTimeout = setTimeout( function() { self.snapToBottom() }, animationInterval );	
 		}

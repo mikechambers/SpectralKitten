@@ -13,13 +13,35 @@ body {
 	position:absolute;
 }
 
+.template{
+}
+
+.card_detail, .series_detail{
+	position:absolute;
+	-webkit-transition: top 0.3s linear;
+	transition: top 0.3s linear;
+	background-color:#FFFFFF;
+	width:100%;
+	height:100%;
+}
+
+
 #viewport{
 	top:40px;
 }
 
+#view_1_content{
+	position:absolute;
+	width:100%;
+	left:200px;
+	margin:1px;
+	padding:1px;
+}
+
 /* Lists */
 #list_container {
-	width: 200px
+	width: 200px;
+        
 }
 
 #set_list_container {
@@ -33,6 +55,7 @@ body {
     width: 200px;
     height: 100%;
     -webkit-transition: left 0.3s linear;
+    transition: left 0.3s linear;
     position:absolute;
     z-index:10;
     background-color: #fff;
@@ -68,6 +91,7 @@ body {
     border: 1px solid #000;
 	left: 0px;
 	-webkit-transition: left 0.3s linear;
+	transition: left 0.3s linear;
 }
 
 .viewcontainer {
@@ -77,5 +101,10 @@ body {
 
 .viewhidden {
     visibility: hidden;
+}
+
+#content {
+    float: left;
+    
 }
 

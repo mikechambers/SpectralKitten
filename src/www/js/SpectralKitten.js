@@ -118,6 +118,26 @@
 			
 			return out;
 		}
+            
+        this.getCard = function(id) {
+            var out = null;
+            
+            if(!_cards) {
+                return out;
+            }
+            
+            var len = _cards.length;
+            
+            var c;
+            for(var i = 0; i < len; i++) {
+                c = _cards[i];
+                
+                
+                if(c.id === id){
+                    return c;
+                }
+            }
+        }
 
 		var loadRemoteData = function(successCallback, errorCallback) {
 
@@ -208,8 +228,6 @@
 						
 						_cards = data.cards;
 						_series = data.series;
-						
-						console.log(_series);
 
 						if (successCallback) {
 							successCallback(data);

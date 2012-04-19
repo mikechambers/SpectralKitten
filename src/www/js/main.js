@@ -1,12 +1,13 @@
+
+;(function(exports) {
+	'use strict';
+
 var views;
 var viewportWidth;
 var spectralKitten;
 
 $(document).ready(function() {
-	$("#set_list").list();
-    $("#list_container").bind('change',function(e) {
-        // don't think I need this anymore. 
-    });
+
 	$(".nav").click(function(event) {
 		$(".active").removeClass("active");
 		$(event.target).parent().addClass("active");
@@ -48,23 +49,47 @@ $(document).ready(function() {
 		function(error) {
 			console.log('could not initialize data');
 		},
-		true /* force loading of data from server*/
+		false /* force loading of data from server*/
 	);
 	
 });
 
-/*series is a single series item*/
-function renderSeriesDetail(series){
 
-	var source = $('#series-detail-template').html();
+function renderDetailTemplate(template, context){
+	var source = $(template).html();
 	var template = Handlebars.compile(source);
-	var context = {"series": series};
 	var html = template(context);
 	
-	//todo: put html on stack and animate in
+	var detail = $(html);
+	var h = $(window).height();
+	detail.css("top", h);
+	
+	$("#view_1_content").append(detail);
+
+	window.webkitRequestAnimationFrame(
+		function(){
+			detail.css("top", 0);
+		}
+	);
+	
+	$('#cube').hover(function(){
+		$(this).addClass('rotate');
+	},function(){
+		$(this).removeClass('rotate');
+	});
+}
+	
+function renderCardDetail(card){
+	renderDetailTemplate("#card-detail-template", {"card": card});
+}
+	
+/*series is a single series item*/
+function renderSeriesDetail(series){
+	renderDetailTemplate("#series-detail-template", {"series": series});
 }
 
-function renderCardList(cards,series_id){
+//todo : there wont always be a series_id
+function renderCardList(cards, series_id){
     var source = $('#card-list-template').html();
     var template = Handlebars.compile(source);
 
@@ -74,10 +99,15 @@ function renderCardList(cards,series_id){
     var context = {"cards":cards, "div_id":div_id};
     var cardlist = template(context);
  
-    
-    $(cardlist).appendTo("#list_holder");
-    $("#list_holder").children().last().list();
-    $("#list_holder").children().last().css("left",0);
+    var list = $(cardlist).appendTo("#list_holder");
+    list.bind('change', function(event) {
+        var card_id = $(event.srcElement).data("card_id");
+        var c = spectralKitten.getCard(card_id);
+		renderCardDetail(c);
+    });
+	
+	list.list();
+    list.css("left",0);
 }
 
 /* series is an array of series */
@@ -98,8 +128,6 @@ function renderSeriesList(series){
 			var series_id = $(event.srcElement).data("series_id");
 			var t = new Date().getTime();
 			var series = spectralKitten.getCardsBySet(series_id);
-			
-            console.log(spectralKitten);
             
 			var s = spectralKitten.getSeries(series_id);
 
@@ -123,15 +151,5 @@ function onSelectView(event) {
 	
 }
 
-function renderCardData(cardData){
-	var cardDisplaySource = $("#cardDisplay_template").html();
-	var cardDisplayTemplate = Handlebars.compile(cardDisplaySource);
-	cardDisplaySource = cardDisplayTemplate(cardData);
-	$("#cardInfo").html(cardDisplaySource);
-	
-	$('#cube').hover(function(){
-		$(this).addClass('rotate');
-	},function(){
-		$(this).removeClass('rotate');
-	});
-}
+}(this));
+
