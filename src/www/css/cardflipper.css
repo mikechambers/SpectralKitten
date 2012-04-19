@@ -1,8 +1,8 @@
-#cards { 
+.cards { 
 	height: 308px;
 }
 
-#cube {
+.cube {
 	display: block;  
 	position: relative;  
 	margin: 10px;
@@ -11,7 +11,7 @@
 	-webkit-perspective: 1000;
 }
 
-#cardFront {
+.cardFront {
 	position: absolute;  
 	height: 308px; 
 	width: 220px;
@@ -31,7 +31,7 @@
 	transition: all 1s ease-in-out;
 }
 
-#cardBack {
+.cardBack {
 	position: absolute;  
 	height: 308px;  
 	width: 220px;
@@ -52,12 +52,12 @@
 	transition: all 1s ease-in-out;
 }
 
-#cube.rotate #cardFront{
+.cube.rotate .cardFront{
 	-webkit-transform: rotateY(180deg);
 	z-index:200;
 }
 
-#cube.rotate #cardBack{
+.cube.rotate .cardBack{
 	z-index:300;
 	-webkit-transform: rotateY(0deg);
 }

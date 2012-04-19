@@ -12,7 +12,8 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-list.css">
 	<link rel="stylesheet" href="css/style.css">
-    
+	<link rel="stylesheet" href="css/cardflipper.css">
+	
 </head>
 <body>
 	
@@ -136,10 +137,14 @@
 		</ul>
 	  </div>
 	  <div class="span8">
-	  	<div id="cards">
-			<div id="cube">
-     			<img id="cardFront" src="{{card_image}}" />
-      			<img id="cardBack" src="{{card_reverse_image}}" />
+	  	<div class="cards">
+			<div class="cube">
+     			<img class="cardFront" src="{{card.card_image}}" />
+     			{{#if card.card_reverse_image}}
+      				<img class="cardBack" src="{{card.card_reverse_image}}" />
+      			{{else}}
+      				<img class="cardBack" src="assets/back.jpg" />
+      			{{/if}}
      		</div>
  	 	
    		</div>

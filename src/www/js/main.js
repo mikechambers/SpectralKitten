@@ -71,16 +71,23 @@ function renderDetailTemplate(template, context){
 			detail.css("top", 0);
 		}
 	);
-	
-	$('#cube').hover(function(){
-		$(this).addClass('rotate');
-	},function(){
-		$(this).removeClass('rotate');
-	});
 }
-	
+
 function renderCardDetail(card){
-	renderDetailTemplate("#card-detail-template", {"card": card});
+	$(".cube").unbind('mouseenter mouseleave');
+	function cardPathWin(imgPath){
+		card.card_image = imgPath;
+		
+		renderDetailTemplate("#card-detail-template", {"card": card});
+		
+		$('.cube').hover(function(){
+			$(this).addClass('rotate');
+		},function(){
+			$(this).removeClass('rotate');
+		});
+	}
+
+	spectralKitten.getCardImagePath(card.card_image,cardPathWin,'');
 }
 	
 /*series is a single series item*/
