@@ -107,29 +107,29 @@
 	</div>
 </script>
 	
-<script id="cardDisplay_template" type="text/x-handlebars-template">
-	<div class="row">
+<script id="card-detail-template" type="text/x-handlebars-template">
+	<div class="row template card_detail">
 	  <div class="span4">
 	  	<ul>
-			<li>Name: {{name}}</li>
-			<li>Faction: {{faction.name}}</li>
-			<li>Race: {{race.name}}</li>
-			<li>Card: {{card_class.name}}</li>
+			<li>Name: {{card.name}}</li>
+			<li>Faction: {{card.faction.name}}</li>
+			<li>Race: {{card.race.name}}</li>
+			<li>Card: {{card.card_class.name}}</li>
 
-			<li>Attack: {{attack}}</li>
-			<li>Defense: {{defense}}</li>
-			<li>Health: {{health}}</li>
-			<li>Rules: {{rules}}</li>
+			<li>Attack: {{card.attack}}</li>
+			<li>Defense: {{card.defense}}</li>
+			<li>Health: {{card.health}}</li>
+			<li>Rules: {{card.rules}}</li>
 
 			<ul>
 			{{#each professions}}
-				<li>{{name}}</li>
+				<li>{{this.name}}</li>
 			{{/each}}
 			</ul>
 
 			<ul>
 			{{#each talents}}
-				<li>{{name}}</li>
+				<li>{{this.name}}</li>
 			{{/each}}
 			</ul>
 

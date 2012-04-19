@@ -54,6 +54,26 @@ $(document).ready(function() {
 	
 });
 
+
+function renderCardDetail(card){
+	var source = $('#card-detail-template').html();
+	var template = Handlebars.compile(source);
+	var context = {"card": card};
+	var html = template(context);
+	
+	var detail = $(html);
+	var h = $(window).height();
+	detail.css("top", h);
+	
+	$("#view_1_content").append(detail);
+
+	window.webkitRequestAnimationFrame(
+		function(){
+			detail.css("top", 0);
+		}
+	);
+}
+	
 /*series is a single series item*/
 function renderSeriesDetail(series){
 
@@ -75,7 +95,8 @@ function renderSeriesDetail(series){
 	);
 }
 
-function renderCardList(cards,series_id){
+//todo : there wont always be a series_id
+function renderCardList(cards, series_id){
     var source = $('#card-list-template').html();
     var template = Handlebars.compile(source);
 
@@ -88,13 +109,15 @@ function renderCardList(cards,series_id){
     var list = $(cardlist).appendTo("#list_holder");
     list.bind('change', function(event) {
         var card_id = $(event.srcElement).data("card_id");
-        spectralKitten.getCard(card_id);
+        var c = spectralKitten.getCard(card_id);
+		renderCardDetail(c);
         
         //var cardDisplaySource = $("#cardDisplay_template").html();
         //var cardDisplayTemplate = Handlebars.compile(cardDisplaySource);
         //cardDisplaySource = cardDisplayTemplate(cardData.cards[0]);
         //$("#cardInfo").html(cardDisplaySource);
     });
+	
 	list.list();
     list.css("left",0);
 }
