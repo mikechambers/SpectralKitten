@@ -110,30 +110,91 @@
 <script id="card-detail-template" type="text/x-handlebars-template">
 	<div class="row template card_detail">
 	  <div class="span4">
-	  	<ul>
-			<li>Name: {{card.name}}</li>
-			<li>Faction: {{card.faction.name}}</li>
-			<li>Race: {{card.race.name}}</li>
-			<li>Card: {{card.card_class.name}}</li>
+        <!-- Basics -->
+        <div>{{card.name}}</div>
+        <div>ID: {{card.id}}</div>
+        <div>Wowtcgdb ID: {{card.wowtcgdb_id}}</div>
+        {{#if card.faction.name}}
+        <div>Faction: {{card.faction.name}}</div>
+        {{/if}}
+        {{#if card.card_class.name}}
+        <div>Class: {{card.card_class.name}} ({{card.card_class.abbreviation}})</div>
+        {{/if}}
+        <div>Race: {{card.race.name}}</div>
+        <div>Card: {{card.card_class.name}}</div>
+        <div>Cost: {{card.cost}}</div>
+        <div>Rarity: {{card.rarity.name}} ({{card.rarity.abbreviation}})</div>
+        <div>Image (should be image once I know path) {{card.card_image}}</div>
 
-			<li>Attack: {{card.attack}}</li>
-			<li>Defense: {{card.defense}}</li>
-			<li>Health: {{card.health}}</li>
-			<li>Rules: {{card.rules}}</li>
+        <!-- Series (not sure if we need this) -->
+        <div>Series:
+        <ul>
+            <li>Boosters: {{card.series.hasBooster}}</li>
+            <li>Type: {{card.series.type.name}}</li>
+            <li>Name: {{card.series.name}}</li>
+            <li>Block: {{card.series.block.name}}</li>
+            <li>ID: {{card.series.id}}</li>
+        </ul>
 
-			<ul>
-			{{#each professions}}
-				<li>{{this.name}}</li>
-			{{/each}}
-			</ul>
+        <!-- Stats -->
+        <div>Attack: {{card.attack}}</div>
+        <div>Defense: {{card.defense}}</div>
+        <div>Health: {{card.health}}</div>
+        <div>Rules: {{card.rules}}</div>
+        {{#if card.strike_cost}}
+            <div>{{card.strike_cost}}</div>
+        {{/if}}
+        
+        <div>Type: {{card.type.name}}</div>
+        {{#if card.ally_type}}
+            <div>Ally Type: {{card.ally_type}}</div>
+        {{/if}}
 
+        <div>Damage Types:
+            <ul>
+            {{#each damage_type}}
+                <!-- get damage type thing -->
+            {{/each}}
+            </ul>
+        </div>
+
+        <p>{{ card.rules }}</p>
+
+
+
+        <!-- Other metadata -->
+        <div>Blocks: 
+            <ul>
+                {{#each blocks}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        <div>Professions:
+            <ul>
+                {{#each professions}}
+				    <li>{{this.name}}</li>
+                {{/each}}
+            </ul>
+        </div>    
+
+        <div>Talents:
 			<ul>
 			{{#each talents}}
 				<li>{{this.name}}</li>
 			{{/each}}
-			</ul>
+			</ul>    
+        </div>
 
-		</ul>
+        <div>Formats:
+            <ul>
+            {{#each damage_type}}
+                <!-- get damage type thing -->
+            {{/each}}
+            </ul>
+        </div>
+
+
 	  </div>
 	  <div class="span8">
 	  	<div id="logos">
