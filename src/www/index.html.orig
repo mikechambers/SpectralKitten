@@ -36,22 +36,17 @@
 <div id="slidecontainer" class="height_inherit">
 	<!-- View 1 -->
 	<div id="view1" class="viewcontainer height_inherit viewhidden">
+		<div id="list_container" class="height_inherit listholder">
+        </div>
 <<<<<<< HEAD
-        <div class="hiddenlist" id="listholder">Hidden</div>
-		<div class="list" id="set_list_container" >
-			<ul id="set_list">
-				<script id="card-list-template" type="text/x-handlebars-template">
-					{{#each cards}}
-					<li data-card_num="{{this.id}}">{{this.name}}</li>
-					{{/each}}
-				</script>
-			</ul>
-=======
-		<div id="list_container" class="height_inherit">
-			
->>>>>>> a1ff7e2c797fc0fa96544792b2d495d3129e2280
-		</div>
+        <div id="list_holder" class="height_inherit"></div>
+        <div id="content">Hello</div>
 		<div>Details</div>
+=======
+        
+		<div id="view_1_content" class="height_inherit"></div>
+		<div id="list_holder" class="height_inherit"></div>
+>>>>>>> 5a1630ddef48a9b5355b4cfe111e20bff8c01ff5
 	</div>
 	<!-- End View 1 -->
 	
@@ -64,9 +59,9 @@
 </div>
 </div>
 
-<!-- HandleBards Card List Template //-->
+<!-- HandleBars Card List Template //-->
 <script id="card-list-template" type="text/x-handlebars-template">
-	<div class="template list height_inherit" id="card_list_container">
+	<div class="template list height_inherit listholder" id="{{div_id}}">
 		<ul id="card_list">
 			{{#each cards}}
 			<li data-card_num="{{this.id}}">{{this.name}}</li>
@@ -75,14 +70,46 @@
 	</div>
 </script>
 
-<!-- HandleBards Series List Template //-->
+<!-- HandleBars Series List Template //-->
 <script id="series-list-template" type="text/x-handlebars-template">
 	<div class="template list height_inherit" id="series_list_container">
 		<ul id="series_list">
 			{{#each series}}
-			<li data-card_num="{{this.id}}">{{this.name}}</li>
+			<li data-series_id="{{this.id}}">{{this.name}}</li>
 			{{/each}}
 		</ul>
+	</div>
+</script>
+	
+	
+<!--
+        {
+            "hasBooster": true, 
+            "type": {
+                "name": "Core"
+            }, 
+            "name": "Twilight of the Dragons", 
+            "block": {
+                "name": "Heroes of Azeroth"
+            }, 
+            "id": 32
+        }
+-->
+	
+<!-- HandleBars Series Detail Template //-->
+<script id="series-detail-template" type="text/x-handlebars-template">
+	<div class="template series_detail">
+		<hgroup>
+			<h1>{{series.name}}</h1>
+			<dl class="dl-horizontal">
+				<dt>Type</dt>
+				<dd>{{series.type.name}}</dd>
+				<dt>Block</dt>
+				<dd>{{series.block.name}}</dd>
+				<dt>Has Booster?</dt>
+				<dd>{{series.hasBooster}}</dd>
+			</dl>
+		</hgroup>
 	</div>
 </script>
 	

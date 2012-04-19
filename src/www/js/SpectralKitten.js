@@ -208,8 +208,6 @@
 						
 						_cards = data.cards;
 						_series = data.series;
-						
-						console.log(_series);
 
 						if (successCallback) {
 							successCallback(data);
