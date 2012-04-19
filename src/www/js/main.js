@@ -55,10 +55,9 @@ $(document).ready(function() {
 });
 
 
-function renderCardDetail(card){
-	var source = $('#card-detail-template').html();
+function renderDetailTemplate(template, context){
+	var source = $(template).html();
 	var template = Handlebars.compile(source);
-	var context = {"card": card};
 	var html = template(context);
 	
 	var detail = $(html);
@@ -74,25 +73,13 @@ function renderCardDetail(card){
 	);
 }
 	
+function renderCardDetail(card){
+	renderDetailTemplate("#card-detail-template", {"card": card});
+}
+	
 /*series is a single series item*/
 function renderSeriesDetail(series){
-
-	var source = $('#series-detail-template').html();
-	var template = Handlebars.compile(source);
-	var context = {"series": series};
-	var html = template(context);
-
-	var detail = $(html);
-	var h = $(window).height();
-	detail.css("top", h);
-	
-	$("#view_1_content").append(detail);
-
-	window.webkitRequestAnimationFrame(
-		function(){
-			detail.css("top", 0);
-		}
-	);
+	renderDetailTemplate("#series-detail-template", {"series": series});
 }
 
 //todo : there wont always be a series_id
@@ -111,11 +98,6 @@ function renderCardList(cards, series_id){
         var card_id = $(event.srcElement).data("card_id");
         var c = spectralKitten.getCard(card_id);
 		renderCardDetail(c);
-        
-        //var cardDisplaySource = $("#cardDisplay_template").html();
-        //var cardDisplayTemplate = Handlebars.compile(cardDisplaySource);
-        //cardDisplaySource = cardDisplayTemplate(cardData.cards[0]);
-        //$("#cardInfo").html(cardDisplaySource);
     });
 	
 	list.list();
