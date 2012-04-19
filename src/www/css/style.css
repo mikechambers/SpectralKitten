@@ -19,7 +19,8 @@ body {
 
 /* Lists */
 #list_container {
-	width: 200px
+	width: 200px;
+        
 }
 
 #set_list_container {
@@ -77,5 +78,10 @@ body {
 
 .viewhidden {
     visibility: hidden;
+}
+
+#content {
+    float: left;
+    
 }
 
