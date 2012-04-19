@@ -7,13 +7,6 @@ var viewportWidth;
 var spectralKitten;
 
 $(document).ready(function() {
-	$("#set_list").list();
-	
-	/*
-    $("#list_container").bind('change',function(e) {
-        // don't think I need this anymore.
-    });
-	*/
 
 	$(".nav").click(function(event) {
 		$(".active").removeClass("active");
@@ -56,7 +49,7 @@ $(document).ready(function() {
 		function(error) {
 			console.log('could not initialize data');
 		},
-		true /* force loading of data from server*/
+		false /* force loading of data from server*/
 	);
 	
 });
@@ -92,7 +85,6 @@ function renderCardList(cards,series_id){
     var context = {"cards":cards, "div_id":div_id};
     var cardlist = template(context);
  
-    
     var list = $(cardlist).appendTo("#list_holder");
 	list.list();
     list.css("left",0);
