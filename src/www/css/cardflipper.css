@@ -1,0 +1,63 @@
+.cards { 
+	height: 308px;
+}
+
+.cube {
+	display: block;  
+	position: relative;  
+	margin: 10px;
+	height: 308px;  
+	width: 220px;
+	-webkit-perspective: 1000;
+}
+
+.cardFront {
+	position: absolute;  
+	height: 308px; 
+	width: 220px;
+	z-index: 200;
+	-webkit-transform: rotateY(0deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	
+	-moz-transform: rotateY(0deg);
+	-moz-transform-style: preserve-3d;
+	-moz-backface-visibility: hidden;
+	
+	-o-transition: all 1s ease-in-out;
+	-ms-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
+}
+
+.cardBack {
+	position: absolute;  
+	height: 308px;  
+	width: 220px;
+	z-index: 100;
+	
+	-webkit-transform: rotateY(-180deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	
+	-moz-transform: rotateY(-180deg);
+	-moz-transform-style: preserve-3d;
+	-moz-backface-visibility: hidden;
+	
+	-o-transition: all 1s ease-in-out;
+	-ms-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
+}
+
+.cube.rotate .cardFront{
+	-webkit-transform: rotateY(180deg);
+	z-index:200;
+}
+
+.cube.rotate .cardBack{
+	z-index:300;
+	-webkit-transform: rotateY(0deg);
+}

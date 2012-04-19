@@ -134,11 +134,9 @@
                 
                 
                 if(c.id === id){
-                    console.log(c);
                     return c;
                 }
             }
-            
         }
 
 		var loadRemoteData = function(successCallback, errorCallback) {
