@@ -2,6 +2,8 @@
 
 src/www/assets/
 
+*.orig
+
 # SVN directories
 .svn
 
