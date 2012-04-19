@@ -53,7 +53,7 @@
 </div>
 </div>
 
-<!-- HandleBards Card List Template //-->
+<!-- HandleBars Card List Template //-->
 <script id="card-list-template" type="text/x-handlebars-template">
 	<div class="template list height_inherit listholder" id="{{div_id}}">
 		<ul id="card_list">
@@ -64,7 +64,7 @@
 	</div>
 </script>
 
-<!-- HandleBards Series List Template //-->
+<!-- HandleBars Series List Template //-->
 <script id="series-list-template" type="text/x-handlebars-template">
 	<div class="template list height_inherit" id="series_list_container">
 		<ul id="series_list">
@@ -72,6 +72,38 @@
 			<li data-series_id="{{this.id}}">{{this.name}}</li>
 			{{/each}}
 		</ul>
+	</div>
+</script>
+	
+	
+<!--
+        {
+            "hasBooster": true, 
+            "type": {
+                "name": "Core"
+            }, 
+            "name": "Twilight of the Dragons", 
+            "block": {
+                "name": "Heroes of Azeroth"
+            }, 
+            "id": 32
+        }
+-->
+	
+<!-- HandleBars Series Detail Template //-->
+<script id="series-detail-template" type="text/x-handlebars-template">
+	<div class="template series_detail">
+		<hgroup>
+			<h1>{{series.name}}</h1>
+			<dl class="dl-horizontal">
+				<dt>Type</dt>
+				<dd>{{series.type.name}}</dd>
+				<dt>Block</dt>
+				<dd>{{series.block.name}}</dd>
+				<dt>Has Booster?</dt>
+				<dd>{{series.hasBooster}}</dd>
+			</dl>
+		</hgroup>
 	</div>
 </script>
 	

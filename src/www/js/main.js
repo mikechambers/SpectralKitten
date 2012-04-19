@@ -53,6 +53,17 @@ $(document).ready(function() {
 	
 });
 
+/*series is a single series item*/
+function renderSeriesDetail(series){
+
+	var source = $('#series-detail-template').html();
+	var template = Handlebars.compile(source);
+	var context = {"series": series};
+	var html = template(context);
+	
+	//todo: put html on stack and animate in
+}
+
 function renderCardList(cards,series_id){
     var source = $('#card-list-template').html();
     var template = Handlebars.compile(source);
@@ -67,24 +78,9 @@ function renderCardList(cards,series_id){
     $(cardlist).appendTo("#list_holder");
     $("#list_holder").children().last().list();
     $("#list_holder").children().last().css("left",0);
-    
-    
-    //$(cardlist).css("left","400px");
-    
-    /*
-    setTimeout(function(){
-        //console.log($(cardlist).css("left"));
-        document.getElementById(div_id).style.left = "0px";
-        console.log($(cardlist).css("left"));
-    }, 1000);    
-    */
-      
-    //$(cardlist).list();    
-    
-    //$(seriesdiv).css("left",0);
-    
 }
 
+/* series is an array of series */
 function renderSeriesList(series){
 	var source = $('#series-list-template').html();
 	var template = Handlebars.compile(source);
@@ -101,8 +97,15 @@ function renderSeriesList(series){
 		function( event ){
 			var series_id = $(event.srcElement).data("series_id");
 			var t = new Date().getTime();
-			var cards = spectralKitten.getCardsBySet(series_id);
-            renderCardList(cards,series_id);
+			var series = spectralKitten.getCardsBySet(series_id);
+			
+            console.log(spectralKitten);
+            
+			var s = spectralKitten.getSeries(series_id);
+
+            renderCardList(series,series_id);
+			
+			renderSeriesDetail(s);
 		}
 	);
     $("#list_container").css("left",0);
