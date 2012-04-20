@@ -400,84 +400,80 @@
 	SpectralKitten.parseCardRules = function(rules){
 		
 		var keywordsRegEx = [
-			{"re":new RegExp("Dual Wield","g"),"rw":"Dual Wield"},
-			{"re":new RegExp("Ongoing","g"),"rw":"Ongoing"},
-			{"re":new RegExp("Protector","g"),"rw":"Protector"},
-			{"re":new RegExp("Ferocity","g"),"rw":"Ferocity"},
-			{"re":new RegExp("Elusive","g"),"rw":"Elusive"},
-			{"re":new RegExp("Totem","g"),"rw":"Totem"},
-			{"re":new RegExp("Air","g"),"rw":"Air"},
-			{"re":new RegExp("Earth","g"),"rw":"Earth"},
-			{"re":new RegExp("Fire","g"),"rw":"Fire"},
-			{"re":new RegExp("Water","g"),"rw":"Water"},
-			{"re":new RegExp("Stealth","g"),"rw":"Stealth"},
-			{"re":new RegExp("Untargetable","g"),"rw":"Untargetable"},
-			{"re":new RegExp("Thrown","g"),"rw":"Thrown"},
-			{"re":new RegExp("Shadowmeld","g"),"rw":"Shadowmeld"},
-			{"re":new RegExp("Death Rattle","g"),"rw":"Death Rattle"},
-			{"re":new RegExp("Conspicuous","g"),"rw":"Conspicuous"},
-			{"re":new RegExp("Inspire","g"),"rw":"Inspire"},
-			{"re":new RegExp("Sabotage","g"),"rw":"Sabotage"},
-			{"re":new RegExp("Diplomacy","g"),"rw":"Diplomacy"},
-			{"re":new RegExp("Long-Range","g"),"rw":"Long-Range"},
-			{"re":new RegExp("Reward","g"),"rw":"Reward"},
-			{"re":new RegExp("Trap","g"),"rw":"Trap"},
-			{"re":new RegExp("Sextuple Wield","g"),"rw":"Sextuple Wield"},
-			{"re":new RegExp("Finishing Move","g"),"rw":"Finishing Move"},
-			{"re":new RegExp("War Stomp","g"),"rw":"War Stomp"},
-			{"re":new RegExp("Berserking","g"),"rw":"Berserking"},
-			{"re":new RegExp("AWESOME","g"),"rw":"AWESOME"},
-			{"re":new RegExp("Inspiring Presence","g"),"rw":"Inspiring Presence"},
-			{"re":new RegExp("Hardiness","g"),"rw":"Hardiness"},
-			{"re":new RegExp("Arcane Torrent","g"),"rw":"Arcane Torrent"},
-			{"re":new RegExp("Escape Artist","g"),"rw":"Escape Artist"},
-			{"re":new RegExp("Find Treasure","g"),"rw":"Find Treasure"},
-			{"re":new RegExp("Will of the Forsaken","g"),"rw":"Will of the Forsaken"},
-			{"re":new RegExp("irradiated","g"),"rw":"irradiated"},
-			{"re":new RegExp("Preparation","g"),"rw":"Preparation"},
-			{"re":new RegExp("Invincible","g"),"rw":"Invincible"},
-			{"re":new RegExp("Bear Form","g"),"rw":"Bear Form"},
-			{"re":new RegExp("Cat Form","g"),"rw":"Cat Form"}
+			{re:new RegExp("(Dual Wield)","g"),rw:""},
+			{re:new RegExp("(Ongoing)","g"),rw:""},
+			{re:new RegExp("(Protector)","g"),rw:""},
+			{re:new RegExp("(Ferocity)","g"),rw:""},
+			{re:new RegExp("(Elusive)","g"),rw:""},
+			{re:new RegExp("(Totem)","g"),rw:""},
+			{re:new RegExp("(Air)","g"),rw:""},
+			{re:new RegExp("(Earth)","g"),rw:""},
+			{re:new RegExp("(Fire)","g"),rw:""},
+			{re:new RegExp("(Water)","g"),rw:""},
+			{re:new RegExp("(Stealth)","g"),rw:""},
+			{re:new RegExp("(Untargetable)","g"),rw:""},
+			{re:new RegExp("(Thrown)","g"),rw:""},
+			{re:new RegExp("(Shadowmeld)","g"),rw:""},
+			{re:new RegExp("(Death Rattle)","g"),rw:""},
+			{re:new RegExp("(Conspicuous)","g"),rw:""},
+			{re:new RegExp("(Inspire)","g"),rw:""},
+			{re:new RegExp("(Sabotage)","g"),rw:""},
+			{re:new RegExp("(Diplomacy)","g"),rw:""},
+			{re:new RegExp("(Long-Range)","g"),rw:""},
+			{re:new RegExp("(Reward)","g"),rw:""},
+			{re:new RegExp("(Trap)","g"),rw:""},
+			{re:new RegExp("(Sextuple Wield)","g"),rw:""},
+			{re:new RegExp("(Finishing Move)","g"),rw:""},
+			{re:new RegExp("(War Stomp)","g"),rw:""},
+			{re:new RegExp("(Berserking)","g"),rw:""},
+			{re:new RegExp("(AWESOME)","g"),rw:""},
+			{re:new RegExp("(Inspiring Presence)","g"),rw:""},
+			{re:new RegExp("(Hardiness)","g"),rw:""},
+			{re:new RegExp("(Arcane Torrent)","g"),rw:""},
+			{re:new RegExp("(Escape Artist)","g"),rw:""},
+			{re:new RegExp("(Find Treasure)","g"),rw:""},
+			{re:new RegExp("(Will of the Forsaken)","g"),rw:""},
+			{re:new RegExp("(irradiated)","g"),rw:""},
+			{re:new RegExp("(Preparation)","g"),rw:""},
+			{re:new RegExp("(Invincible)","g"),rw:""},
+			{re:new RegExp("(Bear Form)","g"),rw:""},
+			{re:new RegExp("(Cat Form)","g"),rw:""}
 		];
 			
+		var len = keywordsRegEx.length;
+		var k;
+		for(var i = 0; i < len; i++){
+			k = keywordsRegEx[i];
+			k.rw = "<span class=\"rules_keyword\">$1</span>";
+		}
+		
+		keywordsRegEx.push(
+			{re:/\n/g,rw:"<br class=\"rules_break\" />"},
+			{re:/>>>/g,rw:"<img src=\"/assets/payment_result.png\" />"},
+			{re:/\[Horde\]/g,rw:"<img src=\"/assets/horde_ally.png\" />"},
+			{re:/\[Alliance\]/g,rw:"<img src=\"/assets/alliance_ally.png\" />"},
+			{re:/\[Activate\]/g,rw:"<img src=\"/assets/activate.png\" />"},
+			{re:/\(/g,rw:"<span class=\"rules_sidenote\">"},
+			{re:/\)/g,rw:"</span>"},
+			{re:/(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9])/im,rw:"$1<span class=\"rules_pay\">&nbsp;<b>$2</b>&nbsp;</span>"},
+			{re:/Mend ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_mends\">Mend $1</span>"},
+			{re:/Assault ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_assault\">Assault $1</span>"},
+			{re:/([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)/,rw:"<span class=\"rules_required_hero\">$1$2</span>"},
+			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m,rw:"<span class=\"rules_resistance\">$1$2</span>"},
+			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m,rw:"<span class=\"rules_reputation\">$1$2</span>"}
+		);
+			
+		len = keywordsRegEx.length;
+		
 		var f = function(p){
-			var out = p;
-			
-			var len = keywordsRegEx.length;
-			
-			//globally replace line returns
-			out = out.replace(/\n/g, "<br class=\"rules_break\" />");
-			out = out.replace(/>>>/g, "<img src=\"/assets/payment_result.png\" />");
-			out = out.replace(/\[Horde\]/g, "<img src=\"/assets/horde_ally.png\" />");
-			out = out.replace(/\[Alliance\]/g, "<img src=\"/assets/alliance_ally.png\" />");
-			out = out.replace(/\[Activate\]/g, "<img src=\"/assets/activate.png\" />");
-			out = out.replace(/\(/g, "<span class=\"rules_sidenote\">");
-			out = out.replace(/\)/g, "</span>");
-			
-			var paysRegexp = new RegExp(/(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9])/im);
-			out = out.replace(paysRegexp,"$1<span class=\"rules_pay\">&nbsp;<b>$2</b>&nbsp;</span>" );
-			
-			var mendsRegexp = new RegExp(/Mend ([0-9]|[0-9][0-9]|X)/m);
-			out = out.replace(mendsRegexp,"<span class=\"rules_mends\">Mend $1</span>" );
-			
-			var assaultRegex = new RegExp(/Assault ([0-9]|[0-9][0-9]|X)/m);
-			out = out.replace(assaultRegex,"<span class=\"rules_assault\">Assault $1</span>" );
-			
-			var requiredHeroRegex = new RegExp(/([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)/);
-			out = out.replace(requiredHeroRegex,"<span class=\"rules_required_hero\">$1$2</span>" );
-			
-			var resistanceRegex = new RegExp(/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m);
-			out = out.replace(resistanceRegex,"<span class=\"rules_resistance\">$1$2</span>" );
-			
-			var reputationRegex = new RegExp(/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m);
-			out = out.replace(reputationRegex,"<span class=\"rules_reputation\">$1$2</span>" );			
+			var out = p;		
 
 			var k;
 			for(var i = 0; i < len; i++){
 				k = keywordsRegEx[i];
-				out = out.replace(k.re,"<span class=\"rules_keyword\">"+k.rw+"</span>");
+				out = out.replace(k.re,k.rw);
 			}
-			
+
 			return out;
 		}
 		
@@ -485,21 +481,7 @@
 		//variable in its scope. That way we dont have to recreate it each time
 		//or make it a static class variable
 		SpectralKitten.parseCardRules = f;
-		return f(rules);
-			
-		// [replaceDict setObject:@"</p><p>" forKey:@"<br>" ];
-		// [replaceDict setObject:@"</p><p>" forKey:@"\n" ];
-	/*
-	//[Ranged], [Health], Boots of Whirling mist
-	//[Nature] [Melee]
-	//fire damage - [FIRE]
-	//robotic homing chicken there is a period after elusive
-	//sister remba elusive and untergetable lower case are bolded
-	//Two-Handed dual wield
-	//lady katrana payment
-	//Totems - remove bold of this
-	//Mend - by itself
-*/		
+		return f(rules);	
 	}
 	
 	SpectralKitten.APP_DATA_FILE_NAME = 'cards.json';
