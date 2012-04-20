@@ -96,7 +96,7 @@ body {
 
 .viewcontainer {
 	position: relative;
-    float: left;
+	float: left;
 }
 
 .viewhidden {
@@ -105,10 +105,13 @@ body {
 
 #content {
     float: left;
-    
 }
 
-.card_detail {
-    overflow:scroll;
+.rules_keyword{
+	font-weight:bold;
 }
+
+br.rules_break{
+}
+
 
