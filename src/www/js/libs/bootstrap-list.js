@@ -118,6 +118,7 @@
     
     onTouchStart: function ( event ) {
     	this.stopAnimation();
+    	this.cleanupListItems();
 		
 		if ( this.touchSupported ) {
         	this.$scrollbar.fadeTo( 300,1 );
@@ -308,15 +309,39 @@
     		
 			var height = this.$el.height();
 			
-			var i = 0
+			var i = -1
 			var startPosition = Math.ceil(this.yPosition/this.itemHeight);
 			var offset = -(this.yPosition % this.itemHeight)
+			var ulTop = parseInt( this.$ul.css( "top" ) );
+			
+			this.setItemPosition( this.$ul, 0, -this.yPosition );
+				
 				
 			this.$ul.find( "li" ).each(function(i){
 				$(this).attr("processed", "false");
-				$(this).css("display", "none");
 			})
 			
+			while (((i)*this.itemHeight) < (height+this.itemHeight)) {
+			
+				var index = Math.max(  startPosition+i, 0 )
+				index = Math.min( index, this.dataProvider.length );
+				
+				var item = this.getItemAtIndex( index );
+				item.attr("processed", "true");
+				this.setItemPosition( item, 0, ((startPosition+i)*this.itemHeight) );
+				if ( item.parent().length <= 0 ) {
+					this.$ul.append( item );
+					
+					if ( this.itemHeight <= 0 ) {
+						this.itemHeight = item.outerHeight();
+						this.updateLayout();
+						return;
+					}
+				}
+				i++;
+			}
+			
+			/*
 			while (((i)*this.itemHeight) < (height+this.itemHeight)) {
 			
 				var index = Math.max(  startPosition+i, 0 )
@@ -336,6 +361,8 @@
 				}
 				i++;
 			}
+			*/
+			
 			if ( ignoreScrollbar != true ) {
 				this.updateScrollBar();
 			}
