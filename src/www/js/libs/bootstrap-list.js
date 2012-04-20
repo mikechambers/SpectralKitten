@@ -31,7 +31,8 @@
 		this.SCROLLBAR_BORDER = 1;
 		this.SCROLLBAR_MIN_SIZE = 10;
 		
-		
+		this.processedItems = {};
+		this.totalItems = [];
 		this.itemHeight = -1;
 			
     	this.touchSupported = ("onorientationchange" in window)
@@ -118,7 +119,7 @@
     
     onTouchStart: function ( event ) {
     	this.stopAnimation();
-    	this.cleanupListItems();
+    	this.cleanupListItems(true);
 		
 		if ( this.touchSupported ) {
         	this.$scrollbar.fadeTo( 300,1 );
@@ -210,7 +211,7 @@
         
         
         //limit the mouse wheel scroll area
-       	var maxPosition = ((this.dataProvider.length-1)*this.itemHeight) - this.$el.height()
+       	var maxPosition = ((this.dataProvider.length)*this.itemHeight) - this.$el.height()
 		if ( this.yPosition > maxPosition ) {
 			this.yPosition = maxPosition;
 		}
@@ -246,6 +247,7 @@
 				
 				if ( triggerEvent ) {
 					var index = $(event.srcElement).attr( "list-index" );
+					if (index == this.selectedIndex) return false;
 					this.setSelectedIndex( index );
 				
 					//make this asynch so that any "alert()" on a change event
@@ -274,16 +276,25 @@
 		$(window).unbind( this.TOUCH_END, this.scrollbarEndHandler )
     },
     
-    cleanupListItems: function() {
-		//remove any remaining LI elements hanging out on the dom	
-		this.$ul.find( "li" ).each(function(i){
-			var item = $(this);
-			if ( item.attr("processed") != "true" ) {
+    cleanupListItems: function(keepScrollBar) {
+		//remove any remaining LI elements hanging out on the dom
+		for ( var x=0; x<this.totalItems.length; x++ ) {
+			var item = this.totalItems[x]
+			var index = item.attr( "list-index" );
+			if ( this.processedItems[ index ] == undefined ) {
 				item.remove();
 			}
-		})
+		}
+		//cleanup totalItems array
+		var temp = [];
+		for (index in this.processedItems)
+		{
+			temp.push( this.processedItems[ index ] );
+		}
+		this.totalItems = temp;
 		
-		if ( this.touchSupported ) {
+		
+		if ( this.touchSupported && keepScrollBar != true ) {
 			this.$scrollbar.fadeTo( 300,0 );
 		}
     },
@@ -312,14 +323,9 @@
 			var i = -1
 			var startPosition = Math.ceil(this.yPosition/this.itemHeight);
 			var offset = -(this.yPosition % this.itemHeight)
-			var ulTop = parseInt( this.$ul.css( "top" ) );
 			
 			this.setItemPosition( this.$ul, 0, -this.yPosition );
-				
-				
-			this.$ul.find( "li" ).each(function(i){
-				$(this).attr("processed", "false");
-			})
+			this.processedItems = {};
 			
 			while (((i)*this.itemHeight) < (height+this.itemHeight)) {
 			
@@ -327,7 +333,9 @@
 				index = Math.min( index, this.dataProvider.length );
 				
 				var item = this.getItemAtIndex( index );
-				item.attr("processed", "true");
+				this.totalItems.push( item );
+				
+				this.processedItems[ index.toString() ] = item;
 				this.setItemPosition( item, 0, ((startPosition+i)*this.itemHeight) );
 				if ( item.parent().length <= 0 ) {
 					this.$ul.append( item );
@@ -341,28 +349,6 @@
 				i++;
 			}
 			
-			/*
-			while (((i)*this.itemHeight) < (height+this.itemHeight)) {
-			
-				var index = Math.max(  startPosition+i, 0 )
-				index = Math.min( index, this.dataProvider.length );
-				
-				var item = this.getItemAtIndex( index );
-				item.attr("processed", "true");
-				this.setItemPosition( item, 0, ((i)*this.itemHeight)+offset );
-				if ( item.parent().length <= 0 ) {
-					this.$ul.append( item );
-					
-					if ( this.itemHeight <= 0 ) {
-						this.itemHeight = item.outerHeight();
-						this.updateLayout();
-						return;
-					}
-				}
-				i++;
-			}
-			*/
-			
 			if ( ignoreScrollbar != true ) {
 				this.updateScrollBar();
 			}
@@ -372,7 +358,7 @@
     updateScrollBar: function() {
     	var height = this.$el.height();
     	var maxScrollbarHeight = this.$el.height() - (2*this.SCROLLBAR_BORDER);
-    	var maxItemsHeight = (this.dataProvider.length-1) * this.itemHeight;
+    	var maxItemsHeight = (this.dataProvider.length) * this.itemHeight;
     	var targetHeight = Math.min(maxScrollbarHeight / maxItemsHeight, 1) * maxScrollbarHeight;
     	var actualHeight = Math.max(targetHeight, this.SCROLLBAR_MIN_SIZE);
     	this.$scrollbar.height( actualHeight );
@@ -467,7 +453,7 @@
     	var snapRatio = 1.5;
     	this.stopAnimation();
     	
-    	var maxPosition = (this.dataProvider.length*this.itemHeight) - (this.$el.height()+this.itemHeight)
+    	var maxPosition = (this.dataProvider.length*this.itemHeight) - (this.$el.height())
 		if ( this.yPosition > maxPosition ) {
 			
 			
@@ -510,7 +496,7 @@
 			item.css( "left", x );
 			item.css( "top", y );
     	}
-    	item.css("display", "block");
+    	//item.css("display", "block");
     },
     
     getItemAtIndex: function( i ) {
@@ -603,7 +589,7 @@
 						    (this.$el.height()-(2*this.SCROLLBAR_BORDER)-this.$scrollbar.height())
 						 )*(this.itemHeight*this.dataProvider.length-1)
 		newYPosition = Math.max( 0, newYPosition );
-		newYPosition = Math.min( newYPosition, (this.itemHeight*(this.dataProvider.length-1))-(this.$el.height()-(2*this.SCROLLBAR_BORDER)-this.$scrollbar.height()) )
+		newYPosition = Math.min( newYPosition, (this.itemHeight*(this.dataProvider.length))-(this.$el.height()-(2*this.SCROLLBAR_BORDER)-this.$scrollbar.height()) )
 		
 		this.yPosition = newYPosition
 		this.updateLayout(true);
