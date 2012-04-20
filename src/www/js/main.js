@@ -74,7 +74,10 @@ function renderDetailTemplate(template, context){
 }
 	
 function renderCardDetail(card){
-	renderDetailTemplate("#card-detail-template", {"card": card});
+	
+	var rules = SpectralKitten.parseCardRules(card.rules);
+	console.log(rules);
+	renderDetailTemplate("#card-detail-template", {"card": card, "rules":rules});
 }
 	
 /*series is a single series item*/

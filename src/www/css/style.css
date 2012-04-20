@@ -96,7 +96,7 @@ body {
 
 .viewcontainer {
 	position: relative;
-    float: left;
+	float: left;
 }
 
 .viewhidden {
@@ -105,6 +105,13 @@ body {
 
 #content {
     float: left;
-    
 }
+
+.rules_keyword{
+	font-weight:bold;
+}
+
+br.rules_break{
+}
+
 

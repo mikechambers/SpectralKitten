@@ -397,6 +397,93 @@
 		};
 	};
 
+	SpectralKitten.parseCardRules = function(rules){
+		
+		var keywordsRegEx = [
+			{"re":new RegExp("Dual Wield","g"),"rw":"Dual Wield"},
+			{"re":new RegExp("Ongoing","g"),"rw":"Ongoing"},
+			{"re":new RegExp("Protector","g"),"rw":"Protector"},
+			{"re":new RegExp("Ferocity","g"),"rw":"Ferocity"},
+			{"re":new RegExp("Elusive","g"),"rw":"Elusive"},
+			{"re":new RegExp("Totem","g"),"rw":"Totem"},
+			{"re":new RegExp("Air","g"),"rw":"Air"},
+			{"re":new RegExp("Earth","g"),"rw":"Earth"},
+			{"re":new RegExp("Fire","g"),"rw":"Fire"},
+			{"re":new RegExp("Water","g"),"rw":"Water"},
+			{"re":new RegExp("Stealth","g"),"rw":"Stealth"},
+			{"re":new RegExp("Untargetable","g"),"rw":"Untargetable"},
+			{"re":new RegExp("Thrown","g"),"rw":"Thrown"},
+			{"re":new RegExp("Shadowmeld","g"),"rw":"Shadowmeld"},
+			{"re":new RegExp("Death Rattle","g"),"rw":"Death Rattle"},
+			{"re":new RegExp("Conspicuous","g"),"rw":"Conspicuous"},
+			{"re":new RegExp("Inspire","g"),"rw":"Inspire"},
+			{"re":new RegExp("Sabotage","g"),"rw":"Sabotage"},
+			{"re":new RegExp("Diplomacy","g"),"rw":"Diplomacy"},
+			{"re":new RegExp("Long-Range","g"),"rw":"Long-Range"},
+			{"re":new RegExp("Reward","g"),"rw":"Reward"},
+			{"re":new RegExp("Trap","g"),"rw":"Trap"},
+			{"re":new RegExp("Sextuple Wield","g"),"rw":"Sextuple Wield"},
+			{"re":new RegExp("Finishing Move","g"),"rw":"Finishing Move"},
+			{"re":new RegExp("War Stomp","g"),"rw":"War Stomp"},
+			{"re":new RegExp("Berserking","g"),"rw":"Berserking"},
+			{"re":new RegExp("AWESOME","g"),"rw":"AWESOME"},
+			{"re":new RegExp("Inspiring Presence","g"),"rw":"Inspiring Presence"},
+			{"re":new RegExp("Hardiness","g"),"rw":"Hardiness"},
+			{"re":new RegExp("Arcane Torrent","g"),"rw":"Arcane Torrent"},
+			{"re":new RegExp("Escape Artist","g"),"rw":"Escape Artist"},
+			{"re":new RegExp("Find Treasure","g"),"rw":"Find Treasure"},
+			{"re":new RegExp("Will of the Forsaken","g"),"rw":"Will of the Forsaken"},
+			{"re":new RegExp("irradiated","g"),"rw":"irradiated"},
+			{"re":new RegExp("Preparation","g"),"rw":"Preparation"},
+			{"re":new RegExp("Invincible","g"),"rw":"Invincible"},
+			{"re":new RegExp("Bear Form","g"),"rw":"Bear Form"},
+			{"re":new RegExp("Cat Form","g"),"rw":"Cat Form"}
+		];
+		
+		var f = function(p){
+			var out = p;
+			
+			var len = keywordsRegEx.length;
+			
+			//globally replace line returns
+			out = out.replace(/\n/g, "<br class=\"rules_break\" />");
+			
+			var k;
+			for(var i = 0; i < len; i++){
+				k = keywordsRegEx[i];
+				out = out.replace(k.re,"<span class=\"rules_keyword\">"+k.rw+"</span>");
+			}
+			
+			return out;
+		}
+		
+		//basically, we replace this function with f, which contains the keyword
+		//variable in its scope. That way we dont have to recreate it each time
+		//or make it a static class variable
+		SpectralKitten.parseCardRules = f;
+		return f(rules);
+			
+		// [replaceDict setObject:@"</p><p>" forKey:@"<br>" ];
+		// [replaceDict setObject:@"</p><p>" forKey:@"\n" ];
+	/*
+	[replaceDict setObject:@"<i>(" forKey:@"(" ];
+	[replaceDict setObject:@")</i>" forKey:@")" ];
+	[replaceDict setObject:activateImageHTML forKey:@"[Activate]" ];
+	[replaceDict setObject:paymentResultImageHTML forKey:@">>>" ];
+	[replaceDict setObject:hordeAllyImageHTML forKey:@"[Horde]" ];
+	[replaceDict setObject:allianceAllyImageHTML forKey:@"[Alliance]" ];
+	//[Ranged], [Health], Boots of Whirling mist
+	//[Nature]
+	//fire damage - [FIRE]
+	//robotic homing chicken there is a period after elusive
+	//sister remba elusive and untergetable lower case are bolded
+	//Two-Handed dual wield
+	//lady katrana payment
+	//Totems
+	//Mend - by itself
+*/		
+	}
+	
 	SpectralKitten.APP_DATA_FILE_NAME = 'cards.json';
 	SpectralKitten.SETTINGS_FILE_NAME = 'settings.json';
 	SpectralKitten.prototype.fileSystemManager = null;
