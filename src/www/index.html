@@ -140,7 +140,7 @@
         <div>Attack: {{card.attack}}</div>
         <div>Defense: {{card.defense}}</div>
         <div>Health: {{card.health}}</div>
-        <div>Rules: {{card.rules}}</div>
+        <div>Rules: {{{rules}}}</div>
         {{#if card.strike_cost}}
             <div>{{card.strike_cost}}</div>
         {{/if}}
@@ -157,10 +157,6 @@
             {{/each}}
             </ul>
         </div>
-
-        <p>{{{ card.rules }}}</p>
-
-
 
         <!-- Other metadata -->
         <div>Blocks: 

@@ -439,7 +439,7 @@
 			{"re":new RegExp("Bear Form","g"),"rw":"Bear Form"},
 			{"re":new RegExp("Cat Form","g"),"rw":"Cat Form"}
 		];
-		
+			
 		var f = function(p){
 			var out = p;
 			
@@ -447,7 +447,34 @@
 			
 			//globally replace line returns
 			out = out.replace(/\n/g, "<br class=\"rules_break\" />");
-			
+			out = out.replace(/>>>/g, "<img src=\"/assets/payment_result.png\" />");
+			out = out.replace(/\[Horde\]/g, "<img src=\"/assets/horde_ally.png\" />");
+			out = out.replace(/\[Alliance\]/g, "<img src=\"/assets/alliance_ally.png\" />");
+			out = out.replace(/\[Activate\]/g, "<img src=\"/assets/activate.png\" />");
+			out = out.replace(/\(/g, "<span class=\"rules_sidenote\">");
+			out = out.replace(/\)/g, "</span>");
+			/*
+	NSString *out2 = [NSString stringWithFormat:@"<p>%@</p>", out];
+	
+	GTMRegex *mendRegex = [GTMRegex regexWithPattern:@"Mend ([0-9]|[0-9][0-9]|X)" options:kGTMRegexOptionSupressNewlineSupport];
+	out2 = [mendRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>Mend \\1</b>"];
+
+	GTMRegex *paysRegex = [GTMRegex regexWithPattern:@"(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9]))" options:kGTMRegexOptionSupressNewlineSupport|kGTMRegexOptionIgnoreCase];
+	out2 = [paysRegex stringByReplacingMatchesInString:out2 withReplacement:@"\\1<span class='payCircle'>&nbsp;<b>\\2</b>&nbsp;</span>"];	
+	
+	GTMRegex *assaultRegex = [GTMRegex regexWithPattern:@"Assault ([0-9]|[0-9][0-9]|X)" options:kGTMRegexOptionSupressNewlineSupport];
+	out2 = [assaultRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>Assault \\1</b>"];	
+	
+
+	GTMRegex *requiredHeroRegex = [GTMRegex regexWithPattern:@"([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)"];
+	out2 = [requiredHeroRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>\\1\\2</b>"];		
+
+	GTMRegex *resistanceRegex = [GTMRegex regexWithPattern:@"([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)" options:kGTMRegexOptionSupressNewlineSupport];
+	out2 = [resistanceRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>\\1\\2</b>"];
+	
+	GTMRegex *reputationRegex = [GTMRegex regexWithPattern:@"([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)" options:kGTMRegexOptionSupressNewlineSupport];
+	out2 = [reputationRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>\\1\\2</b>"];
+	*/
 			var k;
 			for(var i = 0; i < len; i++){
 				k = keywordsRegEx[i];
@@ -466,20 +493,14 @@
 		// [replaceDict setObject:@"</p><p>" forKey:@"<br>" ];
 		// [replaceDict setObject:@"</p><p>" forKey:@"\n" ];
 	/*
-	[replaceDict setObject:@"<i>(" forKey:@"(" ];
-	[replaceDict setObject:@")</i>" forKey:@")" ];
-	[replaceDict setObject:activateImageHTML forKey:@"[Activate]" ];
-	[replaceDict setObject:paymentResultImageHTML forKey:@">>>" ];
-	[replaceDict setObject:hordeAllyImageHTML forKey:@"[Horde]" ];
-	[replaceDict setObject:allianceAllyImageHTML forKey:@"[Alliance]" ];
 	//[Ranged], [Health], Boots of Whirling mist
-	//[Nature]
+	//[Nature] [Melee]
 	//fire damage - [FIRE]
 	//robotic homing chicken there is a period after elusive
 	//sister remba elusive and untergetable lower case are bolded
 	//Two-Handed dual wield
 	//lady katrana payment
-	//Totems
+	//Totems - remove bold of this
 	//Mend - by itself
 */		
 	}

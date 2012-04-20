@@ -80,7 +80,14 @@ function renderCardDetail(card){
 	$(".cube").unbind('mouseenter mouseleave');
 	function cardPathWin(imgPath){		
 		
-		renderDetailTemplate("#card-detail-template", {"card": card, "card_image":imgPath});
+		renderDetailTemplate(
+			"#card-detail-template",
+			{
+				"card": card,
+				"card_image":imgPath,
+				"rules":rules
+			}
+		);
 		
 		$('.cube').hover(function(){
 			$(this).addClass('rotate');
