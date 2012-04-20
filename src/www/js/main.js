@@ -76,10 +76,10 @@ function renderDetailTemplate(template, context){
 		"webkitTransitionEnd",
 		function(){
 			if(currentCardDetailView){
-				currentCardDetailView.unbind("webkitTransitionEnd");
 				removeDetailView(currentCardDetailView);
 			}
 			currentCardDetailView = detail;
+			currentCardDetailView.unbind("webkitTransitionEnd");
 		}
 	);		
 	
