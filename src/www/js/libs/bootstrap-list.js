@@ -402,7 +402,7 @@
 			 return;
 		}
 		
-		var maxPosition = (this.dataProvider.length*this.itemHeight)-(this.$el.height()+this.itemHeight);
+		var maxPosition = (this.dataProvider.length*this.itemHeight)-(this.$el.height());
 		if ( this.yPosition > maxPosition ) {
 			 this.snapToBottom();
 			 return;
