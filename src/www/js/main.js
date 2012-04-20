@@ -111,9 +111,7 @@ function renderDetailTemplate(template, context){
 }
 	
 function removeDetailView(view){
-	//$("#view_1_content").remove(view);
 	view.remove();
-	console.log("remove");
 }
 
 var currentCardDetailView = null;

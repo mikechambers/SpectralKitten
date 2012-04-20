@@ -141,11 +141,25 @@ body {
     float: left;
 }
 
-.rules_keyword{
-	font-weight:bold;
-}
+/* Styles for card rules formatting */
 
 br.rules_break{
 }
 
+.rules_sidenote{
+	font-style:italic;
+}
 
+.rules_pay{
+	background: #000000;
+	color: #ffffff;
+	-webkit-border-radius: 50px;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing:0px;
+	font-size:10px;
+}
+
+.rules_keyword .rules_mends .rules_assault .rules_required_hero .rules_resistance .rules_reputation{
+	font-weight:bold;
+}

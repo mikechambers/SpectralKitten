@@ -453,28 +453,25 @@
 			out = out.replace(/\[Activate\]/g, "<img src=\"/assets/activate.png\" />");
 			out = out.replace(/\(/g, "<span class=\"rules_sidenote\">");
 			out = out.replace(/\)/g, "</span>");
-			/*
-	NSString *out2 = [NSString stringWithFormat:@"<p>%@</p>", out];
-	
-	GTMRegex *mendRegex = [GTMRegex regexWithPattern:@"Mend ([0-9]|[0-9][0-9]|X)" options:kGTMRegexOptionSupressNewlineSupport];
-	out2 = [mendRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>Mend \\1</b>"];
+			
+			var paysRegexp = new RegExp(/(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9])/im);
+			out = out.replace(paysRegexp,"$1<span class=\"rules_pay\">&nbsp;<b>$2</b>&nbsp;</span>" );
+			
+			var mendsRegexp = new RegExp(/Mend ([0-9]|[0-9][0-9]|X)/m);
+			out = out.replace(mendsRegexp,"<span class=\"rules_mends\">Mend $1</span>" );
+			
+			var assaultRegex = new RegExp(/Assault ([0-9]|[0-9][0-9]|X)/m);
+			out = out.replace(assaultRegex,"<span class=\"rules_assault\">Assault $1</span>" );
+			
+			var requiredHeroRegex = new RegExp(/([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)/);
+			out = out.replace(requiredHeroRegex,"<span class=\"rules_required_hero\">$1$2</span>" );
+			
+			var resistanceRegex = new RegExp(/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m);
+			out = out.replace(resistanceRegex,"<span class=\"rules_resistance\">$1$2</span>" );
+			
+			var reputationRegex = new RegExp(/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m);
+			out = out.replace(reputationRegex,"<span class=\"rules_reputation\">$1$2</span>" );			
 
-	GTMRegex *paysRegex = [GTMRegex regexWithPattern:@"(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9]))" options:kGTMRegexOptionSupressNewlineSupport|kGTMRegexOptionIgnoreCase];
-	out2 = [paysRegex stringByReplacingMatchesInString:out2 withReplacement:@"\\1<span class='payCircle'>&nbsp;<b>\\2</b>&nbsp;</span>"];	
-	
-	GTMRegex *assaultRegex = [GTMRegex regexWithPattern:@"Assault ([0-9]|[0-9][0-9]|X)" options:kGTMRegexOptionSupressNewlineSupport];
-	out2 = [assaultRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>Assault \\1</b>"];	
-	
-
-	GTMRegex *requiredHeroRegex = [GTMRegex regexWithPattern:@"([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)"];
-	out2 = [requiredHeroRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>\\1\\2</b>"];		
-
-	GTMRegex *resistanceRegex = [GTMRegex regexWithPattern:@"([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)" options:kGTMRegexOptionSupressNewlineSupport];
-	out2 = [resistanceRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>\\1\\2</b>"];
-	
-	GTMRegex *reputationRegex = [GTMRegex regexWithPattern:@"([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)" options:kGTMRegexOptionSupressNewlineSupport];
-	out2 = [reputationRegex stringByReplacingMatchesInString:out2 withReplacement:@"<b>\\1\\2</b>"];
-	*/
 			var k;
 			for(var i = 0; i < len; i++){
 				k = keywordsRegEx[i];
