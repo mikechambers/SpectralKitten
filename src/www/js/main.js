@@ -95,8 +95,28 @@ function renderDetailTemplate(template, context){
 			detail.css("top", 0);
 		}
 	);
+	
+	detail.bind(
+		"webkitTransitionEnd",
+		function(){
+			if(currentCardDetailView){
+				currentCardDetailView.unbind("webkitTransitionEnd");
+				removeDetailView(currentCardDetailView);
+			}
+			currentCardDetailView = detail;
+		}
+	);		
+	
+	return detail;
+}
+	
+function removeDetailView(view){
+	//$("#view_1_content").remove(view);
+	view.remove();
+	console.log("remove");
 }
 
+var currentCardDetailView = null;
 function renderCardDetail(card){
 	
 	var rules = SpectralKitten.parseCardRules(card.rules);
@@ -104,7 +124,14 @@ function renderCardDetail(card){
 	$(".cube").unbind('mouseenter mouseleave');
 	function cardPathWin(imgPath){		
 		
-		renderDetailTemplate("#card-detail-template", {"card": card, "card_image":imgPath});
+		renderDetailTemplate(
+			"#card-detail-template",
+			{
+				"card": card,
+				"card_image":imgPath,
+				"rules":rules
+			}
+		);
 		
 		$('.cube').hover(function(){
 			$(this).addClass('rotate');
