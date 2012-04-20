@@ -166,24 +166,16 @@
         <div>Blocks: 
             <ul>
                 {{#each blocks}}
-                    <li>{{name}}</li>
+                    <li>{{this.name}}</li>
                 {{/each}}
             </ul>
         </div>
         <div>Professions:
-            <ul>
-                {{#each professions}}
-				    <li>{{name}}</li>
-                {{/each}}
-            </ul>
+            <ul>{{#each card.professions}}<li>{{this.name}}</li>{{/each}}</ul>
         </div>    
 
         <div>Talents:
-			<ul>
-			{{#each talents}}
-				<li>{{name}}</li>
-			{{/each}}
-			</ul>    
+            <ul>{{#each card.talents}}<li>{{this.name}}</li>{{/each}}</ul>
         </div>
 
         <div>Formats:
@@ -199,7 +191,7 @@
 	  <div class="span8">
 	  	<div class="cards">
 			<div class="cube">
-     			<img class="cardFront" src="{{card.card_image}}" />
+     			<img class="cardFront" src="{{card_image}}" />
      			{{#if card.card_reverse_image}}
       				<img class="cardBack" src="{{card.card_reverse_image}}" />
       			{{else}}
