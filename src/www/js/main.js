@@ -74,12 +74,12 @@ function renderDetailTemplate(template, context){
 }
 
 function renderCardDetail(card){
-<<<<<<< HEAD
 	
 	var rules = SpectralKitten.parseCardRules(card.rules);
-	console.log(rules);
 	renderDetailTemplate("#card-detail-template", {"card": card, "rules":rules});
-=======
+	
+	//temporarily taking this out : mesh
+	/* 
 	$(".cube").unbind('mouseenter mouseleave');
 	function cardPathWin(imgPath){
 		card.card_image = imgPath;
@@ -94,7 +94,7 @@ function renderCardDetail(card){
 	}
 
 	spectralKitten.getCardImagePath(card.card_image,cardPathWin,'');
->>>>>>> 926eeab373b37a48f8315d763a68582f68c95adc
+	*/
 }
 	
 /*series is a single series item*/
