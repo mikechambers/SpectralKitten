@@ -25,9 +25,11 @@ body {
 	height:100%;
 }
 
-
 #viewport{
+	position:absolute;
 	top:40px;
+    width: 100%;
+    overflow: hidden;
 }
 
 #view_1_content{
@@ -78,12 +80,6 @@ body {
 
 #view3{
 	background-color: #BF1F1F;
-}
-
-#viewport {
-    width: 100%;
-    overflow: hidden;
-	position: relative;
 }
 
 #slidecontainer {
