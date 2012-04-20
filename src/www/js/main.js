@@ -71,8 +71,28 @@ function renderDetailTemplate(template, context){
 			detail.css("top", 0);
 		}
 	);
+	
+	detail.bind(
+		"webkitTransitionEnd",
+		function(){
+			if(currentCardDetailView){
+				currentCardDetailView.unbind("webkitTransitionEnd");
+				removeDetailView(currentCardDetailView);
+			}
+			currentCardDetailView = detail;
+		}
+	);		
+	
+	return detail;
+}
+	
+function removeDetailView(view){
+	//$("#view_1_content").remove(view);
+	view.remove();
+	console.log("remove");
 }
 
+var currentCardDetailView = null;
 function renderCardDetail(card){
 	
 	var rules = SpectralKitten.parseCardRules(card.rules);
