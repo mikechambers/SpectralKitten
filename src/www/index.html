@@ -122,7 +122,6 @@
         <div>Class: {{card.card_class.name}} ({{card.card_class.abbreviation}})</div>
         {{/if}}
         <div>Race: {{card.race.name}}</div>
-        <div>Card: {{card.card_class.name}}</div>
         <div>Cost: {{card.cost}}</div>
         <div>Rarity: {{card.rarity.name}} ({{card.rarity.abbreviation}})</div>
         <div>Image (should be image once I know path) {{card.card_image}}</div>
@@ -159,7 +158,7 @@
             </ul>
         </div>
 
-        <p>{{ card.rules }}</p>
+        <p>{{{ card.rules }}}</p>
 
 
 
@@ -167,14 +166,14 @@
         <div>Blocks: 
             <ul>
                 {{#each blocks}}
-                    <li>{{this.name}}</li>
+                    <li>{{name}}</li>
                 {{/each}}
             </ul>
         </div>
         <div>Professions:
             <ul>
                 {{#each professions}}
-				    <li>{{this.name}}</li>
+				    <li>{{name}}</li>
                 {{/each}}
             </ul>
         </div>    
@@ -182,7 +181,7 @@
         <div>Talents:
 			<ul>
 			{{#each talents}}
-				<li>{{this.name}}</li>
+				<li>{{name}}</li>
 			{{/each}}
 			</ul>    
         </div>

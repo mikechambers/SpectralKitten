@@ -111,6 +111,7 @@ function renderCardList(cards, series_id){
         var card_id = $(event.srcElement).data("card_id");
         var c = spectralKitten.getCard(card_id);
 		renderCardDetail(c);
+        console.log(c);
     });
 	
 	list.list();
