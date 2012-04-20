@@ -72,6 +72,16 @@ body {
 	border-bottom-width: 1px;
 	background: #EDEDED;
 }
+#series_list li.listSelected {
+	border-top-color: #EBEBEB;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-bottom-color: #CCC;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	background: #E0E0E0;
+	color: #666;
+}
 
 #set_list_container {
 	width: 100%;
