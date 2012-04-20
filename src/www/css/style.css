@@ -21,8 +21,10 @@ body {
 	-webkit-transition: top 0.3s linear;
 	transition: top 0.3s linear;
 	background-color:#FFFFFF;
-	width:100%;
-	height:100%;
+    width:100%;
+    height: inherit;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #viewport{
@@ -34,10 +36,12 @@ body {
 
 #view_1_content{
 	position:absolute;
-	width:100%;
+    right: 0px;
 	left:200px;
+    height: inherit;
 	margin:1px;
 	padding:1px;
+    overflow:hidden;
 }
 
 /* Lists */
@@ -93,6 +97,7 @@ body {
 .viewcontainer {
 	position: relative;
 	float: left;
+    width:100%;
 }
 
 .viewhidden {
