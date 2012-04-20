@@ -72,12 +72,29 @@ function renderDetailTemplate(template, context){
 		}
 	);
 }
-	
+
 function renderCardDetail(card){
+<<<<<<< HEAD
 	
 	var rules = SpectralKitten.parseCardRules(card.rules);
 	console.log(rules);
 	renderDetailTemplate("#card-detail-template", {"card": card, "rules":rules});
+=======
+	$(".cube").unbind('mouseenter mouseleave');
+	function cardPathWin(imgPath){
+		card.card_image = imgPath;
+		
+		renderDetailTemplate("#card-detail-template", {"card": card});
+		
+		$('.cube').hover(function(){
+			$(this).addClass('rotate');
+		},function(){
+			$(this).removeClass('rotate');
+		});
+	}
+
+	spectralKitten.getCardImagePath(card.card_image,cardPathWin,'');
+>>>>>>> 926eeab373b37a48f8315d763a68582f68c95adc
 }
 	
 /*series is a single series item*/
@@ -101,6 +118,7 @@ function renderCardList(cards, series_id){
         var card_id = $(event.srcElement).data("card_id");
         var c = spectralKitten.getCard(card_id);
 		renderCardDetail(c);
+        console.log(c);
     });
 	
 	list.list();
@@ -145,7 +163,8 @@ function slideViewport(index) {
 }
 
 function onSelectView(event) {
-
+	
 }
 
 }(this));
+
