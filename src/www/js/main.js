@@ -16,6 +16,9 @@ $(document).ready(function() {
 	
     $(".viewcontainer").removeClass("viewhidden");
     
+    $('#viewport').width($(window).width());
+    $('#viewport').height($(window).height()-40); //height of the header
+    
     viewportWidth = $("#viewport").width();
 
 	var numberOfViews = $("#slidecontainer").children().length;
@@ -23,7 +26,28 @@ $(document).ready(function() {
 	$("#slidecontainer").children().each(function() {
 		$(this).width(viewportWidth);
 	});
-	
+	    
+    $(window).resize(function() {
+        var win_width = $(window).width();
+        var win_height = $(window).height();
+        
+        $('#viewport').width(win_width);
+        $('#viewport').height(win_height-40); //height of the header
+        
+        viewportWidth = $('#viewport').width();
+
+        $("#slidecontainer").width(numberOfViews * viewportWidth);
+        $("#slidecontainer").children().each(function() {
+            $(this).width(viewportWidth);
+        });
+        
+        var activeview = $('.active').children().data('view');
+        slideViewport(activeview);
+        
+        // TODO: Fix annoying flash when you resize.
+
+    });
+
 	spectralKitten = new SpectralKitten("/api/");
 	
 	spectralKitten = new SpectralKitten();
@@ -177,6 +201,7 @@ function renderSeriesList(series){
 
 
 function slideViewport(index) {
+            
 	var pixelsToMove = (((index-1) * viewportWidth)*-1)-1;
 	
     $("#slidecontainer").css("left", pixelsToMove);
