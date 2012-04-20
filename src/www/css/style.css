@@ -53,7 +53,7 @@ body {
 	width: 320px;    
 }
 
-#series_list {
+.list {
 	font-family: 'LeagueGothicRegular';
 	font-size: 30px;
 	color: #666;
@@ -61,7 +61,7 @@ body {
 	text-transform: uppercase;
 }
 
-#series_list li {
+.list li {
 	height: 42px;
 	padding: 30px 10px 0 22px;
 	border-top-color: #F5F5F5;
@@ -72,7 +72,7 @@ body {
 	border-bottom-width: 1px;
 	background: #EDEDED;
 }
-#series_list li.listSelected {
+.list li.listSelected {
 	border-top-color: #EBEBEB;
 	border-top-style: solid;
 	border-top-width: 1px;
@@ -91,7 +91,7 @@ body {
 
 .listholder {
     left: -300px; /* If this changes, be sure to change the #set_list_container */
-    width: 200px;
+    width: 320px;
     height: 100%;
     -webkit-transition: left 0.3s linear;
     transition: left 0.3s linear;
