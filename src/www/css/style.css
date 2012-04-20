@@ -1,10 +1,14 @@
+@import url("fonts/stylesheet.css");
+
 html {
 	height:100%;
 	overflow:hidden;
+	-webkit-font-smoothing: antialiased;
 }
 
 body {
 	height:100%;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .height_inherit{ height: inherit; }
@@ -46,8 +50,27 @@ body {
 
 /* Lists */
 #list_container {
-	width: 200px;
-        
+	width: 320px;    
+}
+
+#series_list {
+	font-family: 'LeagueGothicRegular';
+	font-size: 30px;
+	color: #666;
+	text-shadow: 0 1px 0 #FFF;
+	text-transform: uppercase;
+}
+
+#series_list li {
+	height: 42px;
+	padding: 30px 10px 0 22px;
+	border-top-color: #F5F5F5;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-bottom-color: #E6E6E6;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	background: #EDEDED;
 }
 
 #set_list_container {
