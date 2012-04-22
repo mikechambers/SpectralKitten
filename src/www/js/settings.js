@@ -1,8 +1,14 @@
-; (function(exports) {
-	'use strict';
-
-	function Settings(o)
-	{
+define(function(){
+	
+	var _s = {
+		imageBaseURL:null,
+		dataVersion:null
+	}
+	
+	s.save = function(){
+	}
+	
+	s.parse = function(o){
 		if (o) {
 			if (o.imageBaseURL) {
 				this.imageBaseURL = o.imageBaseURL;
@@ -14,9 +20,7 @@
 			}
 		}
 	}
+		
+	return s;
+});
 
-	Settings.prototype.imageBaseURL = null;
-	Settings.prototype.dataVersion = null;
-
-	exports.Settings = Settings;
-}(this));
