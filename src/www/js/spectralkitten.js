@@ -4,33 +4,38 @@
 //we need before we write, and then, if we need more, request more from the user before we write.
 //of course, that is async, so somehow we have to save the state while we wait for the user to respond
 
-;(function(exports) {
-	'use strict';
-
-	function SpectralKitten(apiBaseURL) {
-
-		if(apiBaseURL){
-			this.apiBaseURL = apiBaseURL;
-		}
-
-		this.init();
-
-		//check for new card data in the background
-		//if new data, load and cache
-		this.fileSystemManager = new FileSystemManager(window.PERSISTENT, SpectralKitten.STORAGE_SIZE);
-	}
-
-	SpectralKitten.prototype.init = function() {
-		//private
+define(["jquery", "settings", "FileSystemManager", "config"],
+	function($, settings, FileSystemManager, config){
+		
+		var sk = {			
+			//instance variables
+			fileSystemManager:null,
+			settings:null, //todo: remove this
+			apiBaseURL:"/api/",
+			apiVersionName:config.API_CARDS_NAME,
+			apiCardsName:config.API_VERSION_NAME,
+		};
+		
+		//private vars
 		var _cards;
-		
-		//private
 		var _series;
+		var scope; //todo: rename this to _scope
 		
-		var scope = this;
-
+		sk.initialize = function(apiBaseURL){
+			   
+			scope = this;
+			if(apiBaseURL){
+				this.apiBaseURL = apiBaseURL;
+			}
+			
+			//check for new card data in the background
+			//if new data, load and cache
+			//todo: maybe move SpectralKitten constants
+			this.fileSystemManager = new FileSystemManager(window.PERSISTENT, config.STORAGE_SIZE);
+		}
+			
 		Object.defineProperty(
-			this,
+			sk,
 			'cards', {
 				get: function() {
 					return _cards;
@@ -39,7 +44,7 @@
 		);
 		
 		Object.defineProperty(
-			this,
+			sk,
 			'series', {
 				get: function() {
 					return _series;
@@ -47,7 +52,7 @@
 			}
 		);
 
-		this.initializeData = function(successCallback, errorCallback, forceUpdate) {
+		sk.initializeData = function(successCallback, errorCallback, forceUpdate) {
 			this.loadSettings(
 				function() {
 					loadCards(
@@ -72,7 +77,7 @@
 			);
 		};
 		
-		this.getSeries = function(series_id){
+		sk.getSeries = function(series_id){
 			
 			if(!_series){
 				return;
@@ -94,7 +99,7 @@
 			return;
 		}
 			
-		this.getCardsBySet = function(id){
+		sk.getCardsBySet = function(id){
 			var out = [];
 			
 			if(!_cards){
@@ -119,7 +124,7 @@
 			return out;
 		}
             
-        this.getCard = function(id) {
+        sk.getCard = function(id) {
             var out = null;
             
             if(!_cards) {
@@ -148,7 +153,7 @@
 
 					//check to make sure that we support / understand the current API
 					//version
-					if (data.configuration.apiVersion !== SpectralKitten.API_VERSION) {
+					if (data.configuration.apiVersion !== scope.API_VERSION) {
 						if (errorCallback) {
 							var e = '';
 								e.msg = 'Invalid API Version.';
@@ -161,13 +166,13 @@
 					_cards = data.cards;
 					_series = data.series;
 
-					if (!SpectralKitten.settings)
+					if (!settings)
 					{
-						SpectralKitten.settings = new Settings();
+						//SpectralKitten.settings = new Settings();
 					}
 
-					SpectralKitten.settings.imageBaseURL = data.configuration.imageBaseURL;
-					SpectralKitten.settings.dataVersion = data.configuration.dataVersion;
+					settings.imageBaseURL = data.configuration.imageBaseURL;
+					settings.dataVersion = data.configuration.dataVersion;
 
 					scope.saveSettings();
 
@@ -176,7 +181,7 @@
 					scope.requestQuota(
 						function(){
 							scope.fileSystemManager.writeObject(
-								SpectralKitten.APP_DATA_FILE_NAME,
+								config.APP_DATA_FILE_NAME,
 								appData,//todo: make this into a class?
 								function() {
 									console.log('Card data saved.');
@@ -221,7 +226,7 @@
 			}
 			else {
 				scope.fileSystemManager.readObject(
-					SpectralKitten.APP_DATA_FILE_NAME,
+					config.APP_DATA_FILE_NAME,
 					function(data) {
 						//todo: check if data includes anything, if not, loadRemote
 						//data
@@ -245,10 +250,12 @@
 			}
 		};
 
-		this.checkForUpdates = function(successCallback, errorCallback, update) {
+		sk.checkForUpdates = function(successCallback, errorCallback, update) {
 
 			//settings havent been loaded so we cant check whether data is new
-			if(!SpectralKitten.settings || !SpectralKitten.settings.dataVersion){
+			
+			//todo: this will fail. need to now if settings have loaded from file system yet
+			if(!settings || !settings.dataVersion){
 				//we only check for updates if we are able to save settings.
 				//otherwise, we could get in an infinite loop of updating every
 				//time
@@ -265,10 +272,10 @@
 					//make sure we have loaded the data first
 					if(
 						//make sure that the app understands the API Version / format
-						data.apiVersion === SpectralKitten.API_VERSION &&
+						data.apiVersion === config.API_VERSION &&
 						
 						//check and see if there is a newer version of data on the server
-						data.dataVersion > SpectralKitten.settings.dataVersion)
+						data.dataVersion > spectralKitten.settings.dataVersion)
 					{
 						//The data on the server has been updated.
 						
@@ -318,15 +325,15 @@
 			});
 		};
 
-		this.requestQuota = function(successCallback, errorCallback) {
+		sk.requestQuota = function(successCallback, errorCallback) {
 			this.fileSystemManager.requestQuota(
-				SpectralKitten.STORAGE_SIZE,
+				config.STORAGE_SIZE,//todo: move to constants module
 				successCallback,
 				errorCallback
 			);
 		}
 
-		this.getCardImagePath = function(imageName, imageReadyCallback, errorCallback) {
+		sk.getCardImagePath = function(imageName, imageReadyCallback, errorCallback) {
 
 			var out = "/assets/cards/" + imageName;
 			
@@ -339,27 +346,29 @@
 			
 		};
 
-		this.loadSettings = function(successCallback) {
+		sk.loadSettings = function(successCallback) {
 
 			this.fileSystemManager.readObject(
-				SpectralKitten.SETTINGS_FILE_NAME,
+				config.SETTINGS_FILE_NAME,
 				function(data) {
-					SpectralKitten.settings = new Settings(data);
+					settings.parse(data);
+					
+					//SpectralKitten.settings = new Settings(data);
 
 					if (successCallback) {
-						successCallback(SpectralKitten.settings);
+						successCallback(settings);
 					}
 				},
 				function(error) {
 					console.log('Could not load settings. Using default settings.');
-					SpectralKitten.settings = new Settings();
+					//SpectralKitten.settings = new Settings();
 					scope.saveSettings();
 
 
 					//if an error occurs trying to load settings, then we create
 					//default settings
 					if (successCallback) {
-						successCallback(SpectralKitten.settings);
+						successCallback(settings);
 					}
 
 					/*
@@ -372,14 +381,14 @@
 			);
 		};
 
-		this.saveSettings = function(successCallback, errorCallback) {
+		sk.saveSettings = function(successCallback, errorCallback) {
 
 			//var scope = this;
 			this.requestQuota(
 				function(){
 					scope.fileSystemManager.writeObject(
-						SpectralKitten.SETTINGS_FILE_NAME,
-						SpectralKitten.settings,
+						config.SETTINGS_FILE_NAME,
+						scope.settings,
 						function() {
 							console.log('settings saved');
 							if (successCallback) {
@@ -395,113 +404,95 @@
 				}
 			);
 		};
-	};
-
-	SpectralKitten.parseCardRules = function(rules){
-		
-		var keywordsRegEx = [
-			{re:/(Dual Wield)/g,rw:""},
-			{re:/(Ongoing)/g,rw:""},
-			{re:/(Protector)/g,rw:""},
-			{re:/(Ferocity)/g,rw:""},
-			{re:/(Elusive)/g,rw:""},
-			{re:/(Totem)/g,rw:""},
-			{re:/(Air)/g,rw:""},
-			{re:/(Earth)/g,rw:""},
-			{re:/(Fire)/g,rw:""},
-			{re:/(Water)/g,rw:""},
-			{re:/(Stealth)/g,rw:""},
-			{re:/(Untargetable)/g,rw:""},
-			{re:/(Thrown)/g,rw:""},
-			{re:/(Shadowmeld)/g,rw:""},
-			{re:/(Death Rattle)/g,rw:""},
-			{re:/(Conspicuous)/g,rw:""},
-			{re:/(Inspire)/g,rw:""},
-			{re:/(Sabotage)/g,rw:""},
-			{re:/(Diplomacy)/g,rw:""},
-			{re:/(Long-Range)/g,rw:""},
-			{re:/(Reward)/g,rw:""},
-			{re:/(Trap)/g,rw:""},
-			{re:/(Sextuple Wield)/g,rw:""},
-			{re:/(Finishing Move)/g,rw:""},
-			{re:/(War Stomp)/g,rw:""},
-			{re:/(Berserking)/g,rw:""},
-			{re:/(AWESOME)/g,rw:""},
-			{re:/(Inspiring Presence)/g,rw:""},
-			{re:/(Hardiness)/g,rw:""},
-			{re:/(Arcane Torrent)/g,rw:""},
-			{re:/(Escape Artist)/g,rw:""},
-			{re:/(Find Treasure)/g,rw:""},
-			{re:/(Will of the Forsaken)/g,rw:""},
-			{re:/(irradiated)/g,rw:""},
-			{re:/(Preparation)/g,rw:""},
-			{re:/(Invincible)/g,rw:""},
-			{re:/(Bear Form)/g,rw:""},
-			{re:/(Cat Form)/g,rw:""}
-		];
+	
+		//todo: move to own module
+		sk.parseCardRules = function(rules){
 			
-		var len = keywordsRegEx.length;
-		var k;
-		for(var i = 0; i < len; i++){
-			k = keywordsRegEx[i];
-			k.rw = "<span class=\"rules_keyword\">$1</span>";
-		}
-		
-		keywordsRegEx.push(
-			{re:/\n/g,rw:"<br class=\"rules_break\" />"},
-			{re:/>>>/g,rw:"<img src=\"/assets/payment_result.png\" />"},
-			{re:/\[Horde\]/g,rw:"<img src=\"/assets/horde_ally.png\" />"},
-			{re:/\[Alliance\]/g,rw:"<img src=\"/assets/alliance_ally.png\" />"},
-			{re:/\[Activate\]/g,rw:"<img src=\"/assets/activate.png\" />"},
-			{re:/\(/g,rw:"<span class=\"rules_sidenote\">"},
-			{re:/\)/g,rw:"</span>"},
-			{re:/(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9])/im,rw:"$1<span class=\"rules_pay\">&nbsp;<b>$2</b>&nbsp;</span>"},
-			{re:/Mend ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_mends\">Mend $1</span>"},
-			{re:/Assault ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_assault\">Assault $1</span>"},
-			{re:/([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)/,rw:"<span class=\"rules_required_hero\">$1$2</span>"},
-			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m,rw:"<span class=\"rules_resistance\">$1$2</span>"},
-			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m,rw:"<span class=\"rules_reputation\">$1$2</span>"}
-		);
-			
-		len = keywordsRegEx.length;
-		
-		var f = function(p){
-			var out = p;		
-
+			var keywordsRegEx = [
+				{re:/(Dual Wield)/g,rw:""},
+				{re:/(Ongoing)/g,rw:""},
+				{re:/(Protector)/g,rw:""},
+				{re:/(Ferocity)/g,rw:""},
+				{re:/(Elusive)/g,rw:""},
+				{re:/(Totem)/g,rw:""},
+				{re:/(Air)/g,rw:""},
+				{re:/(Earth)/g,rw:""},
+				{re:/(Fire)/g,rw:""},
+				{re:/(Water)/g,rw:""},
+				{re:/(Stealth)/g,rw:""},
+				{re:/(Untargetable)/g,rw:""},
+				{re:/(Thrown)/g,rw:""},
+				{re:/(Shadowmeld)/g,rw:""},
+				{re:/(Death Rattle)/g,rw:""},
+				{re:/(Conspicuous)/g,rw:""},
+				{re:/(Inspire)/g,rw:""},
+				{re:/(Sabotage)/g,rw:""},
+				{re:/(Diplomacy)/g,rw:""},
+				{re:/(Long-Range)/g,rw:""},
+				{re:/(Reward)/g,rw:""},
+				{re:/(Trap)/g,rw:""},
+				{re:/(Sextuple Wield)/g,rw:""},
+				{re:/(Finishing Move)/g,rw:""},
+				{re:/(War Stomp)/g,rw:""},
+				{re:/(Berserking)/g,rw:""},
+				{re:/(AWESOME)/g,rw:""},
+				{re:/(Inspiring Presence)/g,rw:""},
+				{re:/(Hardiness)/g,rw:""},
+				{re:/(Arcane Torrent)/g,rw:""},
+				{re:/(Escape Artist)/g,rw:""},
+				{re:/(Find Treasure)/g,rw:""},
+				{re:/(Will of the Forsaken)/g,rw:""},
+				{re:/(irradiated)/g,rw:""},
+				{re:/(Preparation)/g,rw:""},
+				{re:/(Invincible)/g,rw:""},
+				{re:/(Bear Form)/g,rw:""},
+				{re:/(Cat Form)/g,rw:""}
+			];
+				
+			var len = keywordsRegEx.length;
 			var k;
 			for(var i = 0; i < len; i++){
 				k = keywordsRegEx[i];
-				out = out.replace(k.re,k.rw);
+				k.rw = "<span class=\"rules_keyword\">$1</span>";
 			}
-
-			return out;
-		}
-		
-		//basically, we replace this function with f, which contains the keyword
-		//variable in its scope. That way we dont have to recreate it each time
-		//or make it a static class variable
-		SpectralKitten.parseCardRules = f;
-		return f(rules);	
-	}
+			
+			keywordsRegEx.push(
+				{re:/\n/g,rw:"<br class=\"rules_break\" />"},
+				{re:/>>>/g,rw:"<img src=\"/assets/payment_result.png\" />"},
+				{re:/\[Horde\]/g,rw:"<img src=\"/assets/horde_ally.png\" />"},
+				{re:/\[Alliance\]/g,rw:"<img src=\"/assets/alliance_ally.png\" />"},
+				{re:/\[Activate\]/g,rw:"<img src=\"/assets/activate.png\" />"},
+				{re:/\(/g,rw:"<span class=\"rules_sidenote\">"},
+				{re:/\)/g,rw:"</span>"},
+				{re:/(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9])/im,rw:"$1<span class=\"rules_pay\">&nbsp;<b>$2</b>&nbsp;</span>"},
+				{re:/Mend ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_mends\">Mend $1</span>"},
+				{re:/Assault ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_assault\">Assault $1</span>"},
+				{re:/([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)/,rw:"<span class=\"rules_required_hero\">$1$2</span>"},
+				{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m,rw:"<span class=\"rules_resistance\">$1$2</span>"},
+				{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m,rw:"<span class=\"rules_reputation\">$1$2</span>"}
+			);
+				
+			len = keywordsRegEx.length;
+			
+			var f = function(p){
+				var out = p;		
 	
-	SpectralKitten.APP_DATA_FILE_NAME = 'cards.json';
-	SpectralKitten.SETTINGS_FILE_NAME = 'settings.json';
-	SpectralKitten.prototype.fileSystemManager = null;
-
-	SpectralKitten.STORAGE_SIZE = 15 * FileSystemManager.MB;
-
-	/* Settings */
-	SpectralKitten.settings = null;
-	SpectralKitten.API_VERSION = 1;
-
-	SpectralKitten.API_CARDS_NAME = "cards/";
-	SpectralKitten.API_VERSION_NAME = "version/";
-
-	SpectralKitten.prototype.apiBaseURL = "/api/";
-	SpectralKitten.prototype.apiVersionName = SpectralKitten.API_CARDS_NAME;
-	SpectralKitten.prototype.apiCardsName = SpectralKitten.API_VERSION_NAME;
-
-	exports.SpectralKitten = SpectralKitten;
-}(this));
-
-
+				var k;
+				for(var i = 0; i < len; i++){
+					k = keywordsRegEx[i];
+					out = out.replace(k.re,k.rw);
+				}
+	
+				return out;
+			}
+			
+			//basically, we replace this function with f, which contains the keyword
+			//variable in its scope. That way we dont have to recreate it each time
+			//or make it a static class variable
+			sk.parseCardRules = f;
+			return f(rules);	
+		}
+			
+		return sk;
+	}
+);

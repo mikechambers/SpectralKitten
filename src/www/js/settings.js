@@ -1,6 +1,6 @@
 define(function(){
 	
-	var _s = {
+	var s = {
 		imageBaseURL:null,
 		dataVersion:null
 	}

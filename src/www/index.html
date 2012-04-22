@@ -202,11 +202,17 @@
 
 </footer>
     
-<script data-main="js/main" src="js/libs/require.min.js"></script>
+<script data-main="js/main" src="js/libs/require-jquery.js"></script>
 	<script>
-		require({
-			priority: ['libs/jquery.min']
-		}, ['main']);
+		require(
+			{
+				paths:
+				{
+					Handlebars: "libs/handlebars"
+				}
+			},
+			['main']
+		);
 	</script>		
 		
 <script src="js/main.js"></script>
