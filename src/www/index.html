@@ -9,10 +9,7 @@
 	<meta name="author" content="">
 	<meta name="viewport" content="width=device-width">
 	
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-list.css">
 	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/cardflipper.css">
 	
 </head>
 <body>
@@ -110,7 +107,7 @@
 	
 <script id="card-detail-template" type="text/x-handlebars-template">
 	<div class="template card_detail">
-        <!-- Basics -->
+		<!-- Basics -->
         <div>{{card.name}}</div>
         <div>ID: {{card.id}}</div>
         <div>Wowtcgdb ID: {{card.wowtcgdb_id}}</div>
@@ -181,19 +178,19 @@
             </ul>
         </div>
 
-
-	  </div>
-	  <div class="span8">
-	  	<div class="cards">
-			<div class="cube">
-     			<img class="cardFront" src="{{card_image}}" />
-     			{{#if card.card_reverse_image}}
-      				<img class="cardBack" src="{{card.card_reverse_image}}" />
-      			{{else}}
-      				<img class="cardBack" src="assets/back.jpg" />
-      			{{/if}}
-     		</div>
- 	 	
+		</div>
+			<div class="span8">
+	  			<div class="cards">
+					<div class="cube">
+						<img class="cardFront" src="{{card_image}}" />
+						{{#if card.card_reverse_image}}
+							<img class="cardBack" src="{{card.card_reverse_image}}" />
+						{{else}}
+							<img class="cardBack" src="assets/back.jpg" />
+						{{/if}}
+					</div>
+ 	 			</div>
+			</div>
 	</div>
 </script>    
 
@@ -202,13 +199,17 @@
 
 </footer>
     
-<script src="js/libs/jquery.min.js"></script>
-<script src="js/libs/bootstrap.min.js"></script>
-<script src="js/libs/bootstrap-list.js"></script>
-<script src="js/libs/handlebars.js"></script>
-<script src="js/FileSystemManager.js"></script>
-<script src="js/Settings.js"></script>
-<script src="js/SpectralKitten.js"></script>
-<script src="js/main.js"></script>
+<script data-main="js/main" src="js/libs/require-jquery.js"></script>
+	<script>
+		require(
+			{
+				paths:
+				{
+					Handlebars: "libs/handlebars"
+				}
+			},
+			['main']
+		);
+</script>		
 </body>
 </html>

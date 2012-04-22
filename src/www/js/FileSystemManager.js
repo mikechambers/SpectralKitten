@@ -44,8 +44,8 @@
 		-create namespace for classes?
 */
 
-; (function(exports) {
-	'use strict';
+define(
+	function(){
 
 		/**
 		* The FileSystemManager class provides a simplified interface to the FileSystem API
@@ -526,5 +526,5 @@
 			return msg;
 		}
 
-		exports.FileSystemManager = FileSystemManager;
-}(this));
+		return FileSystemManager;
+});
