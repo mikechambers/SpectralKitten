@@ -67,6 +67,11 @@ define(
 		len = keywordsRegEx.length;
 			
 		var f = function(p){
+			
+			if(p === null){
+				return "";
+			}				
+			
 			var out = p;		
 
 			var k;
