@@ -7,6 +7,7 @@ define(["FileSystemManager"],
 		var _API_CARDS_NAME = "cards/";
 		var _API_VERSION_NAME = "version/";
 		var _STORAGE_SIZE = 15 * FileSystemManager.MB;
+		var _SETTINGS_STORAGE_NAME = "settings";
 		
 		var c = {};
 	
@@ -64,6 +65,16 @@ define(["FileSystemManager"],
 			}
 		);	
 	
+		Object.defineProperty(
+			c,
+			'SETTINGS_STORAGE_NAME', {
+				get: function() {
+					return _SETTINGS_STORAGE_NAME;
+				}
+			}
+		);
+		
+		
 		return c;
 	}
 );

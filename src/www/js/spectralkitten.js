@@ -10,7 +10,6 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 		var sk = {			
 			//instance variables
 			fileSystemManager:null,
-			settings:null, //todo: remove this
 			apiBaseURL:"/api/",
 			apiVersionName:config.API_CARDS_NAME,
 			apiCardsName:config.API_VERSION_NAME,
@@ -52,28 +51,19 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 			}
 		);
 
-		sk.initializeData = function(successCallback, errorCallback, forceUpdate) {
-			this.loadSettings(
-				function() {
-					loadCards(
-						function(appData) {
-							if (successCallback) {
-								successCallback(appData);
-							}
-						},
-						function(error) {
-							if (errorCallback) {
-								errorCallback(error);
-							}
-						},
-						forceUpdate
-					);
+		sk.initializeData = function(successCallback, errorCallback, forceUpdate) {	
+			loadCards(
+				function(appData) {
+					if (successCallback) {
+						successCallback(appData);
+					}
 				},
 				function(error) {
 					if (errorCallback) {
 						errorCallback(error);
 					}
-				}
+				},
+				forceUpdate
 			);
 		};
 		
@@ -153,7 +143,7 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 
 					//check to make sure that we support / understand the current API
 					//version
-					if (data.configuration.apiVersion !== scope.API_VERSION) {
+					if (data.configuration.apiVersion !== config.API_VERSION) {
 						if (errorCallback) {
 							var e = '';
 								e.msg = 'Invalid API Version.';
@@ -166,15 +156,10 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 					_cards = data.cards;
 					_series = data.series;
 
-					if (!settings)
-					{
-						//SpectralKitten.settings = new Settings();
-					}
-
 					settings.imageBaseURL = data.configuration.imageBaseURL;
 					settings.dataVersion = data.configuration.dataVersion;
 
-					scope.saveSettings();
+					settings.save();
 
 					var appData = {"cards":_cards, "series":_series};
 					
@@ -251,18 +236,6 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 		};
 
 		sk.checkForUpdates = function(successCallback, errorCallback, update) {
-
-			//settings havent been loaded so we cant check whether data is new
-			
-			//todo: this will fail. need to now if settings have loaded from file system yet
-			if(!settings || !settings.dataVersion){
-				//we only check for updates if we are able to save settings.
-				//otherwise, we could get in an infinite loop of updating every
-				//time
-				return;
-			}
-			
-			//var scope = this;
 			
 			$.ajax({
 				url: scope.apiBaseURL + scope.apiVersionName,
@@ -275,7 +248,7 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 						data.apiVersion === config.API_VERSION &&
 						
 						//check and see if there is a newer version of data on the server
-						data.dataVersion > spectralKitten.settings.dataVersion)
+						data.dataVersion > settings.dataVersion)
 					{
 						//The data on the server has been updated.
 						
@@ -346,65 +319,6 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 			
 		};
 
-		sk.loadSettings = function(successCallback) {
-
-			this.fileSystemManager.readObject(
-				config.SETTINGS_FILE_NAME,
-				function(data) {
-					settings.parse(data);
-					
-					//SpectralKitten.settings = new Settings(data);
-
-					if (successCallback) {
-						successCallback(settings);
-					}
-				},
-				function(error) {
-					console.log('Could not load settings. Using default settings.');
-					//SpectralKitten.settings = new Settings();
-					scope.saveSettings();
-
-
-					//if an error occurs trying to load settings, then we create
-					//default settings
-					if (successCallback) {
-						successCallback(settings);
-					}
-
-					/*
-					if(errorCallback) {
-						errorCallback(error);
-					}
-					*/
-
-				}
-			);
-		};
-
-		sk.saveSettings = function(successCallback, errorCallback) {
-
-			//var scope = this;
-			this.requestQuota(
-				function(){
-					scope.fileSystemManager.writeObject(
-						config.SETTINGS_FILE_NAME,
-						scope.settings,
-						function() {
-							console.log('settings saved');
-							if (successCallback) {
-									successCallback();
-							}
-						},
-						function(error) {
-							if (errorCallback) {
-								errorCallback(error);
-							}
-						}
-					);
-				}
-			);
-		};
-	
 		//todo: move to own module
 		sk.parseCardRules = function(rules){
 			
