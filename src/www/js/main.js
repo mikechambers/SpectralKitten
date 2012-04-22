@@ -1,9 +1,8 @@
 require(
-	["jquery", "spectralkitten", "settings", "libs/domReady", "js/libs/Handlebars.js", 
-	 "js/libs/bootstrap.min.js", "js/libs/bootstrap-list.js"],
+	["jquery", "spectralkitten", "settings", "libs/domReady"],
 	function($, spectralKitten, settings, domReady){
 
-		var Handlebars = window.Handlebars;
+		var Handlebars;
 		
 		var views;
 		var viewportWidth;
@@ -60,7 +59,17 @@ require(
 				
 				spectralKitten.initializeData(
 					function() {
-						renderSeriesList(spectralKitten.series);
+						require(
+							[
+								"js/libs/Handlebars.js",
+								"js/libs/bootstrap.min.js",
+								"js/libs/bootstrap-list.js"],
+							function(){
+								Handlebars = window.Handlebars;
+								renderSeriesList(spectralKitten.series);
+							}
+						)
+						
 						
 						/*
 						s.checkForUpdates(
@@ -152,11 +161,14 @@ require(
 			
 		/*series is a single series item*/
 		var renderSeriesDetail = function(series){
+			//todo: require template
 			renderDetailTemplate("#series-detail-template", {"series": series});
 		}
 		
 		//todo : there wont always be a series_id
 		var renderCardList = function(cards, series_id){
+			//todo: require template
+			
 			var source = $('#card-list-template').html();
 			var template = Handlebars.compile(source);
 		
@@ -179,6 +191,7 @@ require(
 		
 		/* series is an array of series */
 		var renderSeriesList = function(series){
+			//todo : require template
 			
 			var source = $('#series-list-template').html();
 			var template = Handlebars.compile(source);
@@ -208,11 +221,9 @@ require(
 		}
 		
 		var slideViewport = function(index) {
-					
 			var pixelsToMove = (((index-1) * viewportWidth)*-1)-1;
 			
 			$("#slidecontainer").css("left", pixelsToMove);
-			
 		}
 			
 	//end define

@@ -27,9 +27,6 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 				this.apiBaseURL = apiBaseURL;
 			}
 			
-			//check for new card data in the background
-			//if new data, load and cache
-			//todo: maybe move SpectralKitten constants
 			this.fileSystemManager = new FileSystemManager(window.PERSISTENT, config.STORAGE_SIZE);
 		}
 			
@@ -300,7 +297,7 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 
 		sk.requestQuota = function(successCallback, errorCallback) {
 			this.fileSystemManager.requestQuota(
-				config.STORAGE_SIZE,//todo: move to constants module
+				config.STORAGE_SIZE,
 				successCallback,
 				errorCallback
 			);
