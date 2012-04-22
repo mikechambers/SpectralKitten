@@ -122,28 +122,32 @@ require(
 		
 		var renderCardDetail = function(card){
 			
-			var rules = spectralKitten.parseCardRules(card.rules);
-			
-			$(".cube").unbind('mouseenter mouseleave');
-			function cardPathWin(imgPath){		
-				
-				renderDetailTemplate(
-					"#card-detail-template",
-					{
-						"card": card,
-						"card_image":imgPath,
-						"rules":rules
+			require(["parserules"],
+				function(parserules){
+					var rules = parserules(card.rules);
+					
+					$(".cube").unbind('mouseenter mouseleave');
+					function cardPathWin(imgPath){		
+						
+						renderDetailTemplate(
+							"#card-detail-template",
+							{
+								"card": card,
+								"card_image":imgPath,
+								"rules":rules
+							}
+						);
+						
+						$('.cube').hover(function(){
+							$(this).addClass('rotate');
+						},function(){
+							$(this).removeClass('rotate');
+						});
 					}
-				);
 				
-				$('.cube').hover(function(){
-					$(this).addClass('rotate');
-				},function(){
-					$(this).removeClass('rotate');
-				});
-			}
-		
-			spectralKitten.getCardImagePath(card.card_image,cardPathWin,'');
+					spectralKitten.getCardImagePath(card.card_image,cardPathWin,'');
+				}
+			);
 		}
 			
 		/*series is a single series item*/
