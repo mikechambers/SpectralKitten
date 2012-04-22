@@ -1,5 +1,5 @@
 require(
-	["jquery", "spectralkitten", "settings", "libs/domReady"],
+	["jquery", "spectralkitten", "settings", "libs/domReady", "js/libs/bootstrap.min.js"],
 	function($, spectralKitten, settings, domReady){
 
 		var Handlebars;
@@ -62,7 +62,6 @@ require(
 						require(
 							[
 								"js/libs/Handlebars.js",
-								"js/libs/bootstrap.min.js",
 								"js/libs/bootstrap-list.js"],
 							function(){
 								Handlebars = window.Handlebars;
