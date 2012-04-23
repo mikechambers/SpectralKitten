@@ -1,5 +1,9 @@
+;(function(){
+
+"use strict";
+
 define(["config"],
-	   function(config){
+	function(config){
 
 		var s = {
 			imageBaseURL:null,
@@ -26,14 +30,14 @@ define(["config"],
 					imageBaseURL:this.imageBaseURL,
 					dataVersion:this.dataVersion
 				});
-		}			
-			
+		}
+
 		s.clear = function(){
 			localStorage.removeItem(config.SETTINGS_STORAGE_NAME);
 		}
-			
+
 		var o = localStorage[config.SETTINGS_STORAGE_NAME];
-		 
+
 		if(o !== undefined){
 			try{
 				o = JSON.parse(o);
@@ -49,3 +53,4 @@ define(["config"],
 	}
 );
 
+})();
