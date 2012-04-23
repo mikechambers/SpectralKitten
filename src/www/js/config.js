@@ -1,3 +1,7 @@
+(function(){
+"use strict";
+
+
 define(["FileSystemManager"],
 	function(FileSystemManager){
 	
@@ -27,7 +31,7 @@ define(["FileSystemManager"],
 					return _SETTINGS_FILE_NAME;
 				}
 			}
-		);	
+		);
 	
 		Object.defineProperty(
 			c,
@@ -36,7 +40,7 @@ define(["FileSystemManager"],
 					return _API_VERSION;
 				}
 			}
-		);	
+		);
 	
 		Object.defineProperty(
 			c,
@@ -45,7 +49,7 @@ define(["FileSystemManager"],
 					return _API_CARDS_NAME;
 				}
 			}
-		);	
+		);
 	
 		Object.defineProperty(
 			c,
@@ -54,7 +58,7 @@ define(["FileSystemManager"],
 					return _API_VERSION_NAME;
 				}
 			}
-		);	
+		);
 	
 		Object.defineProperty(
 			c,
@@ -63,7 +67,7 @@ define(["FileSystemManager"],
 					return _STORAGE_SIZE;
 				}
 			}
-		);	
+		);
 	
 		Object.defineProperty(
 			c,
@@ -74,7 +78,8 @@ define(["FileSystemManager"],
 			}
 		);
 		
-		
 		return c;
 	}
 );
+
+}());
