@@ -25,7 +25,6 @@ define(["config"],
 		
 		//NOTE : this can throw a QUOTA_EXCEEDED_ERR if we go over 5 megs (which we shouldnt)
 		s.save = function(){
-			console.log("save");
 			localStorage[config.SETTINGS_STORAGE_NAME] = JSON.stringify({
 					imageBaseURL:this.imageBaseURL,
 					dataVersion:this.dataVersion
