@@ -1,3 +1,7 @@
+;(function(){
+
+"use strict";
+
 require(
 	["jquery", "spectralkitten", "settings", "libs/domReady", "js/libs/bootstrap.min.js"],
 	function($, spectralKitten, settings, domReady){
@@ -6,7 +10,6 @@ require(
 		
 		var views;
 		var viewportWidth;
-		var spectralKitten;
 			
 		var currentCardDetailView = null;
 		
@@ -53,10 +56,10 @@ require(
 				});
 				
 				spectralKitten.initialize("/api/");
-				  
+
 				spectralKitten.apiVersionName = "version.json";
 				spectralKitten.apiCardsName = "all_cards.json";
-				
+
 				spectralKitten.initializeData(
 					function() {
 						require(
@@ -68,8 +71,8 @@ require(
 								renderSeriesList(spectralKitten.series);
 							}
 						)
-						
-						
+
+
 						/*
 						s.checkForUpdates(
 							function(newDataFound, data){
@@ -88,11 +91,11 @@ require(
 					false /* force loading of data from server*/
 				);
 			}
-		);	
+		);
 
-		var renderDetailTemplate = function(template, context){
+		var renderDetailTemplate = function(templateSource, context){
 		
-			var source = $(template).html();
+			var source = $(templateSource).html();
 			var template = Handlebars.compile(source);
 			var html = template(context);
 			
@@ -117,8 +120,8 @@ require(
 					currentCardDetailView = detail;
 					currentCardDetailView.unbind("webkitTransitionEnd");
 				}
-			);		
-			
+			);
+
 			return detail;
 		}
 		
@@ -135,7 +138,7 @@ require(
 					var rules = parserules(card.rules);
 					
 					$(".cube").unbind('mouseenter mouseleave');
-					function cardPathWin(imgPath){		
+					function cardPathWin(imgPath){
 						
 						renderDetailTemplate(
 							"#card-detail-template",
@@ -176,7 +179,7 @@ require(
 			
 			var context = {"cards":cards, "div_id":div_id};
 			var cardlist = template(context);
-		 
+
 			var list = $(cardlist).appendTo("#list_holder");
 			list.bind('change', function(event) {
 				var card_id = $(event.srcElement).data("card_id");
@@ -228,3 +231,5 @@ require(
 	//end define
 	}
 );
+
+}());
