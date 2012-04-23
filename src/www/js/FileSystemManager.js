@@ -44,6 +44,9 @@
 		-create namespace for classes?
 */
 
+;(function(){
+"use strict";
+
 define(
 	function(){
 
@@ -528,3 +531,6 @@ define(
 
 		return FileSystemManager;
 });
+
+
+})();
