@@ -11,11 +11,11 @@
 	"devel":true,
 	"jquery":true,
 	"predef":[
-			"Settings", 
 			"FileSystemManager", 
 			"webkitStorageInfo", 
 			"FileError",
-			"SpectralKitten",
-			"Handlebars"
+			"Handlebars",
+			"define",
+			"require"
 			]
 }
