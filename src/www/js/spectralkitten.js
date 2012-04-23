@@ -4,15 +4,18 @@
 //we need before we write, and then, if we need more, request more from the user before we write.
 //of course, that is async, so somehow we have to save the state while we wait for the user to respond
 
+;(function(){
+"use strict";
+
 define(["jquery", "settings", "FileSystemManager", "config"],
 	function($, settings, FileSystemManager, config){
-		
-		var sk = {			
+
+		var sk = {
 			//instance variables
 			fileSystemManager:null,
 			apiBaseURL:"/api/",
 			apiVersionName:config.API_CARDS_NAME,
-			apiCardsName:config.API_VERSION_NAME,
+			apiCardsName:config.API_VERSION_NAME
 		};
 		
 		//private vars
@@ -21,7 +24,7 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 		var scope; //todo: rename this to _scope
 		
 		sk.initialize = function(apiBaseURL){
-			   
+
 			scope = this;
 			if(apiBaseURL){
 				this.apiBaseURL = apiBaseURL;
@@ -48,7 +51,7 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 			}
 		);
 
-		sk.initializeData = function(successCallback, errorCallback, forceUpdate) {	
+		sk.initializeData = function(successCallback, errorCallback, forceUpdate) {
 			loadCards(
 				function(appData) {
 					if (successCallback) {
@@ -319,3 +322,6 @@ define(["jquery", "settings", "FileSystemManager", "config"],
 		return sk;
 	}
 );
+
+
+})();
