@@ -1,3 +1,6 @@
+;(function(){
+"use strict";
+
 define(
 	function(){
 		var keywordsRegEx = [
@@ -70,9 +73,9 @@ define(
 			
 			if(p === null){
 				return "";
-			}				
+			}
 			
-			var out = p;		
+			var out = p;
 
 			var k;
 			for(var i = 0; i < len; i++){
@@ -83,6 +86,8 @@ define(
 			return out;
 		}
 
-		return f;	
+		return f;
 	}
 );
+
+})();
