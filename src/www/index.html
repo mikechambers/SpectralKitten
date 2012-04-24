@@ -56,7 +56,7 @@
 	<div class="template list height_inherit listholder" id="{{div_id}}">
 		<ul id="card_list">
 			{{#each cards}}
-			<li data-card_id="{{this.id}}">{{this.name}}</li>
+			<li data-card_id="{{this.id}}" class="rarity_{{this.rarity.name}}">{{this.name}}</li>
 			{{/each}}
 		</ul>
 	</div>

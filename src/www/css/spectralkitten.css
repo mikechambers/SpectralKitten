@@ -152,7 +152,6 @@ br.rules_break{
 	background: #000000;
 	color: #ffffff;
 	-webkit-border-radius: 50px;
-	color: #ffffff;
 	text-align: center;
 	letter-spacing:0px;
 	font-size:10px;
@@ -160,4 +159,25 @@ br.rules_break{
 
 .rules_keyword, .rules_mends, .rules_assault, .rules_required_hero, .rules_resistance, .rules_reputation{
 	font-weight:bold;
+}
+
+
+.rarity_Common{
+	color:#FFFFFF;
+}
+
+.rarity_Uncommon{
+	color:#00FF00;
+}
+
+.rarity_Rare{
+	color:#0000FF;
+}
+
+.rarity_Epic{
+	color:#FF00FF;
+}
+
+.rarity_Legendary{
+	color:#FF9900;
 }
