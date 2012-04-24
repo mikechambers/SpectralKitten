@@ -62,7 +62,9 @@ define(
 			{re:/(Pay[s]? )([0-9]|[x])|(Pay[s]? )([0-9][0-9])/im,rw:"$1<span class=\"rules_pay\">&nbsp;<b>$2</b>&nbsp;</span>"},
 			{re:/Mend ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_mends\">Mend $1</span>"},
 			{re:/Assault ([0-9]|[0-9][0-9]|X)/m,rw:"<span class=\"rules_assault\">Assault $1</span>"},
-			{re:/([[:<:]][A-Z][a-z]*[[:>:]] [[:<:]][A-Z][a-z]*[[:>:]]|[[:<:]][A-Z][a-z]*[[:>:]])( Hero Required)/,rw:"<span class=\"rules_required_hero\">$1$2</span>"},
+			
+			//matches either WORD WORD Hero Required or WORD Hero Required
+			{re:/(([A-Za-z]*?|[A-Za-z]*? [A-Za-z]*?)( Hero Required))/gm,rw:"<span class=\"rules_required_hero\">$1</span>"},
 			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m,rw:"<span class=\"rules_resistance\">$1$2</span>"},
 			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m,rw:"<span class=\"rules_reputation\">$1$2</span>"}
 		);
