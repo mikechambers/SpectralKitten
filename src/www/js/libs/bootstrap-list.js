@@ -62,6 +62,7 @@
         this.updateLayout();
         
         
+        this.resizeHandler = function( event ) { return self.onResize(event) }
         this.touchStartHandler = function( event ) { return self.onTouchStart(event) }
         this.touchMoveHandler = function( event ) { return self.onTouchMove(event) }
         this.touchEndHandler = function( event ) { return self.onTouchEnd(event) }
@@ -71,6 +72,7 @@
         this.TOUCH_END = this.touchSupported ? "touchend" : "mouseup"
         this.MOUSE_WHEEL = (navigator.userAgent.search("Fire") < 0) ? "mousewheel" : "DOMMouseScroll"
         
+       	$(window).resize( this.resizeHandler )
        	this.$el.bind( this.TOUCH_START, this.touchStartHandler )
         this.$el.bind( this.MOUSE_WHEEL, function( event ) { event.preventDefault();  return self.onMouseWheel(event) } )
         
@@ -115,6 +117,12 @@
 		if('KhtmlOpacity' in someScript.style) return 'Khtml';
 	
 		return '';
+	},
+	
+	onResize: function( event ) {
+		var maxPosition = (this.dataProvider.length*this.itemHeight)-(this.$el.height());
+		this.yPosition = Math.min( this.yPosition, maxPosition );
+		this.updateLayout();
 	},
     
     onTouchStart: function ( event ) {
@@ -361,6 +369,17 @@
     	var maxItemsHeight = (this.dataProvider.length) * this.itemHeight;
     	var targetHeight = Math.min(maxScrollbarHeight / maxItemsHeight, 1) * maxScrollbarHeight;
     	var actualHeight = Math.max(targetHeight, this.SCROLLBAR_MIN_SIZE);
+    	
+    	var scrollPosition = this.SCROLLBAR_BORDER+((this.yPosition/(maxItemsHeight-height)) * (maxScrollbarHeight-actualHeight));
+		if ( scrollPosition < this.SCROLLBAR_BORDER ) {
+			
+			actualHeight = Math.max( actualHeight+scrollPosition, 0 );
+			scrollPosition = this.SCROLLBAR_BORDER;
+		}	
+		else if ( scrollPosition > (height-actualHeight) ) {
+			actualHeight = Math.min( actualHeight, (height-(scrollPosition+this.SCROLLBAR_BORDER)) );
+		}
+		
     	this.$scrollbar.height( actualHeight );
     	var parent = this.$scrollbar.parent()
         
@@ -373,7 +392,6 @@
         	if ( parent.length <= 0 ) {
         		this.$el.append( this.$scrollbar );
         	}
-			var scrollPosition = this.SCROLLBAR_BORDER+((this.yPosition/(maxItemsHeight-height)) * (maxScrollbarHeight-actualHeight));
 			this.$scrollbar.css( "top", scrollPosition );
         }
         
