@@ -70,7 +70,7 @@ define(
 			{re:/(([f|F]rost|[n|N]ature|[s|S]hadow|[a|A]rcane|[f|F]ire|Physical)( [R|r]esistance))/gm,rw:"<span class=\"rules_resistance\">$1</span>"},
 			{re:/((with|chosen|have) ([R|r]esistance[s]?)([,\. ]?))/gm,rw:"$2 <span class=\"rules_resistance\">$3</span>$4"},
 
-			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m,rw:"<span class=\"rules_reputation\">$1$2</span>"}
+			{re:/(([A-Za-z]*?)( Reputation))/gm,rw:"<span class=\"rules_reputation\">$1</span>"}
 		);
 			
 		len = keywordsRegEx.length;

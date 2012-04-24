@@ -48,13 +48,13 @@ requirejs(['assert', 'parserules'],
 				if(contains){
 					//make sure ever rules with Hero Required is captured
 					assert.ok(out.indexOf(confirmStr) > -1,
-							"Missed capture\nid:+" + c.id+ "\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
+							"Missed capture\nid: " + c.id+ "\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
 				}
 				else {
 					//make sure that every rule that does not contain Hero Required is NOT
 					//captured
 					assert.ok(out.indexOf(confirmStr) == -1,
-							"False capture\nid:+" + c.id+"\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
+							"False capture\nid: " + c.id+"\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
 				}
 				
 			}
@@ -152,7 +152,7 @@ requirejs(['assert', 'parserules'],
 					}
 				);
 
-				/************** Hero Required Parsing Tests *******************/
+				/************** Resistance Parsing Tests *******************/
 
 				test(
 					'Resistance Full Data Pass',
@@ -208,7 +208,18 @@ requirejs(['assert', 'parserules'],
 					}
 				);
 
-				//"Opposing heroes and allies lose and can't have Resistances."
+				/************** Reputation Parsing Tests *******************/
+
+				test(
+					'Reputation Full Data Pass',
+					function() {
+
+						var token = "Reputation";
+						var confirmStr = "rules_reputation";
+
+						fullDataPass(token, confirmStr, [1530,1531, 1532, 1533, 3192, 3194]);
+					}
+				);
 
 			}
 		)
