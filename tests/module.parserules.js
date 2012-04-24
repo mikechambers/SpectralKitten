@@ -221,6 +221,9 @@ requirejs(['assert', 'parserules'],
 					}
 				);
 
+
+				/************** Line Return Parsing Tests *******************/
+
 				test(
 					'Line Returns',
 					function() {
@@ -235,11 +238,11 @@ requirejs(['assert', 'parserules'],
 				test(
 					'Multiple Line Returns',
 					function() {
+						var d = "\nAAAAAAA\nBBBBBB\n";
+						var expected = "<br class=\"rules_break\" />AAAAAAA<br class=\"rules_break\" />BBBBBB<br class=\"rules_break\" />";
+						var result = parserules(d);
 
-						var token = "\nAAAAAAA\nBBBBBB\n";
-						var confirmStr = "<br class=\"rules_break\" />AAAAAAA<br class=\"rules_break\" />BBBBBB<br class=\"rules_break\" />";
-
-						fullDataPass(token, confirmStr);
+						assert.ok(result === expected,"Multiple Line Returns");
 					}
 				);
 
@@ -247,8 +250,22 @@ requirejs(['assert', 'parserules'],
 					'Consecutive Line Returns',
 					function() {
 
-						var token = "A\n\n\n \n";
-						var confirmStr = "<br class=\"rules_break\" /><br class=\"rules_break\" /><br class=\"rules_break\" /> <br class=\"rules_break\" />";
+						var d = "A\n\n\n \n";
+						var expected = "A<br class=\"rules_break\" /><br class=\"rules_break\" /><br class=\"rules_break\" /> <br class=\"rules_break\" />";
+						var result = parserules(d);
+
+						assert.ok(result === expected,"Consecutive Line Returns");
+					}
+				);
+
+				/************** Payment Parsing Tests *******************/
+
+				test(
+					'Payments >>>',
+					function() {
+
+						var token = ">>>";
+						var confirmStr = "<img src=\"/assets/payment_result.png\" />";
 
 						fullDataPass(token, confirmStr);
 					}
