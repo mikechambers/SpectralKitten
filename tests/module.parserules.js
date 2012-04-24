@@ -12,7 +12,11 @@ requirejs(['assert', 'parserules'],
 	function(assert, parserules) {
 		"use strict";
 
-		function fullDataPass(token, confirmStr, omitIdArr){
+		function fullDataPass(token, confirmStr, falseCapture, omitIdArr){
+			if(falseCapture === undefined){
+				falseCapture = true;
+			}
+
 			var len = cards.length;
 			
 
@@ -50,7 +54,7 @@ requirejs(['assert', 'parserules'],
 					assert.ok(out.indexOf(confirmStr) > -1,
 							"Missed capture\nid: " + c.id+ "\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
 				}
-				else {
+				else if (falseCapture){
 					//make sure that every rule that does not contain Hero Required is NOT
 					//captured
 					assert.ok(out.indexOf(confirmStr) == -1,
@@ -217,7 +221,7 @@ requirejs(['assert', 'parserules'],
 						var token = "Reputation";
 						var confirmStr = "rules_reputation";
 
-						fullDataPass(token, confirmStr, [1530,1531, 1532, 1533, 3192, 3194]);
+						fullDataPass(token, confirmStr, true, [1530,1531, 1532, 1533, 3192, 3194]);
 					}
 				);
 
@@ -268,6 +272,98 @@ requirejs(['assert', 'parserules'],
 						var confirmStr = "<img src=\"/assets/payment_result.png\" />";
 
 						fullDataPass(token, confirmStr);
+					}
+				);
+
+				/************** [Horde] Parsing Tests *******************/
+
+				test(
+					'[Horde] parsing',
+					function() {
+
+						var token = "[Horde]";
+						var confirmStr = "<img src=\"/assets/horde_ally.png\" />";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+				/************** [Alliance] Parsing Tests *******************/
+
+				test(
+					'[Alliance] parsing',
+					function() {
+
+						var token = "[Alliance]";
+						var confirmStr = "<img src=\"/assets/alliance_ally.png\" />";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+				/************** [Activate] Parsing Tests *******************/
+
+				test(
+					'[Activate] parsing',
+					function() {
+
+						var token = "[Activate]";
+						var confirmStr = "<img src=\"/assets/activate.png\" />";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+
+				/************** Rules Sidenote ( Parsing Tests *******************/
+
+				test(
+					'Rules Sidenote ( Start parsing',
+					function() {
+
+						var token = "(";
+						var confirmStr = "<span class=\"rules_sidenote\">";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+				test(
+					'Rules Sidenote ) End parsing',
+					function() {
+
+						var token = ")";
+						var confirmStr = "</span>";
+
+						fullDataPass(token, confirmStr, false);
+					}
+				);
+
+				/************** Pays Parsing Tests *******************/
+
+				test(
+					'Pay parsing',
+					function() {
+
+						var token = "Pay";
+						var confirmStr = "rules_pay";
+
+						fullDataPass(token, confirmStr, undefined, [147, 394, 564, 577, 709,
+								715, 777, 849, 852, 860, 1293, 1300, 1366, 1452, 1486, 1544,
+								1546, 1618, 1696, 1789, 1791, 1974, 2091, 2179, 2265, 2337, 2377, 2489, 2557,
+								2640,2792, 2874, 2922, 2923, 2924, 2925, 2929, 2993, 3007,3014, 3019, 3027, 3043,
+								3049, 3055, 3212, 3221, 3250, 3270, 3353, 3450, 3698, 3719, 3836, 3949, 3969, 4012]);
+					}
+				);
+
+				test(
+					'Pays parsing',
+					function() {
+
+						var token = "Pays";
+						var confirmStr = "rules_pay";
+
+						fullDataPass(token, confirmStr, false);
 					}
 				);
 
