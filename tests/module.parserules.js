@@ -12,6 +12,55 @@ requirejs(['assert', 'parserules'],
 	function(assert, parserules) {
 		"use strict";
 
+		function fullDataPass(token, confirmStr, omitIdArr){
+			var len = cards.length;
+			
+
+			var omitCache = {};
+
+			if(omitIdArr){
+				var l;
+				for(var i = 0; l = omitIdArr.length, i < l; i++){
+					omitCache[omitIdArr[i]] = true;
+				}
+			}
+
+			var rules;
+			var out;
+			var contains;
+			var c;
+			for(var i = 0; i < len; i++){
+				c = cards[i];
+
+				if(omitCache[c.id]){
+					continue;
+				}
+
+				rules = c.rules;
+				contains = false;
+				
+				if(rules !== null){
+					contains = (rules.toLowerCase().indexOf(token.toLowerCase()) > -1);
+				}
+				
+				out = parserules(rules);
+				
+				if(contains){
+					//make sure ever rules with Hero Required is captured
+					assert.ok(out.indexOf(confirmStr) > -1,
+							"Missed capture\nid:+" + c.id+ "\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
+				}
+				else {
+					//make sure that every rule that does not contain Hero Required is NOT
+					//captured
+					assert.ok(out.indexOf(confirmStr) == -1,
+							"False capture\nid:+" + c.id+"\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
+				}
+				
+			}
+		}
+
+
 		suite('parserules',
 			function() {
 				setup(
@@ -43,36 +92,11 @@ requirejs(['assert', 'parserules'],
 				test(
 					'Hero Required Full Data Pass',
 					function() {
-						var len = cards.length;
-						
-						var rules;
-						var out;
-						var contains;
-						var c;
-						for(var i = 0; i < len; i++){
-							c = cards[i];
-							rules = c.rules;
-							contains = false;
-							
-							if(rules !== null){
-								contains = (rules.toLowerCase().indexOf("hero required") > -1);
-							}
-							
-							out = parserules(rules);
-							
-							if(contains){
-								//make sure ever rules with Hero Required is captured
-								assert.ok(out.indexOf("rules_required_hero") > -1,
-										"Missed capture\nid:+" + c.id+ "\nInput :\n" + rules + "\nOutput :\n" + out );
-							}
-							else {
-								//make sure that every rule that does not contain Hero Required is NOT
-								//captured
-								assert.ok(out.indexOf("rules_required_hero") == -1,
-										"False capture\nid:+" + c.id+"\nInput :\n" + rules + "\nOutput :\n" + out );
-							}
-							
-						}
+
+						var token = "Hero Required";
+						var confirmStr = "rules_required_hero";
+
+						fullDataPass(token, confirmStr);
 					}
 				);
 	
@@ -127,6 +151,65 @@ requirejs(['assert', 'parserules'],
 						assert.ok(expected === result,"Beast Mastery Hero Required Solo failed");
 					}
 				);
+
+				/************** Hero Required Parsing Tests *******************/
+
+				test(
+					'Resistance Full Data Pass',
+					function() {
+
+						var token = "Resistance";
+						var confirmStr = "rules_resistance";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+				test(
+					"Resistance start string",
+					function(){
+						var d = "Nature Resistance (Prevent all nature [Nature] damage that this ally would be dealt.)";
+						var expected = "<span class=\"rules_resistance\">Nature Resistance</span>";
+						var result = parserules(d);
+						assert.ok(result.indexOf(expected) == 0,"Resistance start string");
+					}
+				);
+
+				test(
+					"chosen resistance end",
+					function(){
+						var d = "As Addisyn enters play, choose arcane, fire, frost, nature, or shadow.\nAddisyn has the chosen resistance.";
+						var expected = "\<span class=\"rules_resistance\"\>resistance\<\/span\>.";
+						var result = parserules(d);
+
+						assert.ok(new RegExp(expected + "$").test(result),"chosen resistance end");
+					}
+				);
+
+				test(
+					"with Resistance",
+					function(){
+						var d = "Opposing allies with Resistance have -1 [Health].";
+						var expected = "with <span class=\"rules_resistance\">Resistance</span>";
+						var result = parserules(d);
+
+						assert.ok(result.indexOf(expected) > -1,"with Resistance");
+					}
+				);
+
+				test(
+					"have Resistances",
+					function(){
+						var d = "Opposing heroes and allies lose and can't have Resistances.";
+						var expected = "Opposing heroes and allies lose and can't have <span class=\"rules_resistance\">Resistances</span>.";
+						var result = parserules(d);
+
+						assert.ok(result === expected,"with Resistance");
+					}
+				);
+
+				//"Opposing heroes and allies lose and can't have Resistances."
+
 			}
 		)
 	}

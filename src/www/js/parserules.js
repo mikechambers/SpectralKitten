@@ -12,7 +12,7 @@ define(
 			{re:/(Totem)/g,rw:""},
 			{re:/(Air)/g,rw:""},
 			{re:/(Earth)/g,rw:""},
-			{re:/(Fire)/g,rw:""},
+			{re:/(\[Fire\])/g,rw:""},
 			{re:/(Water)/g,rw:""},
 			{re:/(Stealth)/g,rw:""},
 			{re:/(Untargetable)/g,rw:""},
@@ -65,7 +65,11 @@ define(
 			
 			//matches either WORD WORD Hero Required or WORD Hero Required
 			{re:/(([A-Za-z]*?|[A-Za-z]*? [A-Za-z]*?)( Hero Required))/gm,rw:"<span class=\"rules_required_hero\">$1</span>"},
-			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Resistance)/m,rw:"<span class=\"rules_resistance\">$1$2</span>"},
+
+			//next two matches resistance types. Can probably combine them
+			{re:/(([f|F]rost|[n|N]ature|[s|S]hadow|[a|A]rcane|[f|F]ire|Physical)( [R|r]esistance))/gm,rw:"<span class=\"rules_resistance\">$1</span>"},
+			{re:/((with|chosen|have) ([R|r]esistance[s]?)([,\. ]?))/gm,rw:"$2 <span class=\"rules_resistance\">$3</span>$4"},
+
 			{re:/([[:<:]][A-Z][a-z]*[[:>:]])( Reputation)/m,rw:"<span class=\"rules_reputation\">$1$2</span>"}
 		);
 			
