@@ -16,6 +16,10 @@
 			"FileError",
 			"Handlebars",
 			"define",
-			"require"
+			"require",
+			"setup",
+			"teardown",
+			"test",
+			"suite"
 			]
 }
