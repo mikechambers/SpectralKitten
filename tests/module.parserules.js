@@ -221,6 +221,39 @@ requirejs(['assert', 'parserules'],
 					}
 				);
 
+				test(
+					'Line Returns',
+					function() {
+
+						var token = "\n";
+						var confirmStr = "<br class=\"rules_break\" />";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+				test(
+					'Multiple Line Returns',
+					function() {
+
+						var token = "\nAAAAAAA\nBBBBBB\n";
+						var confirmStr = "<br class=\"rules_break\" />AAAAAAA<br class=\"rules_break\" />BBBBBB<br class=\"rules_break\" />";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
+				test(
+					'Consecutive Line Returns',
+					function() {
+
+						var token = "A\n\n\n \n";
+						var confirmStr = "<br class=\"rules_break\" /><br class=\"rules_break\" /><br class=\"rules_break\" /> <br class=\"rules_break\" />";
+
+						fullDataPass(token, confirmStr);
+					}
+				);
+
 			}
 		)
 	}
