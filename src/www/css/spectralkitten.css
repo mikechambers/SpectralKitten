@@ -158,6 +158,6 @@ br.rules_break{
 	font-size:10px;
 }
 
-.rules_keyword .rules_mends .rules_assault .rules_required_hero .rules_resistance .rules_reputation{
+.rules_keyword, .rules_mends, .rules_assault, .rules_required_hero, .rules_resistance, .rules_reputation{
 	font-weight:bold;
 }
