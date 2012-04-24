@@ -382,6 +382,19 @@ requirejs(['assert', 'parserules'],
 					}
 				);
 
+				/************** Assault Parsing Tests *******************/
+
+				test(
+					"Assault parsing",
+					function() {
+
+						var token = "Assault";
+						var confirmStr = "rules_assault";
+
+						fullDataPass(token, confirmStr, undefined, [2991, 3106, 3140, 3237]);
+					}
+				);
+
 			}
 		)
 	}
