@@ -50,13 +50,15 @@ requirejs(['assert', 'parserules'],
 				out = parserules(rules);
 				
 				if(contains){
-					//make sure ever rules with Hero Required is captured
+
+					if(c.id === 270){
+
+					}
+
 					assert.ok(out.indexOf(confirmStr) > -1,
 							"Missed capture\nid: " + c.id+ "\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
 				}
 				else if (falseCapture){
-					//make sure that every rule that does not contain Hero Required is NOT
-					//captured
 					assert.ok(out.indexOf(confirmStr) == -1,
 							"False capture\nid: " + c.id+"\nCard Name: "+c.name+"\nInput :\n" + rules + "\nOutput :\n" + out );
 				}
@@ -364,6 +366,19 @@ requirejs(['assert', 'parserules'],
 						var confirmStr = "rules_pay";
 
 						fullDataPass(token, confirmStr, false);
+					}
+				);
+
+				/************** Mend Parsing Tests *******************/
+
+				test(
+					"Mend parsing",
+					function() {
+
+						var token = "Mend";
+						var confirmStr = "rules_mends";
+
+						fullDataPass(token, confirmStr, undefined, [270, 376, 814, 1328, 2669, 2991, 3237, 3318]);
 					}
 				);
 
