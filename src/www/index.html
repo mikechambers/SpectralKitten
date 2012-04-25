@@ -34,11 +34,13 @@
 <div id="slidecontainer" class="height_inherit">
 	<!-- View 1 -->
 	<div id="view1" class="viewcontainer height_inherit viewhidden">
-		<div id="list_container" class="height_inherit listholder">
-        </div>
+
         
 		<div id="view_1_content" class="height_inherit"></div>
+		<div id="list_container" class="height_inherit listholder">
+        </div>
 		<div id="list_holder" class="height_inherit"></div>
+
 	</div>
 	<!-- End View 1 -->
 	
@@ -73,25 +75,10 @@
 	</div>
 </script>
 	
-	
-<!--
-        {
-            "hasBooster": true, 
-            "type": {
-                "name": "Core"
-            }, 
-            "name": "Twilight of the Dragons", 
-            "block": {
-                "name": "Heroes of Azeroth"
-            }, 
-            "id": 32
-        }
--->
-	
 <!-- HandleBars Series Detail Template //-->
 <script id="series-detail-template" type="text/x-handlebars-template">
 	<div class="template series_detail">
-		<hgroup>
+		<hgroup class="inner_detail">
 			<h1>{{series.name}}</h1>
 			<dl class="dl-horizontal">
 				<dt>Type</dt>
@@ -107,92 +94,108 @@
 	
 <script id="card-detail-template" type="text/x-handlebars-template">
 	<div class="template card_detail">
-		<!-- Basics -->
-        <div>{{card.name}}</div>
-        <div>ID: {{card.id}}</div>
-        <div>Wowtcgdb ID: {{card.wowtcgdb_id}}</div>
-        {{#if card.faction.name}}
-        <div>Faction: {{card.faction.name}}</div>
-        {{/if}}
-        {{#if card.card_class.name}}
-        <div>Class: {{card.card_class.name}} ({{card.card_class.abbreviation}})</div>
-        {{/if}}
-        <div>Race: {{card.race.name}}</div>
-        <div>Cost: {{card.cost}}</div>
-        <div>Rarity: {{card.rarity.name}} ({{card.rarity.abbreviation}})</div>
-        <div>Image (should be image once I know path) {{card.card_image}}</div>
+	<div class="row-fluid inner_detail">
+  		<div class="span8">
+			<h1>{{card.name}}</h1>
+			<div>Class: {{card.card_class.name}} ({{card.card_class.abbreviation}})</div>
+			<div>Race: {{card.race.name}}</div>
+			<div>Faction: {{card.faction.name}}</div>
+			<div>Type Tags : {{card.type_tags}}</div>
+			<div>Type: {{card.type.name}}</div>
+			<div>Ally Type: {{card.ally_type}}</div>
 
-        <!-- Series (not sure if we need this) -->
-        <div>Series:
-        <ul>
-            <li>Boosters: {{card.series.hasBooster}}</li>
-            <li>Type: {{card.series.type.name}}</li>
-            <li>Name: {{card.series.name}}</li>
-            <li>Block: {{card.series.block.name}}</li>
-            <li>ID: {{card.series.id}}</li>
-        </ul>
+			<hr />
 
-        <!-- Stats -->
-        <div>Attack: {{card.attack}}</div>
-        <div>Defense: {{card.defense}}</div>
-        <div>Health: {{card.health}}</div>
-        <div>Rules: {{{rules}}}</div>
-        {{#if card.strike_cost}}
-            <div>{{card.strike_cost}}</div>
-        {{/if}}
-        
-        <div>Type: {{card.type.name}}</div>
-        {{#if card.ally_type}}
-            <div>Ally Type: {{card.ally_type}}</div>
-        {{/if}}
+			<div>Rules: {{{rules}}}</div>
 
-        <div>Damage Types:
-            <ul>
-            {{#each damage_type}}
-                <!-- get damage type thing -->
-            {{/each}}
-            </ul>
-        </div>
+			<hr />
 
-        <!-- Other metadata -->
-        <div>Blocks: 
-            <ul>
-                {{#each blocks}}
-                    <li>{{this.name}}</li>
-                {{/each}}
-            </ul>
-        </div>
-        <div>Professions:
-            <ul>{{#each card.professions}}<li>{{this.name}}</li>{{/each}}</ul>
-        </div>    
+			<div>Cost: {{card.cost}}</div>
+			<div>Cost Modifier: {{card.cost_modifier}}</div>
+			<div>Attack: {{card.attack}}</div>
+			<div>Defense: {{card.defense}}</div>
+			<div>Health: {{card.health}}</div>
+			<div>Strike Cost : {{card.strike_cost}}</div>
 
-        <div>Talents:
-            <ul>{{#each card.talents}}<li>{{this.name}}</li>{{/each}}</ul>
-        </div>
+			<hr />
 
-        <div>Formats:
-            <ul>
-            {{#each damage_type}}
-                <!-- get damage type thing -->
-            {{/each}}
-            </ul>
-        </div>
+			<div>Damage Types:
+				<ul>
+				{{#each card.damage_type}}
+					<li>{{this.name}}</li>
+				{{/each}}
+				</ul>
+			</div>
+
+
+			<div>Card Number: {{card.card_num}}</div>
+			<div>Rarity: {{card.rarity.name}} ({{card.rarity.abbreviation}})</div>
+			<div>Series:
+				<ul>
+					<li>Boosters: {{card.series.hasBooster}}</li>
+					<li>Type: {{card.series.type.name}}</li>
+					<li>Name: {{card.series.name}}</li>
+					<li>Block: {{card.series.block.name}}</li>
+					<li>ID: {{card.series.id}}</li>
+				</ul>
+			</div>
+			<div>Blocks: 
+				<ul>
+					{{#each card.blocks}}
+						<li>{{this.name}}</li>
+					{{/each}}
+				</ul>
+			</div>
+			<div>Formats:
+				<ul>
+				{{#each card.formats}}
+					<li>{{this.name}}</li>
+				{{/each}}
+				</ul>
+			</div>
+	
+			<!-- Basics -->
+			
+			<div>ID: {{card.id}}</div>
+			
+			<div>Wowtcgdb ID: <a href="http://wowtcgdb.com/carddetail.aspx?id={{card.wowtcgdb_id}}">{{card.wowtcgdb_id}}</a></div>
+			
+
+	
+			<!-- Stats -->
+
+			<div>Class Restrictions:
+				<ul>
+				{{#each card.class_restrictions}}
+					<li>{{this.name}} ({{this.abbreviation}})</li>
+				{{/each}}
+				</ul>
+			</div>
+
+			<div>Professions:
+				<ul>{{#each card.professions}}<li>{{this.name}}</li>{{/each}}</ul>
+			</div>    
+	
+			<div>Talents:
+				<ul>{{#each card.talents}}<li>{{this.name}}</li>{{/each}}</ul>
+			</div>
 
 		</div>
-			<div class="span8">
-	  			<div class="cards">
-					<div class="cube">
-						<img class="cardFront" src="{{card_image}}" />
-						{{#if card.card_reverse_image}}
-							<img class="cardBack" src="{{card.card_reverse_image}}" />
-						{{else}}
-							<img class="cardBack" src="assets/back.jpg" />
-						{{/if}}
-					</div>
- 	 			</div>
+  		<div class="span4">
+			<div class="cards">
+				<div class="cube">
+					<img class="cardFront" src="{{card_image}}" />
+					{{#if card.card_reverse_image}}
+						<img class="cardBack" src="{{card.card_reverse_image}}" />
+					{{else}}
+						<img class="cardBack" src="assets/back.jpg" />
+					{{/if}}
+				</div>
 			</div>
+		</div>
 	</div>
-</script>    
+	</div>
+</script> 
 
 	
 <footer>

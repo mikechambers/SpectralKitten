@@ -29,6 +29,10 @@ body {
     overflow-x: hidden;
 }
 
+.inner_detail{
+	padding:20px;
+}
+
 #viewport{
 	position:absolute;
 	top:40px;
@@ -88,7 +92,7 @@ body {
 
 
 .listholder {
-    left: -300px; /* If this changes, be sure to change the #set_list_container */
+    left: -320px; /* If this changes, be sure to change the #set_list_container */
     width: 320px;
     height: 100%;
     -webkit-transition: left 0.3s linear;
@@ -99,7 +103,7 @@ body {
 }
 
 #list_holder {
-    width: 200px;
+    width: 320px;
     left: 0px;
 }
 
