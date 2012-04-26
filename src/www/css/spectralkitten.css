@@ -2,6 +2,11 @@ html {
 	height:100%;
 	overflow:hidden;
 	-webkit-font-smoothing: antialiased;
+
+    
+    /* Added this at Garth's suggestion. I'm still not totally sure I understand what it does
+        but it seems like it makes sizing/laying things out easier. */
+    -webkit-box-sizing: border-box;
 }
 
 body {
@@ -13,9 +18,6 @@ body {
 
 #rowContainter{
 	position:absolute;
-}
-
-.template{
 }
 
 .card_detail, .series_detail{
@@ -33,6 +35,10 @@ body {
 	padding:20px;
 }
 
+/************************** Views ***************************/
+
+/* The viewport is the "window" for the sliding panels. */
+
 #viewport{
 	position:absolute;
 	top:40px;
@@ -40,7 +46,23 @@ body {
     overflow: hidden;
 }
 
-#view_1_content{
+/* slidecontainer is underneath the viewport and contains all of the child views. In order to slide views
+    we change the left property of slidecontainer and it transitions under the viewport. We do most of the math 
+    in main.js to set the widths and left property accordingly. */
+
+#slidecontainer {
+	position: relative;
+    border: 1px solid #000;
+	left: 0px;
+	-webkit-transition: left 0.3s linear;
+	transition: left 0.3s linear;
+}
+
+#cards_view{
+	background-color: #F2DC99;
+}
+
+#cards_view_content{
 	position:absolute;
     right: 0px;
 	left:320px;
@@ -50,17 +72,35 @@ body {
     overflow:hidden;
 }
 
-/* Lists */
+#decks_view{
+	background-color: #F29057;
+}
+
+#search_view{
+	background-color: #BF1F1F;
+}
+
+.viewcontainer {
+	position: relative;
+	float: left;
+    width:100%;
+}
+
+/* All of the views start off hidden so that as we calculate and modify the left property, we don't
+    get a transition that plays before things load. */
+.viewhidden {
+    visibility: hidden;
+}
+
+/************************** Lists ***************************/
 #list_container {
 	width: 320px;
 	left: 0px;
-    /*left: -320px;*/ /* If this changes, be sure to change the #set_list_container */
     width: 320px;
     height: 100%;
     -webkit-transition: left 0.3s linear;
     transition: left 0.3s linear;
     position:absolute;
-    /*z-index:10;*/
     background-color: #fff;
 }
     
@@ -107,42 +147,6 @@ body {
 	list-style:none;
 	margin:0px;
 	width:320px;
-}
-
-/* Views */
-
-#view1{
-	background-color: #F2DC99;
-}
-
-#view2{
-	background-color: #F29057;
-}
-
-#view3{
-	background-color: #BF1F1F;
-}
-
-#slidecontainer {
-	position: relative;
-    border: 1px solid #000;
-	left: 0px;
-	-webkit-transition: left 0.3s linear;
-	transition: left 0.3s linear;
-}
-
-.viewcontainer {
-	position: relative;
-	float: left;
-    width:100%;
-}
-
-.viewhidden {
-    visibility: hidden;
-}
-
-#content {
-    float: left;
 }
 
 /* Styles for card rules formatting */

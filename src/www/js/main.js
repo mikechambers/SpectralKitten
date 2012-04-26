@@ -135,7 +135,7 @@ require(
 			var h = $(window).height();
 			detail.css("top", h);
 			
-			$("#view_1_content").append(detail);
+			$("#cards_view_content").append(detail);
 		
 			window.webkitRequestAnimationFrame(
 				function(){
