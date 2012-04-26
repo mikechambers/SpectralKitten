@@ -55,7 +55,7 @@ body {
 	width: 320px;    
 }
 
-.list {
+.list, .filter_list {
 	font-family: 'LeagueGothicRegular';
 	font-size: 30px;
 	color: #666;
@@ -63,7 +63,7 @@ body {
 	text-transform: uppercase;
 }
 
-.list li {
+.list li, .filter_list li  {
 	height: 42px;
 	padding: 30px 10px 0 22px;
 	border-top-color: #F5F5F5;
@@ -85,9 +85,10 @@ body {
 	color: #666;
 }
 
-#set_list_container {
-	width: 100%;
-	height:100%;
+.filter_list {
+	list-style:none;
+	margin:0px;
+	width:320px;
 }
 
 
