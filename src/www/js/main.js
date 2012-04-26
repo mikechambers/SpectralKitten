@@ -126,10 +126,9 @@ require(
 
 		var cardDetailTemplate;
 		var seriesDetailTemplate;
-		var renderDetailTemplate = function(templateSource, context){
 		
-			var source = $(templateSource).html();
-			var template = Handlebars.compile(source);
+		var renderDetailTemplate = function(template, context){
+					
 			var html = template(context);
 			
 			var detail = $(html);
@@ -171,8 +170,13 @@ require(
 					$(".cube").unbind('mouseenter mouseleave');
 					function cardPathWin(imgPath){
 						
+						if(!cardDetailTemplate){
+							var source = $("#card-detail-template").html();
+							cardDetailTemplate = Handlebars.compile(source);
+						}
+						
 						renderDetailTemplate(
-							"#card-detail-template",
+							cardDetailTemplate,
 							{
 								"card": card,
 								"card_image":imgPath,
@@ -193,7 +197,13 @@ require(
 		}
 			
 		var renderSeriesDetail = function(series){
-			renderDetailTemplate("#series-detail-template", {"series": series});
+			
+			if(!seriesDetailTemplate){
+				var source = $("#series-detail-template").html();
+				seriesDetailTemplate = Handlebars.compile(source);
+			}
+			
+			renderDetailTemplate(seriesDetailTemplate, {"series": series});
 		}
 
 		
