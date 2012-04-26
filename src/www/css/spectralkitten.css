@@ -60,7 +60,7 @@ body {
     -webkit-transition: left 0.3s linear;
     transition: left 0.3s linear;
     position:absolute;
-    z-index:10;
+    /*z-index:10;*/
     background-color: #fff;
 }
     
@@ -77,6 +77,8 @@ body {
 	height:100%;
 	width:320px;
 	-webkit-transition: left 0.3s linear;
+	position:absolute;
+	z-index:1;
 }
 
 .list li, .filter_list li  {

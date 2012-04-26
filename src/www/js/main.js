@@ -248,7 +248,7 @@ require(
 		//click handler for lists of cards
 		var cardsListHandler = function(event){
 			var item_id = $(event.srcElement).data("item_id");
-			console.log("item_id");
+
 			var c = spectralKitten.getCard(item_id);
 			renderCardDetail(c);
 		};
@@ -278,14 +278,16 @@ require(
 
 			var html = listTemplate(context);
 			
-			//this will overwrite previous list
-			$('#list_container').html(html);
+			$('#list_container').append(html);
 	
 			var list = $("#" + id);
 			
+			if(listToRemove){
+				listToRemove.css("z-index", 0);
+			}
+			
 			listToRemove = currentList;
 			currentList = list;
-			
 			
 			list.list();
 			
