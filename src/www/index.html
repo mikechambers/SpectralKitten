@@ -41,9 +41,8 @@
 			<li><input id="filter_field" type="search" /></li>
 		</ul>		
 		
-		<div id="list_container" class="height_inherit listholder">
-        </div>
-		<div id="list_holder" class="height_inherit"></div>
+		<div id="list_container" class="height_inherit"></div>
+		
 
 	</div>
 	<!-- End View 1 -->
@@ -57,23 +56,12 @@
 </div>
 </div>
 
-<!-- HandleBars Card List Template //-->
-<script id="card-list-template" type="text/x-handlebars-template">
-	<div class="template list height_inherit listholder" id="{{div_id}}">
-		<ul id="card_list">
-			{{#each cards}}
-			<li data-card_id="{{this.id}}" class="rarity_{{this.rarity.name}}">{{this.name}}</li>
-			{{/each}}
-		</ul>
-	</div>
-</script>
-
 <!-- HandleBars Series List Template //-->
-<script id="series-list-template" type="text/x-handlebars-template">
-	<div class="template list height_inherit" id="series_list_container">
-		<ul id="series_list">
-			{{#each series}}
-			<li data-series_id="{{this.id}}">{{this.name}}</li>
+<script id="list-template" type="text/x-handlebars-template">
+	<div class="template list height_inherit" id="{{id}}">
+		<ul id="item_list">
+			{{#each items}}
+			<li data-item_id="{{this.id}}" {{#if this.rarity}}class="rarity_{{this.rarity.name}}"{{/if}}>{{this.name}}</li>
 			{{/each}}
 		</ul>
 	</div>

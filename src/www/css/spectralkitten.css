@@ -52,15 +52,31 @@ body {
 
 /* Lists */
 #list_container {
-	width: 320px;    
+	width: 320px;
+	left: 0px;
+    /*left: -320px;*/ /* If this changes, be sure to change the #set_list_container */
+    width: 320px;
+    height: 100%;
+    -webkit-transition: left 0.3s linear;
+    transition: left 0.3s linear;
+    position:absolute;
+    z-index:10;
+    background-color: #fff;
 }
-
+    
 .list, .filter_list {
 	font-family: 'LeagueGothicRegular';
 	font-size: 30px;
 	color: #666;
 	text-shadow: 0 1px 0 #FFF;
 	text-transform: uppercase;
+}
+
+.list {
+	left:-320px;
+	height:100%;
+	width:320px;
+	-webkit-transition: left 0.3s linear;
 }
 
 .list li, .filter_list li  {
@@ -89,23 +105,6 @@ body {
 	list-style:none;
 	margin:0px;
 	width:320px;
-}
-
-
-.listholder {
-    left: -320px; /* If this changes, be sure to change the #set_list_container */
-    width: 320px;
-    height: 100%;
-    -webkit-transition: left 0.3s linear;
-    transition: left 0.3s linear;
-    position:absolute;
-    z-index:10;
-    background-color: #fff;
-}
-
-#list_holder {
-    width: 320px;
-    left: 0px;
 }
 
 /* Views */

@@ -3,14 +3,24 @@
 "use strict";
 
 require(
-	["jquery", "spectralkitten", "settings", "libs/domReady", "js/libs/bootstrap.min.js"],
-	function($, spectralKitten, settings, domReady){
+	["jquery", "spectralkitten", "settings", "libs/domReady", "filter", "js/libs/bootstrap.min.js"],
+	function($, spectralKitten, settings, domReady, filter){
 
 		var Handlebars;
 		
 		var views;
 		var viewportWidth;
-			
+
+		//reference to jquery element pointing to the filter search field
+		var filterField;
+		
+		//current data set rendered by list.
+		var currentListData = null;
+		
+		//seriesListTemplate (we are caching it)
+		var listTemplate;
+
+		
 		var currentCardDetailView = null;
 		
 		domReady.withResources(
@@ -68,7 +78,28 @@ require(
 								"js/libs/bootstrap-list.js"],
 							function(){
 								Handlebars = window.Handlebars;
-								renderSeriesList(spectralKitten.series);
+								renderList(spectralKitten.series, seriesListHandler);
+								
+								filterField = $("#filter_field");
+								filterField.on("input", null, null,
+									function(e){
+										
+										if(!currentListData){
+											return;
+										}
+										var input = filterField.val();
+										
+										var filteredData = filter.byObject(currentListData, "name", input);
+										
+										if(currentListData === spectralKitten.series){								
+											renderSeriesList(filteredData);
+										}
+										else {
+											renderCardList(filteredData);
+										}
+									}
+								);								
+								
 							}
 						)
 
@@ -93,6 +124,8 @@ require(
 			}
 		);
 
+		var cardDetailTemplate;
+		var seriesDetailTemplate;
 		var renderDetailTemplate = function(templateSource, context){
 		
 			var source = $(templateSource).html();
@@ -124,8 +157,6 @@ require(
 
 			return detail;
 		}
-		
-		
 			
 		var removeDetailView = function(view){
 			view.remove();
@@ -161,65 +192,113 @@ require(
 			);
 		}
 			
-		/*series is a single series item*/
 		var renderSeriesDetail = function(series){
-			//todo: require template
 			renderDetailTemplate("#series-detail-template", {"series": series});
 		}
+
 		
 		//todo : there wont always be a series_id
-		var renderCardList = function(cards, series_id){
-			//todo: require template
+		var renderCardList = function(cards, animateIn){
 			
-			var source = $('#card-list-template').html();
-			var template = Handlebars.compile(source);
-		
-			var timestamp = new Date().getTime();
-			var div_id = "series_" + series_id + "_" + timestamp;
+			currentListData = cards;
+			
+			if(!cardListTemplate){
+				var source = $('#card-list-template').html();
+				cardListTemplate = Handlebars.compile(source);
+			}
+			
+			var div_id = "cards_" + (new Date().getTime());
 			
 			var context = {"cards":cards, "div_id":div_id};
-			var cardlist = template(context);
+			
+			var html = cardListTemplate(context);			
 
-			var list = $(cardlist).appendTo("#list_holder");
-			list.bind('change', function(event) {
+			//var list = $(cardlist).appendTo("#list_holder");
+			$('#list_container').html(html);
+			$('#' + div_id).list();			
+			
+			$('#list_container').bind('change', function(event) {
 				var card_id = $(event.srcElement).data("card_id");
 				var c = spectralKitten.getCard(card_id);
 				renderCardDetail(c);
 			});
 			
-			list.list();
-			list.css("left",0);
+			if(animateIn){
+				$('#' + div_id).css("left",0);
+			}
+		}	
+		
+		//current list jquery element
+		var currentList;
+		
+		//jquery list element that will be removed when new
+		//list complete animation in
+		var listToRemove;
+		
+		//click handler for lists of cards
+		var cardsListHandler = function(event){
+			var item_id = $(event.srcElement).data("item_id");
+			console.log("item_id");
+			var c = spectralKitten.getCard(item_id);
+			renderCardDetail(c);
+		};
+		
+		//click handler for lists of series
+		var seriesListHandler = function( event ) {
+			var item_id = $(event.srcElement).data("item_id");
+			var cards = spectralKitten.getCardsBySet(item_id);
+			
+			//todo: this is to load the detail page.
+			var s = spectralKitten.getSeries(item_id);
+			renderSeriesDetail(s);
+
+			renderList(cards,cardsListHandler);
 		}
 		
-		/* series is an array of series */
-		var renderSeriesList = function(series){
-			//todo : require template
+		//creates a new series list
+		var renderList = function(items, clickHandler){
+
+			if(!listTemplate){
+				var source = $("#list-template").html();
+				listTemplate = Handlebars.compile(source);
+			}
 			
-			var source = $('#series-list-template').html();
-			var template = Handlebars.compile(source);
+			var id = new Date().getTime();
+			var context = {"items": items, "id": id};
+
+			var html = listTemplate(context);
 			
-			var context = {"series": series};
-			var html = template(context);
-			
+			//this will overwrite previous list
 			$('#list_container').html(html);
+	
+			var list = $("#" + id);
 			
-			$('#series_list_container').list();
+			listToRemove = currentList;
+			currentList = list;
 			
-			$('#series_list_container').bind(
-				"change",
-				function( event ){
-					var series_id = $(event.srcElement).data("series_id");
-					var t = new Date().getTime();
-					var series = spectralKitten.getCardsBySet(series_id);
-					
-					var s = spectralKitten.getSeries(series_id);
-		
-					renderCardList(series,series_id);
-					
-					renderSeriesDetail(s);
+			
+			list.list();
+			
+			list.bind("change", clickHandler);
+			
+			window.webkitRequestAnimationFrame(
+				function(){
+					if(listToRemove){
+						list.bind(
+							"webkitTransitionEnd",
+							function(){
+								list.unbind("webkitTransitionEnd");
+								
+								//todo: do we need to remove chane handlers?
+								listToRemove.remove();
+							}
+						);
+					}
+						
+					list.css("left", 0);
 				}
 			);
-			$("#list_container").css("left",0);
+
 		}
 		
 		var slideViewport = function(index) {
