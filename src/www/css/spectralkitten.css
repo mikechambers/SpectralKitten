@@ -14,8 +14,6 @@ body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.height_inherit{ height: inherit; }
-
 #rowContainter{
 	position:absolute;
 }
@@ -43,6 +41,7 @@ body {
 	position:absolute;
 	top:40px;
     width: 100%;
+    height: inherit;
     overflow: hidden;
 }
 
@@ -55,6 +54,7 @@ body {
     border: 1px solid #000;
 	left: 0px;
 	-webkit-transition: left 0.3s linear;
+    height: inherit;
 	transition: left 0.3s linear;
 }
 
@@ -83,6 +83,7 @@ body {
 .viewcontainer {
 	position: relative;
 	float: left;
+    height: inherit;
     width:100%;
 }
 
@@ -93,25 +94,22 @@ body {
 }
 
 /************************** Lists ***************************/
+
+/* This is the placeholder div for the list. We modify the contents of list_container when we 
+change the list data. */
 #list_container {
 	width: 320px;
 	left: 0px;
-    width: 320px;
     height: 100%;
-    -webkit-transition: left 0.3s linear;
-    transition: left 0.3s linear;
     position:absolute;
     background-color: #fff;
 }
-    
-.list, .filter_list {
-	font-family: 'LeagueGothicRegular';
-	font-size: 30px;
-	color: #666;
-	text-shadow: 0 1px 0 #FFF;
-	text-transform: uppercase;
-}
+ 
+/* The .list class is what gets animated, it starts out at -320px and then we animate it in
+    when the page loads and when we change the list data. 
 
+    The width here needs to match the width of #list_container and we need to change the left
+    property if the width changes */
 .list {
 	left:-320px;
 	height:100%;
@@ -119,6 +117,14 @@ body {
 	-webkit-transition: left 0.3s linear;
 	position:absolute;
 	z-index:1;
+}
+
+.list, .filter_list {
+	font-family: 'LeagueGothicRegular';
+	font-size: 30px;
+	color: #666;
+	text-shadow: 0 1px 0 #FFF;
+	text-transform: uppercase;
 }
 
 .list li, .filter_list li  {
@@ -149,7 +155,7 @@ body {
 	width:320px;
 }
 
-/* Styles for card rules formatting */
+/************************** Styles for card rules formatting  ***************************/
 
 br.rules_break{
 }
