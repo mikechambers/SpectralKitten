@@ -31,27 +31,35 @@ require(
 					slideViewport($(event.target).data().view);
 				});
 				
-				$(".viewcontainer").removeClass("viewhidden");
+				// Show the view containers.
+                $(".viewcontainer").removeClass("viewhidden");
 				
+                // Set the viewport height/width 
 				$('#viewport').width($(window).width());
 				$('#viewport').height($(window).height()-40); //height of the header
 				
-				viewportWidth = $("#viewport").width();
+				
+                // The viewportWidth variable is used to track changes on resize as
+                // well as keeping track of the width for moving the divs around. 
+                viewportWidth = $("#viewport").width();
 			
-				var numberOfViews = $("#slidecontainer").children().length;
+				// This figures out how many views we have and then we set up the size
+                // of the #slidecontainer based on the number of views we have. 
+                var numberOfViews = $("#slidecontainer").children().length;
 				$("#slidecontainer").width(numberOfViews * viewportWidth);
 				$("#slidecontainer").children().each(function() {
 					$(this).width(viewportWidth);
 				});
 					
 				$(window).resize(function() {
-					var win_width = $(window).width();
+					
+                    // Figure out the current window height/width after we resize it. 
+                    var win_width = $(window).width();
 					var win_height = $(window).height();
 					
-					$('#viewport').width(win_width);
-					$('#viewport').height(win_height-40); //height of the header
-					
-					viewportWidth = $('#viewport').width();
+					// set the viewportWidth variable because we're going to use it to 
+                    // resize the children (views) of the #slidecontainer
+                    viewportWidth = $('#viewport').width();
 			
 					$("#slidecontainer").width(numberOfViews * viewportWidth);
 					$("#slidecontainer").children().each(function() {
