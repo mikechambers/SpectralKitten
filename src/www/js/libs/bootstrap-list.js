@@ -128,7 +128,6 @@
 		var self = this;
 		this.reizeTimeout = setTimeout( function() { 
 			self.updateLayout(); 
-			console.log("resize updateLayout");
 		}, this.RESIZE_TIMEOUT_DELAY );
 	},
     
