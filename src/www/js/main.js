@@ -84,7 +84,7 @@ require(
 								filterField = $("#filter_field");
 								filterField.on("input", null, null,
 									function(e){
-										
+										console.log("change");
 										if(!currentListData){
 											return;
 										}
@@ -120,6 +120,10 @@ require(
 			}
 		);
 
+		var clearFilterField = function(){
+			filterField.val("");
+		}
+		
 		var cardDetailTemplate;
 		var seriesDetailTemplate;
 		
@@ -226,6 +230,7 @@ require(
 			var s = spectralKitten.getSeries(item_id);
 			renderSeriesDetail(s);
 			currentListData = cards;
+			
 			renderList(cards,cardsListHandler);
 		}
 		
@@ -287,6 +292,7 @@ require(
 			}
 			
 			if(animate){
+				clearFilterField();
 				list.css("left", 0);
 			}
 		}
