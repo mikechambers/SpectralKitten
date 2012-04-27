@@ -53,9 +53,12 @@ body {
 	position: relative;
     border: 1px solid #000;
 	left: 0px;
-	-webkit-transition: left 0.3s linear;
     height: inherit;
+}
+
+.animate  {
 	transition: left 0.3s linear;
+    -webkit-transition: left 0.3s linear;
 }
 
 #cards_view{

@@ -46,13 +46,22 @@ require(
 				// This figures out how many views we have and then we set up the size
                 // of the #slidecontainer based on the number of views we have. 
                 var numberOfViews = $("#slidecontainer").children().length;
+                
 				$("#slidecontainer").width(numberOfViews * viewportWidth);
 				$("#slidecontainer").children().each(function() {
 					$(this).width(viewportWidth);
 				});
-					
+				
+                // Add the animate class to slidecontainer so that when we switch between
+                // views, the animation will play. We remove this class when we resize
+                // to keep the transition from playing. 
+                $("#slidecontainer").addClass("animate");
+                
 				$(window).resize(function() {
-					
+					// Remove the animation class so that the move doesn't trigger
+                    // an animation.
+                    $("#slidecontainer").removeClass("animate");
+                    
                     // Figure out the current window height/width after we resize it. 
                     var win_width = $(window).width();
 					var win_height = $(window).height();
@@ -72,7 +81,9 @@ require(
 					var activeview = $('.active').children().data('view');
 					slideViewport(activeview);
 					
-					// TODO: Fix annoying flash when you resize.
+                    // re-ad the animate class to #slidecontainer so that when we switch between
+                    // views it will animate.
+                    $("#slidecontainer").addClass("animate");
 			
 				});
 				
