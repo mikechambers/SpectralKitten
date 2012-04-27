@@ -119,6 +119,10 @@ change the list data. */
 	z-index:1;
 }
 
+.list_no_animate{
+	left:0px;
+}
+
 .list, .filter_list {
 	font-family: 'LeagueGothicRegular';
 	font-size: 30px;

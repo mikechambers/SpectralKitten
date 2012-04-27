@@ -58,7 +58,7 @@
 
 <!-- HandleBars Series List Template //-->
 <script id="list-template" type="text/x-handlebars-template">
-	<div class="template list height_inherit" id="{{id}}">
+	<div class="template height_inherit" id="{{id}}">
 		<ul id="item_list">
 			{{#each items}}
 			<li data-item_id="{{this.id}}" {{#if this.rarity}}class="rarity_{{this.rarity.name}}"{{/if}}>{{this.name}}</li>

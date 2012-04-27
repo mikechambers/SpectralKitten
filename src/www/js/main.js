@@ -79,6 +79,7 @@ require(
 							function(){
 								Handlebars = window.Handlebars;
 								renderList(spectralKitten.series, seriesListHandler);
+								currentListData = spectralKitten.series;
 								
 								filterField = $("#filter_field");
 								filterField.on("input", null, null,
@@ -91,12 +92,13 @@ require(
 										
 										var filteredData = filter.byObject(currentListData, "name", input);
 										
-										if(currentListData === spectralKitten.series){								
-											renderSeriesList(filteredData);
+										if(currentClickHandler === cardsListHandler){
+											renderList(filteredData, cardsListHandler, false);
 										}
-										else {
-											renderCardList(filteredData);
+										else if(currentClickHandler === seriesListHandler){
+											renderList(filteredData, seriesListHandler, false);
 										}
+										
 									}
 								);								
 								
@@ -205,38 +207,6 @@ require(
 			
 			renderDetailTemplate(seriesDetailTemplate, {"series": series});
 		}
-
-		
-		//todo : there wont always be a series_id
-		var renderCardList = function(cards, animateIn){
-			
-			currentListData = cards;
-			
-			if(!cardListTemplate){
-				var source = $('#card-list-template').html();
-				cardListTemplate = Handlebars.compile(source);
-			}
-			
-			var div_id = "cards_" + (new Date().getTime());
-			
-			var context = {"cards":cards, "div_id":div_id};
-			
-			var html = cardListTemplate(context);			
-
-			//var list = $(cardlist).appendTo("#list_holder");
-			$('#list_container').html(html);
-			$('#' + div_id).list();			
-			
-			$('#list_container').bind('change', function(event) {
-				var card_id = $(event.srcElement).data("card_id");
-				var c = spectralKitten.getCard(card_id);
-				renderCardDetail(c);
-			});
-			
-			if(animateIn){
-				$('#' + div_id).css("left",0);
-			}
-		}	
 		
 		//current list jquery element
 		var currentList;
@@ -261,13 +231,21 @@ require(
 			//todo: this is to load the detail page.
 			var s = spectralKitten.getSeries(item_id);
 			renderSeriesDetail(s);
-
+			currentListData = cards;
 			renderList(cards,cardsListHandler);
 		}
 		
+		var currentClickHandler;
+			
 		//creates a new series list
-		var renderList = function(items, clickHandler){
+		var renderList = function(items, clickHandler, animate){
 
+			currentClickHandler = clickHandler;
+			
+			if(animate === undefined){
+				animate = true;
+			}
+			
 			if(!listTemplate){
 				var source = $("#list-template").html();
 				listTemplate = Handlebars.compile(source);
@@ -280,37 +258,41 @@ require(
 			
 			$('#list_container').append(html);
 	
-			var list = $("#" + id);
+			var list = $("#" + id);	
 			
-			if(listToRemove){
-				listToRemove.css("z-index", 0);
-			}
+			//have to add the class here or otherwise it will
+			//trigger the css animate when we reset starting position.
+			list.addClass("list");
 			
 			listToRemove = currentList;
 			currentList = list;
 			
+			if(!animate){
+				list.addClass("list_no_animate");
+				
+				if(listToRemove){
+					listToRemove.remove();
+				}
+			}			
+			
 			list.list();
 			
 			list.bind("change", clickHandler);
-			
-			window.webkitRequestAnimationFrame(
-				function(){
-					if(listToRemove){
-						list.bind(
-							"webkitTransitionEnd",
-							function(){
-								list.unbind("webkitTransitionEnd");
-								
-								//todo: do we need to remove chane handlers?
-								listToRemove.remove();
-							}
-						);
+		
+			if(listToRemove){
+				list.bind(
+					"webkitTransitionEnd",
+					function(){
+						list.unbind("webkitTransitionEnd");
+						//todo: do we need to remove chane handlers?
+						listToRemove.remove();
 					}
-						
-					list.css("left", 0);
-				}
-			);
-
+				);
+			}
+			
+			if(animate){
+				list.css("left", 0);
+			}
 		}
 		
 		var slideViewport = function(index) {
