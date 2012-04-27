@@ -84,7 +84,6 @@ require(
 								filterField = $("#filter_field");
 								filterField.on("input", null, null,
 									function(e){
-										console.log("change");
 										if(!currentListData){
 											return;
 										}
@@ -121,7 +120,9 @@ require(
 		);
 
 		var clearFilterField = function(){
-			filterField.val("");
+			if(filterField){
+				filterField.val("");
+			}
 		}
 		
 		var cardDetailTemplate;
