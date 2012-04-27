@@ -8,7 +8,12 @@
 	margin: 10px;
 	height: 308px;  
 	width: 220px;
-	-webkit-perspective: 1000;
+    /*This was triggering some chrome / repaint issues.
+        animation is not skewed correctly now though...
+    
+        ;(    
+    */
+	/*-webkit-perspective: 1000;*/
 }
 
 .cardFront {
