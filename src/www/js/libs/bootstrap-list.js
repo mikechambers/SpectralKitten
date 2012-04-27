@@ -30,6 +30,8 @@
 		
 		this.SCROLLBAR_BORDER = 1;
 		this.SCROLLBAR_MIN_SIZE = 10;
+				
+		this.RESIZE_TIMEOUT_DELAY = 100;
 		
 		this.processedItems = {};
 		this.totalItems = [];
@@ -120,9 +122,14 @@
 	},
 	
 	onResize: function( event ) {
+		clearTimeout( this.reizeTimeout );
 		var maxPosition = (this.dataProvider.length*this.itemHeight)-(this.$el.height());
 		this.yPosition = Math.min( this.yPosition, maxPosition );
-		this.updateLayout();
+		var self = this;
+		this.reizeTimeout = setTimeout( function() { 
+			self.updateLayout(); 
+			console.log("resize updateLayout");
+		}, this.RESIZE_TIMEOUT_DELAY );
 	},
     
     onTouchStart: function ( event ) {
@@ -335,7 +342,7 @@
 			this.setItemPosition( this.$ul, 0, -this.yPosition );
 			this.processedItems = {};
 			
-			while (((i)*this.itemHeight) < (height+this.itemHeight)) {
+			while (((i)*this.itemHeight) < (height+(2*this.itemHeight))) {
 			
 				var index = Math.max(  startPosition+i, 0 )
 				index = Math.min( index, this.dataProvider.length );
@@ -415,7 +422,7 @@
     	//detect bounds and "snap back" if needed
     	var startPosition = Math.ceil(this.yPosition/this.itemHeight);
 	
-		if ( startPosition < 0 && this.yPosition <= 0 || (this.dataProvider.length * this.itemHeight) < this.$el.height() ) {
+		if ( startPosition <= 0 && this.yPosition <= 0 || (this.dataProvider.length * this.itemHeight) < this.$el.height() ) {
 			 this.snapToTop();
 			 return;
 		}
