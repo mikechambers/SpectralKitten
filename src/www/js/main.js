@@ -92,13 +92,7 @@ require(
 										
 										var filteredData = filter.byObject(currentListData, "name", input);
 										
-										if(currentClickHandler === cardsListHandler){
-											renderList(filteredData, cardsListHandler, false);
-										}
-										else if(currentClickHandler === seriesListHandler){
-											renderList(filteredData, seriesListHandler, false);
-										}
-										
+										renderList(filteredData, currentClickHandler, false);
 									}
 								);								
 								
@@ -268,6 +262,8 @@ require(
 			currentList = list;
 			
 			if(!animate){
+				//this resets the left position to 0
+				//so it doesnt animate in
 				list.addClass("list_no_animate");
 				
 				if(listToRemove){
