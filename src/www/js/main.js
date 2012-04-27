@@ -56,6 +56,9 @@ require(
                     // Figure out the current window height/width after we resize it. 
                     var win_width = $(window).width();
 					var win_height = $(window).height();
+                    
+                    $('#viewport').width(win_width);
+                    $('#viewport').height(win_height-40);
 					
 					// set the viewportWidth variable because we're going to use it to 
                     // resize the children (views) of the #slidecontainer
