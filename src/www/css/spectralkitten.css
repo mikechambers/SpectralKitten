@@ -56,7 +56,7 @@ body {
     height: inherit;
 }
 
-.animate  {
+.animate_slidecontainer  {
 	transition: left 0.3s linear;
     -webkit-transition: left 0.3s linear;
 }
@@ -186,21 +186,21 @@ br.rules_break{
 
 
 .rarity_Common{
-	color:#FFFFFF;
+	color:#838383;
 }
 
 .rarity_Uncommon{
-	color:#00FF00;
+	color:#43BC60;
 }
 
 .rarity_Rare{
-	color:#0000FF;
+	color:#82A7DD;
 }
 
 .rarity_Epic{
-	color:#FF00FF;
+	color:#C466B7;
 }
 
 .rarity_Legendary{
-	color:#FF9900;
+	color:#DDA925;
 }
