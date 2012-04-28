@@ -60,6 +60,7 @@
 <script id="list-template" type="text/x-handlebars-template">
 	<div class="template height_inherit" id="{{id}}">
 		<ul id="item_list">
+			{{#if all}}<li data-item_id="-1"></li>{{/if}}
 			{{#each items}}
 			<li data-item_id="{{this.id}}" {{#if this.rarity}}class="rarity_{{this.rarity.name}}"{{/if}}>{{this.name}}</li>
 			{{/each}}

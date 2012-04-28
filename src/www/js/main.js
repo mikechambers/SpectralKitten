@@ -100,7 +100,13 @@ require(
 								"js/libs/bootstrap-list.js"],
 							function(){
 								Handlebars = window.Handlebars;
-								renderList(spectralKitten.series, seriesListHandler);
+								
+								var series_all = [{id:-1,name:"All"}];
+								
+								//concatenate (this does it with out creating an extra Array instance
+								series_all.push.apply(series_all, spectralKitten.series);
+								
+								renderList(series_all, seriesListHandler);
 								currentListData = spectralKitten.series;
 								
 								filterField = $("#filter_field");
@@ -247,11 +253,17 @@ require(
 		//click handler for lists of series
 		var seriesListHandler = function( event ) {
 			var item_id = $(event.srcElement).data("item_id");
-			var cards = spectralKitten.getCardsBySet(item_id);
 			
-			//todo: this is to load the detail page.
-			var s = spectralKitten.getSeries(item_id);
-			renderSeriesDetail(s);
+			var cards = (item_id === -1)?(spectralKitten.cards):spectralKitten.getCardsBySet(item_id);
+			
+			
+			//var cards = spectralKitten.getCardsBySet(item_id);
+			
+			if(item_id !== -1){
+				//todo: this is to load the detail page.
+				var s = spectralKitten.getSeries(item_id);
+				renderSeriesDetail(s);
+			}
 			currentListData = cards;
 			
 			renderList(cards,cardsListHandler);
