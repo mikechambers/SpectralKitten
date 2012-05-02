@@ -1,0 +1,201 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Spectral Kitten</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width">
+	
+	<link rel="stylesheet" href="css/style.css">
+	
+</head>
+<body>
+	
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">			
+			<a class="brand" href="#">SpectralKitten</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="active"><a href="#" data-view="1">Cards</a></li>
+					<li><a href="#" data-view="2">Decks</a></li>
+					<li><a href="#" data-view="3">Search</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="viewport">
+<div id="slidecontainer">
+	<!-- View 1 -->
+	<div id="cards_view" class="viewcontainer viewhidden">
+
+        
+		<div id="cards_view_content"></div>
+		<ul class="filter_list">
+			<li><input id="filter_field" type="search" /></li>
+		</ul>		
+		
+		<div id="list_container"></div>
+		
+
+	</div>
+	<!-- End View 1 -->
+	
+	<!-- View 2 -->
+	<div id="decks_view" class="viewcontainer viewhidden">View 2</div>
+	<!-- End View 2 -->
+	<!-- View 3 -->
+	<div id="search_view" class="viewcontainer viewhidden">View 3</div>
+	<!-- End View 3 -->
+</div>
+</div>
+
+<!-- HandleBars Series List Template //-->
+<script id="list-template" type="text/x-handlebars-template">
+	<div class="template height_inherit" id="{{id}}">
+		<ul id="item_list">
+			{{#if all}}<li data-item_id="-1"></li>{{/if}}
+			{{#each items}}
+			<li data-item_id="{{this.id}}" {{#if this.rarity}}class="rarity_{{this.rarity.name}}"{{/if}}>{{this.name}}</li>
+			{{/each}}
+		</ul>
+	</div>
+</script>
+	
+<!-- HandleBars Series Detail Template //-->
+<script id="series-detail-template" type="text/x-handlebars-template">
+	<div class="template series_detail">
+		<hgroup class="inner_detail">
+			<h1>{{series.name}}</h1>
+			<dl class="dl-horizontal">
+				<dt>Type</dt>
+				<dd>{{series.type.name}}</dd>
+				<dt>Block</dt>
+				<dd>{{series.block.name}}</dd>
+				<dt>Has Booster?</dt>
+				<dd>{{series.hasBooster}}</dd>
+			</dl>
+		</hgroup>
+	</div>
+</script>
+	
+<script id="card-detail-template" type="text/x-handlebars-template">
+	<div class="template card_detail">
+	<div class="row-fluid inner_detail">
+  		<div class="span8">
+			<h1>{{card.name}}</h1>
+			<div>Class: {{card.card_class.name}} ({{card.card_class.abbreviation}})</div>
+			<div>Race: {{card.race.name}}</div>
+			<div>Faction: {{card.faction.name}}</div>
+			<div>Type Tags : {{card.type_tags}}</div>
+			<div>Type: {{card.type.name}}</div>
+			<div>Ally Type: {{card.ally_type}}</div>
+
+			<hr />
+
+			<div>Rules: {{{rules}}}</div>
+
+			<hr />
+
+			<div>Cost: {{card.cost}}</div>
+			<div>Cost Modifier: {{card.cost_modifier}}</div>
+			<div>Attack: {{card.attack}}</div>
+			<div>Defense: {{card.defense}}</div>
+			<div>Health: {{card.health}}</div>
+			<div>Strike Cost : {{card.strike_cost}}</div>
+
+			<hr />
+
+			<div>Damage Types:
+				<ul>
+				{{#each card.damage_type}}
+					<li>{{this.name}}</li>
+				{{/each}}
+				</ul>
+			</div>
+
+
+			<div>Card Number: {{card.card_num}}</div>
+			<div>Rarity: {{card.rarity.name}} ({{card.rarity.abbreviation}})</div>
+			<div>Series:
+				<ul>
+					<li>Boosters: {{card.series.hasBooster}}</li>
+					<li>Type: {{card.series.type.name}}</li>
+					<li>Name: {{card.series.name}}</li>
+					<li>Block: {{card.series.block.name}}</li>
+					<li>ID: {{card.series.id}}</li>
+				</ul>
+			</div>
+			<div>Blocks: 
+				<ul>
+					{{#each card.blocks}}
+						<li>{{this.name}}</li>
+					{{/each}}
+				</ul>
+			</div>
+			<div>Formats:
+				<ul>
+				{{#each card.formats}}
+					<li>{{this.name}}</li>
+				{{/each}}
+				</ul>
+			</div>
+	
+			<!-- Basics -->
+			
+			<div>ID: {{card.id}}</div>
+			
+			<div>Wowtcgdb ID: <a href="http://wowtcgdb.com/carddetail.aspx?id={{card.wowtcgdb_id}}">{{card.wowtcgdb_id}}</a></div>
+			
+
+	
+			<!-- Stats -->
+
+			<div>Class Restrictions:
+				<ul>
+				{{#each card.class_restrictions}}
+					<li>{{this.name}} ({{this.abbreviation}})</li>
+				{{/each}}
+				</ul>
+			</div>
+
+			<div>Professions:
+				<ul>{{#each card.professions}}<li>{{this.name}}</li>{{/each}}</ul>
+			</div>    
+	
+			<div>Talents:
+				<ul>{{#each card.talents}}<li>{{this.name}}</li>{{/each}}</ul>
+			</div>
+
+		</div>
+  		<div class="span4">
+			<div class="cards">
+				<div class="cube">
+					<img class="cardFront" src="{{card_image}}" />
+					{{#if card.card_reverse_image}}
+						<img class="cardBack" src="{{card.card_reverse_image}}" />
+					{{else}}
+						<img class="cardBack" src="assets/back.jpg" />
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</script> 
+
+	
+<footer>
+
+</footer>
+    
+<script data-main="js/main" src="js/libs/require-jquery.js"></script>
+	
+</body>
+</html>

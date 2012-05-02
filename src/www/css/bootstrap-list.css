@@ -65,6 +65,7 @@
 
 .list #scrollbar {
 	position:absolute;
+	background-color: black;
 	background-color: rgba(0,0,0,0.5);
 	width:5px;
 	-webkit-border-radius: 4px;
